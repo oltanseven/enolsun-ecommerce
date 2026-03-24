@@ -81,7 +81,7 @@ export default function Navbar() {
                             </div>
                             <p className="text-sm font-semibold text-neutral-700 mb-1">Tum Urunleri Kesfedin</p>
                             <p className="text-xs text-neutral-400 mb-4">Kategori uzerine gelerek alt kategorileri gorun</p>
-                            <Link href="/urunler" className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 text-white text-xs font-semibold rounded-lg hover:bg-primary-600 transition-colors">
+                            <Link href="/products" className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 text-white text-xs font-semibold rounded-lg hover:bg-primary-600 transition-colors">
                               Urunlere Git
                               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
                             </Link>
@@ -130,14 +130,14 @@ export default function Navbar() {
               </button>
 
               {/* Wishlist — hidden on smallest mobile */}
-              <Link href="/favoriler" className="hidden sm:flex p-2 min-w-[44px] min-h-[44px] items-center justify-center text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-lg transition-colors cursor-pointer">
+              <Link href="/wishlist" className="hidden sm:flex p-2 min-w-[44px] min-h-[44px] items-center justify-center text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-lg transition-colors cursor-pointer">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                 </svg>
               </Link>
 
               {/* Cart with Badge */}
-              <Link href="/sepet" className="relative p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-lg transition-colors badge-pulse cursor-pointer" aria-label="Sepet">
+              <Link href="/cart" className="relative p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-lg transition-colors badge-pulse cursor-pointer" aria-label="Sepet">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
                 </svg>
@@ -146,7 +146,7 @@ export default function Navbar() {
               {/* Avatar — hidden on mobile */}
               <Link
                 aria-label="Hesabim"
-                href={isLoggedIn ? '/hesap' : '/giris'}
+                href={isLoggedIn ? '/profile' : '/login'}
                 className="hidden sm:flex w-8 h-8 rounded-full bg-primary-100 border-2 border-primary-200 items-center justify-center text-sm font-semibold text-primary-700 hover:border-primary-400 transition-colors cursor-pointer"
               >
                 {userInitial}
