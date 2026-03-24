@@ -142,6 +142,46 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Component Styles ── */
 
 @layer components {
+  /* Mega Menu */
+  .mega-menu-trigger {
+    position: relative;
+  }
+
+  .mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 50;
+  }
+
+  .mega-menu-trigger:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mega-subcats {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+  }
+
+  .mega-cat-item:hover .mega-subcats {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mega-cat-item:hover ~ .mega-subcats-default {
+    opacity: 0;
+  }
+
   /* Glassmorphism */
   .glass {
     backdrop-filter: blur(12px);
