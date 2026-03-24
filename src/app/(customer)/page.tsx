@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'enolsun.com — Doganin Ilhamiyla Tasarlanan Yasam | Online Alisveris',
+  title: 'enolsun.com — EN\'lerin Dünyasına Hoş Geldiniz! | Online Alışveriş',
   description: 'enolsun.com ile dogadan ilham alan urunleri kesfedin. Organik, surdurulebilir ve sik tasarimlarla yasam alaninizi donusturun. Hizli teslimat, guvenli odeme.',
 }
 
@@ -109,9 +109,8 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-neutral-900 leading-tight">
-                Doganin Ilhamiyla
-                <span className="text-primary-500 block">Tasarlanan</span>
-                <span className="block">Yasam.</span>
+                <span className="text-primary-500">EN</span>&apos;lerin Dünyasına
+                <span className="text-primary-500 block">Hoş Geldiniz!</span>
               </h1>
 
               <p className="text-base md:text-lg text-neutral-400 max-w-md leading-relaxed">

@@ -155,14 +155,25 @@ input[type="range"]::-webkit-slider-thumb {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition: opacity 0.25s ease 0.1s, visibility 0.25s ease 0.1s;
     z-index: 50;
+  }
+
+  /* Padding-top bridge eliminates gap between trigger and dropdown */
+  .mega-menu::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 0;
+    right: 0;
+    height: 16px;
   }
 
   .mega-menu-trigger:hover .mega-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transition-delay: 0s;
   }
 
   /* Flex row that holds left categories + right panel */
@@ -170,13 +181,10 @@ input[type="range"]::-webkit-slider-thumb {
     position: relative;
   }
 
-  /* Right panel area for subcategories */
   .mega-right {
     position: relative;
   }
 
-  /* Subcats panels: children of .mega-cat-item but positioned
-     to overlay the .mega-right area using the .mega-row container */
   .mega-left {
     position: static;
   }
@@ -185,9 +193,9 @@ input[type="range"]::-webkit-slider-thumb {
     position: static;
   }
 
+  /* Subcats: smooth transition with delay to prevent flickering */
   .mega-subcats {
     position: absolute;
-    /* Position to fill the right area: skip left column (w-56 = 14rem) + gap (1.5rem) + border-r padding (1.5rem) */
     top: 0;
     right: 0;
     bottom: 0;
@@ -195,7 +203,7 @@ input[type="range"]::-webkit-slider-thumb {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.15s ease, visibility 0.15s ease;
+    transition: opacity 0.2s ease 0.05s, visibility 0.2s ease 0.05s;
     z-index: 2;
   }
 
@@ -203,23 +211,26 @@ input[type="range"]::-webkit-slider-thumb {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .mega-cat-item:hover .mega-cat-icon {
-    background-color: var(--color-primary-100, #e0e7ff);
+    background-color: #d4e8c9;
   }
 
   .mega-cat-item:hover .mega-cat-label {
-    color: var(--color-primary-600, #4f46e5);
+    color: #4f7a3a;
+    font-weight: 600;
   }
 
   .mega-subcats-default {
-    transition: opacity 0.15s ease;
+    transition: opacity 0.2s ease 0.05s;
   }
 
   .mega-left:has(.mega-cat-item:hover) ~ .mega-right .mega-subcats-default {
     opacity: 0;
     visibility: hidden;
+    transition-delay: 0s;
   }
 
   /* Glassmorphism */

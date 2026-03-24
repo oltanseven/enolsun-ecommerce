@@ -129,17 +129,17 @@ export const SELLER_NAV_ITEMS = [
 
 export const FOOTER_LINKS = {
   quickLinks: [
-    { label: 'Hakkımızda', href: '#' },
-    { label: 'Kariyer', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Sürdürülebilirlik', href: '#' },
+    { label: 'Hakkımızda', href: '/about' },
+    { label: 'Kariyer', href: '/careers' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Sürdürülebilirlik', href: '/sustainability' },
     { label: 'Satıcı Girişi', href: '/seller-login' },
     { label: 'Satıcı Ol', href: '/seller-register' },
   ],
   support: [
-    { label: 'Sıkça Sorulan Sorular', href: '#' },
-    { label: 'Kargo Bilgileri', href: '#' },
-    { label: 'İade & Değişim', href: '#' },
+    { label: 'Sıkça Sorulan Sorular', href: '/faq' },
+    { label: 'Kargo Bilgileri', href: '/shipping-info' },
+    { label: 'İade & Değişim', href: '/returns' },
     { label: 'İletişim', href: '/contact' },
   ],
   contact: {
@@ -148,9 +148,9 @@ export const FOOTER_LINKS = {
     address: 'İstanbul, Türkiye',
   },
   policies: [
-    { label: 'Gizlilik Politikası', href: '#' },
-    { label: 'Kullanım Koşulları', href: '#' },
-    { label: 'Çerez Politikası', href: '#' },
+    { label: 'Gizlilik Politikası', href: '/privacy' },
+    { label: 'Kullanım Koşulları', href: '/terms' },
+    { label: 'Çerez Politikası', href: '/cookies' },
   ],
 } as const
 
