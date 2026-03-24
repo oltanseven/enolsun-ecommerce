@@ -148,10 +148,10 @@ input[type="range"]::-webkit-slider-thumb {
   }
 
   .mega-menu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -165,11 +165,38 @@ input[type="range"]::-webkit-slider-thumb {
     pointer-events: auto;
   }
 
+  /* Flex row that holds left categories + right panel */
+  .mega-row {
+    position: relative;
+  }
+
+  /* Right panel area for subcategories */
+  .mega-right {
+    position: relative;
+  }
+
+  /* Subcats panels: children of .mega-cat-item but positioned
+     to overlay the .mega-right area using the .mega-row container */
+  .mega-left {
+    position: static;
+  }
+
+  .mega-cat-item {
+    position: static;
+  }
+
   .mega-subcats {
+    position: absolute;
+    /* Position to fill the right area: skip left column (w-56 = 14rem) + gap (1.5rem) + border-r padding (1.5rem) */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: calc(14rem + 1.5rem + 1.5rem);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.15s ease, visibility 0.15s ease;
+    z-index: 2;
   }
 
   .mega-cat-item:hover .mega-subcats {
@@ -178,8 +205,21 @@ input[type="range"]::-webkit-slider-thumb {
     pointer-events: auto;
   }
 
-  .mega-cat-item:hover ~ .mega-subcats-default {
+  .mega-cat-item:hover .mega-cat-icon {
+    background-color: var(--color-primary-100, #e0e7ff);
+  }
+
+  .mega-cat-item:hover .mega-cat-label {
+    color: var(--color-primary-600, #4f46e5);
+  }
+
+  .mega-subcats-default {
+    transition: opacity 0.15s ease;
+  }
+
+  .mega-left:has(.mega-cat-item:hover) ~ .mega-right .mega-subcats-default {
     opacity: 0;
+    visibility: hidden;
   }
 
   /* Glassmorphism */

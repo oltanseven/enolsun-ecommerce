@@ -132,18 +132,18 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <button className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
                 <span className="tooltip">Bildirimler</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-error-base text-white text-[10px] font-bold rounded-full">5</span>
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-error-base text-white text-[10px] font-bold rounded-full px-1">5</span>
               </button>
               <button className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
                 <span className="tooltip">Mesajlar</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-primary-500 text-white text-[10px] font-bold rounded-full">3</span>
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-primary-500 text-white text-[10px] font-bold rounded-full px-1">3</span>
               </button>
-              <div className="relative">
+              <div className="relative ml-1">
                 <button onClick={() => setAvatarMenuOpen(!avatarMenuOpen)} className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-neutral-50 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-semibold">YA</div>
                   <svg className="w-4 h-4 text-neutral-400 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>

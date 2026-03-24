@@ -46,45 +46,50 @@ export default function Navbar() {
                       {item.label}
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
                     </Link>
-                    {/* Mega Menu Dropdown */}
+                    {/* Mega Menu Dropdown — full-width below navbar */}
                     <div className="mega-menu pt-2">
-                      <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-xl p-6">
-                        <div className="flex gap-6">
-                          {/* Left: Main Categories */}
-                          <div className="w-56 shrink-0 space-y-1">
-                            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 px-3">Kategoriler</p>
-                            {MEGA_MENU_CATEGORIES.map((cat) => (
-                              <div key={cat.href} className="mega-cat-item group/cat relative">
-                                <Link href={cat.href} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-25 transition-colors">
-                                  <div className="mega-cat-icon w-9 h-9 bg-neutral-50 rounded-xl flex items-center justify-center transition-colors">
-                                    <MegaCategoryIcon icon={cat.icon} />
-                                  </div>
-                                  <span className="mega-cat-label text-sm font-medium text-neutral-700 transition-colors">{cat.label}</span>
-                                </Link>
-                                <div className="mega-subcats absolute left-full top-0 ml-6 w-[520px] grid grid-cols-3 gap-x-6 gap-y-2 bg-white p-4 rounded-xl">
-                                  {cat.subcategories.map((sub) => (
-                                    <div key={sub.group}>
-                                      <p className="text-xs font-semibold text-primary-500 mb-2">{sub.group}</p>
-                                      {sub.items.map((subItem) => (
-                                        <Link key={subItem} href="#" className="block text-sm text-neutral-500 hover:text-primary-600 py-1">{subItem}</Link>
-                                      ))}
+                      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-xl p-6">
+                          <div className="mega-row flex gap-6">
+                            {/* Left column: vertical category list */}
+                            <div className="mega-left w-56 shrink-0 space-y-1 border-r border-neutral-100 pr-6">
+                              <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 px-3">Kategoriler</p>
+                              {MEGA_MENU_CATEGORIES.map((cat) => (
+                                <div key={cat.href} className="mega-cat-item">
+                                  <Link href={cat.href} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-25 transition-colors">
+                                    <div className="mega-cat-icon w-9 h-9 bg-neutral-50 rounded-xl flex items-center justify-center transition-colors">
+                                      <MegaCategoryIcon icon={cat.icon} />
                                     </div>
-                                  ))}
+                                    <span className="mega-cat-label text-sm font-medium text-neutral-700 transition-colors">{cat.label}</span>
+                                  </Link>
+                                  {/* Subcats panel — positioned in the right area via CSS */}
+                                  <div className="mega-subcats grid grid-cols-3 gap-x-6 gap-y-2 bg-white p-4 rounded-xl">
+                                    {cat.subcategories.map((sub) => (
+                                      <div key={sub.group}>
+                                        <p className="text-xs font-semibold text-primary-500 mb-2">{sub.group}</p>
+                                        {sub.items.map((subItem) => (
+                                          <Link key={subItem} href="#" className="block text-sm text-neutral-500 hover:text-primary-600 py-1">{subItem}</Link>
+                                        ))}
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
-                          {/* Right: Default promo */}
-                          <div className="mega-subcats-default flex-1 bg-primary-25 rounded-xl p-6 flex flex-col items-center justify-center text-center">
-                            <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-4">
-                              <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                              ))}
                             </div>
-                            <p className="text-sm font-semibold text-neutral-700 mb-1">Tum Urunleri Kesfedin</p>
-                            <p className="text-xs text-neutral-400 mb-4">Kategori uzerine gelerek alt kategorileri gorun</p>
-                            <Link href="/products" className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 text-white text-xs font-semibold rounded-lg hover:bg-primary-600 transition-colors">
-                              Urunlere Git
-                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-                            </Link>
+                            {/* Right area: subcategories appear here on hover, default promo otherwise */}
+                            <div className="mega-right flex-1 min-h-[280px]">
+                              <div className="mega-subcats-default h-full bg-primary-25 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                                <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-4">
+                                  <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                                </div>
+                                <p className="text-sm font-semibold text-neutral-700 mb-1">Tum Urunleri Kesfedin</p>
+                                <p className="text-xs text-neutral-400 mb-4">Kategori uzerine gelerek alt kategorileri gorun</p>
+                                <Link href="/products" className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 text-white text-xs font-semibold rounded-lg hover:bg-primary-600 transition-colors">
+                                  Urunlere Git
+                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                                </Link>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

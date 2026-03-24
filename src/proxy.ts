@@ -82,8 +82,9 @@ export async function proxy(request: NextRequest) {
   // Redirect logged-in users away from customer auth pages
   if (CUSTOMER_AUTH_ROUTES.some((route) => pathname === route)) {
     if (user) {
+      const role = user.user_metadata?.role
       const url = request.nextUrl.clone()
-      url.pathname = '/'
+      url.pathname = role === 'seller' ? '/seller-dashboard' : '/'
       return NextResponse.redirect(url)
     }
   }
@@ -91,8 +92,9 @@ export async function proxy(request: NextRequest) {
   // Redirect logged-in sellers away from seller auth pages
   if (SELLER_AUTH_ROUTES.some((route) => pathname === route)) {
     if (user) {
+      const role = user.user_metadata?.role
       const url = request.nextUrl.clone()
-      url.pathname = '/seller-dashboard'
+      url.pathname = role === 'seller' ? '/seller-dashboard' : '/'
       return NextResponse.redirect(url)
     }
   }

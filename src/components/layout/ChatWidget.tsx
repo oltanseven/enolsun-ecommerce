@@ -9,7 +9,7 @@ export default function ChatWidget() {
     <>
       {/* Chat Panel */}
       <div
-        className={`chat-panel fixed bottom-20 sm:bottom-24 right-0 sm:right-6 z-40 w-full sm:w-80 h-[70vh] sm:h-96 flex-col sm:rounded-2xl rounded-t-2xl border border-neutral-100 shadow-align-xl overflow-hidden ${isOpen ? 'active' : ''}`}
+        className={`chat-panel fixed bottom-20 sm:bottom-24 right-0 sm:right-6 z-40 w-full sm:w-80 h-[70vh] sm:h-96 flex-col sm:rounded-2xl rounded-t-2xl border border-neutral-100 shadow-align-xl overflow-hidden ${isOpen ? 'flex' : 'hidden'}`}
         style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', background: 'rgba(255,255,255,0.92)' }}
       >
         {/* Header */}
