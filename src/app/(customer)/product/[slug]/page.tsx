@@ -295,6 +295,26 @@ export default function ProductDetailPage() {
                 )}
               </div>
 
+              {/* Stock Indicator */}
+              <div className="flex items-center gap-2">
+                {product.stock === 0 ? (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                    <span className="text-sm font-medium text-red-600">Tukendi</span>
+                  </>
+                ) : product.stock <= 10 ? (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                    <span className="text-sm font-medium text-orange-600">Son {product.stock} urun!</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                    <span className="text-sm font-medium text-green-600">Stokta</span>
+                  </>
+                )}
+              </div>
+
               {/* Description */}
               {product.description && (
                 <p className="text-sm text-neutral-500 leading-relaxed">
@@ -338,13 +358,23 @@ export default function ProductDetailPage() {
 
               {/* Action Buttons */}
               <div className="flex gap-3">
-                <AddToCartButton
-                  productId={product.id}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-md shadow-primary-500/20 transition-all hover:shadow-lg min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
-                  Sepete Ekle
-                </AddToCartButton>
+                {product.stock === 0 ? (
+                  <button
+                    disabled
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-neutral-300 text-white text-sm font-semibold rounded-xl min-h-[48px] cursor-not-allowed"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                    Tukendi
+                  </button>
+                ) : (
+                  <AddToCartButton
+                    productId={product.id}
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-md shadow-primary-500/20 transition-all hover:shadow-lg min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                    Sepete Ekle
+                  </AddToCartButton>
+                )}
                 <FavoriteButton
                   productId={product.id}
                   size="md"

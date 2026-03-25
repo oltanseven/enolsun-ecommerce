@@ -4,6 +4,7 @@ import MobileBottomNav from '@/components/layout/MobileBottomNav'
 import ScrollToTop from '@/components/layout/ScrollToTop'
 import ChatWidget from '@/components/layout/ChatWidget'
 import ToastProvider from '@/components/ui/Toast'
+import CookieConsent from '@/components/ui/CookieConsent'
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
       <ScrollToTop />
       <ChatWidget />
       <ToastProvider />
+      <CookieConsent />
     </>
   )
 }

@@ -1,21 +1,82 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
+
+const _sb = createClient();
 
 const tabs = ["Aktif", "Kullanılmış", "Süresi Dolmuş"];
 
-const coupons = [
+const promotionalCoupons = [
   { code: "HOSGELDIN", discount: "%10 İndirim", minOrder: "100 TL", expires: "31 Mart 2024", status: "Aktif", description: "EN özel hoş geldin fırsatı" },
   { code: "BAHAR2024", discount: "50 TL İndirim", minOrder: "300 TL", expires: "15 Nisan 2024", status: "Aktif", description: "EN güzel bahar kampanyası" },
   { code: "UCRETSIZ", discount: "Ücretsiz Kargo", minOrder: "0 TL", expires: "30 Mart 2024", status: "Aktif", description: "Tüm siparişlerde EN hızlı teslimat" },
-  { code: "YAZ2024", discount: "%15 İndirim", minOrder: "200 TL", expires: "1 Mart 2024", status: "Kullanılmış", description: "EN iyi yaz indirimi" },
-  { code: "KIS2023", discount: "75 TL İndirim", minOrder: "500 TL", expires: "31 Aralık 2023", status: "Süresi Dolmuş", description: "EN sıcak kış kampanyası" },
 ];
+
+interface Coupon {
+  code: string;
+  discount: string;
+  minOrder: string;
+  expires: string;
+  status: string;
+  description: string;
+}
+
+function mapCouponStatus(usedAt: string | null, expiresAt: string | null): string {
+  if (usedAt) return "Kullanılmış";
+  if (expiresAt && new Date(expiresAt) < new Date()) return "Süresi Dolmuş";
+  return "Aktif";
+}
+
+function formatDiscount(type: string, value: number): string {
+  if (type === "percentage") return `%${value} İndirim`;
+  if (type === "free_shipping") return "Ücretsiz Kargo";
+  return `${value.toLocaleString("tr-TR")} TL İndirim`;
+}
+
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+}
 
 export default function CouponsPage() {
   const [activeTab, setActiveTab] = useState("Aktif");
   const [couponInput, setCouponInput] = useState("");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCoupons() {
+      const { data: { user } } = await _sb.auth.getUser();
+      if (!user) {
+        setCoupons(promotionalCoupons);
+        setLoading(false);
+        return;
+      }
+
+      const { data } = await _sb
+        .from("user_coupons")
+        .select("*, coupon:coupons(*)")
+        .eq("user_id", user.id);
+
+      if (data && data.length > 0) {
+        const mapped: Coupon[] = data.map((uc: any) => ({
+          code: uc.coupon?.code ?? uc.coupon_code ?? "",
+          discount: formatDiscount(uc.coupon?.discount_type ?? "fixed", uc.coupon?.discount_value ?? 0),
+          minOrder: uc.coupon?.min_order_amount ? `${uc.coupon.min_order_amount.toLocaleString("tr-TR")} TL` : "0 TL",
+          expires: formatDate(uc.coupon?.expires_at ?? null),
+          status: mapCouponStatus(uc.used_at, uc.coupon?.expires_at),
+          description: uc.coupon?.description ?? "",
+        }));
+        setCoupons(mapped);
+      } else {
+        setCoupons(promotionalCoupons);
+      }
+      setLoading(false);
+    }
+    fetchCoupons();
+  }, []);
 
   const filtered = coupons.filter((c) => c.status === activeTab);
 
@@ -48,40 +109,63 @@ export default function CouponsPage() {
         ))}
       </div>
 
-      {/* Coupon Cards */}
-      <div className="space-y-3">
-        {filtered.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-sm text-neutral-400">Bu kategoride kupon bulunmuyor. EN iyi fırsatlar için takipte kalın!</p>
-          </div>
-        ) : (
-          filtered.map((coupon, i) => (
-            <div key={i} className={`bg-white rounded-2xl border shadow-align-xs p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${coupon.status === "Aktif" ? "border-primary-200" : "border-neutral-100 opacity-60"}`}>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-base font-bold text-neutral-900">{coupon.discount}</span>
-                  {coupon.status === "Aktif" && (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold text-green-700 bg-green-50">Aktif</span>
-                  )}
+      {/* Loading Skeleton */}
+      {loading && (
+        <div className="space-y-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-4 sm:p-5 animate-pulse">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex-1 space-y-2">
+                  <div className="h-5 w-32 bg-neutral-100 rounded" />
+                  <div className="h-3 w-48 bg-neutral-100 rounded" />
+                  <div className="h-3 w-24 bg-neutral-100 rounded" />
                 </div>
-                <p className="text-xs text-neutral-500 mb-1">{coupon.description}</p>
-                <div className="flex items-center gap-3 text-xs text-neutral-400">
-                  <span>Min: {coupon.minOrder}</span>
-                  <span>Son: {coupon.expires}</span>
+                <div className="flex items-center gap-2">
+                  <div className="h-9 w-28 bg-neutral-100 rounded-lg" />
+                  <div className="h-9 w-16 bg-neutral-100 rounded-lg" />
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="px-4 py-2 bg-neutral-50 border border-dashed border-neutral-300 rounded-lg text-sm font-mono font-bold text-neutral-700 tracking-wider">{coupon.code}</div>
-                {coupon.status === "Aktif" && (
-                  <button onClick={() => copyCode(coupon.code)} className="px-3 py-2 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors min-h-[40px]">
-                    {copiedCode === coupon.code ? "Kopyalandı!" : "Kopyala"}
-                  </button>
-                )}
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {/* Coupon Cards */}
+      {!loading && (
+        <div className="space-y-3">
+          {filtered.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-sm text-neutral-400">Bu kategoride kupon bulunmuyor. EN iyi fırsatlar için takipte kalın!</p>
+            </div>
+          ) : (
+            filtered.map((coupon, i) => (
+              <div key={i} className={`bg-white rounded-2xl border shadow-align-xs p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${coupon.status === "Aktif" ? "border-primary-200" : "border-neutral-100 opacity-60"}`}>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-base font-bold text-neutral-900">{coupon.discount}</span>
+                    {coupon.status === "Aktif" && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold text-green-700 bg-green-50">Aktif</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500 mb-1">{coupon.description}</p>
+                  <div className="flex items-center gap-3 text-xs text-neutral-400">
+                    <span>Min: {coupon.minOrder}</span>
+                    <span>Son: {coupon.expires}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="px-4 py-2 bg-neutral-50 border border-dashed border-neutral-300 rounded-lg text-sm font-mono font-bold text-neutral-700 tracking-wider">{coupon.code}</div>
+                  {coupon.status === "Aktif" && (
+                    <button onClick={() => copyCode(coupon.code)} className="px-3 py-2 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors min-h-[40px]">
+                      {copiedCode === coupon.code ? "Kopyalandı!" : "Kopyala"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
     </>
   );

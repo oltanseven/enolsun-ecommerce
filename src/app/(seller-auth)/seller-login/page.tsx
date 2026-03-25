@@ -217,7 +217,7 @@ export default function SellerLoginPage() {
                   </div>
                   <span className="text-sm text-neutral-500 select-none">Beni Hatırla</span>
                 </label>
-                <Link href="#" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Şifremi Unuttum</Link>
+                <Link href="/forgot-password" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Şifremi Unuttum</Link>
               </div>
 
               {/* Submit */}

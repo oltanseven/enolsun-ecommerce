@@ -1,8 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+
+const _sb = createClient();
 
 const menuItems = [
   { href: "/profile", label: "Profil", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /> },
@@ -16,12 +19,46 @@ const menuItems = [
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      const { data: { user } } = await _sb.auth.getUser();
+      if (!user) return;
+
+      setUserEmail(user.email ?? "");
+
+      const { data: profile } = await _sb
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single();
+
+      if (profile?.full_name) {
+        setUserName(profile.full_name);
+      } else {
+        setUserName(user.user_metadata?.full_name ?? "");
+      }
+    }
+    fetchUser();
+  }, []);
 
   const handleSignOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    await _sb.auth.signOut();
     router.push("/login");
   };
+
+  const initials = userName
+    ? userName
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : userEmail
+    ? userEmail[0].toUpperCase()
+    : "?";
 
   return (
     <div className="pt-4 sm:pt-8 pb-20 md:pb-12">
@@ -47,10 +84,10 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
             <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-5 sticky top-24">
               {/* User Info */}
               <div className="flex items-center gap-3 mb-6 pb-5 border-b border-neutral-100">
-                <div className="w-12 h-12 rounded-full bg-primary-100 border-2 border-primary-200 flex items-center justify-center text-lg font-bold text-primary-700">E</div>
+                <div className="w-12 h-12 rounded-full bg-primary-100 border-2 border-primary-200 flex items-center justify-center text-lg font-bold text-primary-700">{initials}</div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-neutral-900 truncate">Emre Yilmaz</p>
-                  <p className="text-xs text-neutral-400 truncate">emre@enolsun.com</p>
+                  <p className="text-sm font-semibold text-neutral-900 truncate">{userName || "Hesabım"}</p>
+                  <p className="text-xs text-neutral-400 truncate">{userEmail}</p>
                 </div>
               </div>
 

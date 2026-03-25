@@ -440,7 +440,7 @@ export default function SellerRegisterPage() {
                         <div className="w-[18px] h-[18px] rounded-md border border-neutral-200 bg-white transition-all duration-200 peer-checked:bg-primary-500 peer-checked:border-primary-500 group-hover:border-neutral-300"></div>
                         <svg className="absolute top-[3px] left-[3px] w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                       </div>
-                      <span className="text-sm font-medium text-neutral-700"><a href="#" className="text-primary-500 hover:text-primary-600 underline underline-offset-2">Satici Sozlesmesi</a>&apos;ni okudum ve kabul ediyorum. <span className="text-error-base">*</span></span>
+                      <span className="text-sm font-medium text-neutral-700"><a href="/terms" className="text-primary-500 hover:text-primary-600 underline underline-offset-2">Satici Sozlesmesi</a>&apos;ni okudum ve kabul ediyorum. <span className="text-error-base">*</span></span>
                     </label>
                     <label className="flex items-start gap-3 p-3.5 rounded-xl border border-neutral-200 cursor-pointer hover:border-primary-300 hover:bg-primary-25 transition-all group">
                       <div className="relative mt-0.5">
@@ -448,7 +448,7 @@ export default function SellerRegisterPage() {
                         <div className="w-[18px] h-[18px] rounded-md border border-neutral-200 bg-white transition-all duration-200 peer-checked:bg-primary-500 peer-checked:border-primary-500 group-hover:border-neutral-300"></div>
                         <svg className="absolute top-[3px] left-[3px] w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                       </div>
-                      <span className="text-sm font-medium text-neutral-700"><a href="#" className="text-primary-500 hover:text-primary-600 underline underline-offset-2">KVKK Aydinlatma Metni</a>&apos;ni okudum ve onayliyorum. <span className="text-error-base">*</span></span>
+                      <span className="text-sm font-medium text-neutral-700"><a href="/privacy" className="text-primary-500 hover:text-primary-600 underline underline-offset-2">KVKK Aydinlatma Metni</a>&apos;ni okudum ve onayliyorum. <span className="text-error-base">*</span></span>
                     </label>
                   </div>
                 </div>

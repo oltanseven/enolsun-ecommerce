@@ -81,7 +81,7 @@ export default function Navbar() {
                                       <div key={sub.group}>
                                         <p className="text-xs font-semibold text-primary-500 mb-2">{sub.group}</p>
                                         {sub.items.map((subItem) => (
-                                          <Link key={subItem} href="#" className="block text-sm text-neutral-500 hover:text-primary-600 py-1">{subItem}</Link>
+                                          <Link key={subItem} href={`/products?search=${encodeURIComponent(subItem)}`} className="block text-sm text-neutral-500 hover:text-primary-600 py-1">{subItem}</Link>
                                         ))}
                                       </div>
                                     ))}

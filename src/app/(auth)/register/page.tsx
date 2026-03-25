@@ -277,8 +277,8 @@ export default function RegisterPage() {
                     <svg className="absolute top-[3px] left-[3px] w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                   </div>
                   <span className="text-sm text-neutral-500 leading-snug select-none">
-                    <Link href="#" className="font-medium text-primary-500 hover:text-primary-600 transition-colors">Kullanim Kosullari</Link>{`'ni ve `}
-                    <Link href="#" className="font-medium text-primary-500 hover:text-primary-600 transition-colors">Gizlilik Politikasi</Link>{`'ni kabul ediyorum.`}
+                    <Link href="/terms" className="font-medium text-primary-500 hover:text-primary-600 transition-colors">Kullanim Kosullari</Link>{`'ni ve `}
+                    <Link href="/privacy" className="font-medium text-primary-500 hover:text-primary-600 transition-colors">Gizlilik Politikasi</Link>{`'ni kabul ediyorum.`}
                   </span>
                 </label>
               </div>

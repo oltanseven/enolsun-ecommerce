@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProducts, getCategories } from '@/lib/queries'
 import FavoriteButton from '@/components/ui/FavoriteButton'
+import NewsletterForm from '@/components/ui/NewsletterForm'
 
 export const metadata: Metadata = {
   title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
@@ -339,12 +340,7 @@ export default async function HomePage() {
               </div>
               <h2 className="text-xl md:text-2xl font-bold text-neutral-900">EN Yeni Fırsatlardan İlk Siz Haberdar Olun</h2>
               <p className="text-sm text-neutral-500">EN özel indirimler, EN yeni ürünler ve ilham verici içerikler için bültenimize abone olun.</p>
-              <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                <input type="email" placeholder="E-posta adresiniz" className="flex-1 px-4 py-3 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all min-h-[44px]" />
-                <button className="px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-sm transition-all whitespace-nowrap cursor-pointer min-h-[44px]">
-                  Abone Ol
-                </button>
-              </div>
+              <NewsletterForm />
               <p className="text-xs text-neutral-400">Dilediginiz zaman aboneliginizi iptal edebilirsiniz.</p>
             </div>
           </div>
