@@ -2,15 +2,29 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useCart } from "@/hooks/useCart";
 
-const installments = [
-  { count: 1, monthly: "1.131,21", total: "1.131,21" },
-  { count: 2, monthly: "580,11", total: "1.160,22" },
-  { count: 3, monthly: "392,07", total: "1.176,21" },
-  { count: 6, monthly: "201,04", total: "1.206,24" },
-  { count: 9, monthly: "138,67", total: "1.248,03" },
-  { count: 12, monthly: "107,03", total: "1.284,36" },
-];
+const primaryImage = (images: any[]) =>
+  images?.find((img: any) => img.is_primary)?.url || images?.[0]?.url;
+
+function calculateInstallments(total: number) {
+  const rates: { count: number; rate: number }[] = [
+    { count: 1, rate: 0 },
+    { count: 2, rate: 0.0256 },
+    { count: 3, rate: 0.0399 },
+    { count: 6, rate: 0.0664 },
+    { count: 9, rate: 0.1034 },
+    { count: 12, rate: 0.1355 },
+  ];
+  return rates.map(({ count, rate }) => {
+    const totalWithRate = total * (1 + rate);
+    return {
+      count,
+      monthly: (totalWithRate / count).toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      total: totalWithRate.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    };
+  });
+}
 
 export default function CheckoutPage() {
   const [shipping, setShipping] = useState("standard");
@@ -18,6 +32,42 @@ export default function CheckoutPage() {
   const [saveCard, setSaveCard] = useState(false);
   const [sameAddress, setSameAddress] = useState(true);
   const [selectedInstallment, setSelectedInstallment] = useState(1);
+
+  const { items, total, loading } = useCart();
+
+  const shippingCost = shipping === "express" ? 29.90 : shipping === "same-day" ? 59.90 : 0;
+  const grandTotal = total + shippingCost;
+  const installments = calculateInstallments(grandTotal);
+
+  const formatPrice = (price: number) =>
+    price.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  if (loading) {
+    return (
+      <div className="pt-4 sm:pt-8 pb-32 lg:pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-neutral-100 p-4 sm:p-6 animate-pulse">
+                  <div className="h-5 bg-neutral-100 rounded w-40 mb-5" />
+                  <div className="space-y-3">
+                    {[...Array(3)].map((_, j) => <div key={j} className="h-10 bg-neutral-50 rounded-xl" />)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white rounded-2xl border border-neutral-100 p-4 sm:p-6 animate-pulse h-fit">
+              <div className="h-5 bg-neutral-100 rounded w-32 mb-4" />
+              <div className="space-y-3">
+                {[...Array(3)].map((_, i) => <div key={i} className="h-12 bg-neutral-50 rounded" />)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-4 sm:pt-8 pb-32 lg:pb-20">
@@ -61,15 +111,15 @@ export default function CheckoutPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">Ad</label>
-                  <input type="text" defaultValue="Emre" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                  <input type="text" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyad</label>
-                  <input type="text" defaultValue="Yilmaz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                  <input type="text" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adres</label>
-                  <input type="text" defaultValue="Levent Mah. Buyukdere Cad. No:185 K:12" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                  <input type="text" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">İl</label>
@@ -89,11 +139,11 @@ export default function CheckoutPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">Telefon</label>
-                  <input type="tel" defaultValue="+90 532 555 0456" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                  <input type="tel" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-neutral-500 mb-1.5">Posta Kodu</label>
-                  <input type="text" defaultValue="34394" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                  <input type="text" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
               </div>
               <label className="flex items-center gap-2 mt-4 cursor-pointer">
@@ -156,7 +206,7 @@ export default function CheckoutPage() {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Üzerindeki İsim</label>
-                    <input type="text" placeholder="EMRE YILMAZ" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all uppercase" />
+                    <input type="text" placeholder="AD SOYAD" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all uppercase" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarası</label>
@@ -234,40 +284,50 @@ export default function CheckoutPage() {
 
               {/* Order Items */}
               <div className="space-y-3 mb-4">
-                {[
-                  { name: "Premium Organik Pamuklu T-Shirt", qty: 1, price: "349,90" },
-                  { name: "El Yapimi Seramik Kahve Fincani Seti", qty: 2, price: "378,00" },
-                  { name: "Akilli LED Masa Lambasi", qty: 1, price: "529,00" },
-                ].map((item, i) => (
-                  <div key={i} className="flex justify-between items-start text-sm">
-                    <div className="flex-1 min-w-0 pr-3">
-                      <p className="text-neutral-700 truncate">{item.name}</p>
-                      <p className="text-xs text-neutral-400">Adet: {item.qty}</p>
+                {items.length === 0 && (
+                  <p className="text-sm text-neutral-400 text-center py-4">Sepetiniz boş.</p>
+                )}
+                {items.map((item) => {
+                  const img = primaryImage(item.product?.product_images || []);
+                  const itemPrice = item.product?.discount_price || item.product?.price || 0;
+                  return (
+                  <div key={item.id} className="flex gap-3 items-start text-sm">
+                    <div className="w-12 h-12 rounded-lg bg-neutral-50 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                      {img ? (
+                        <img src={img} alt={item.product?.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <svg className="w-5 h-5 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="12" cy="12" r="3" /></svg>
+                      )}
                     </div>
-                    <span className="font-medium text-neutral-800 whitespace-nowrap">{item.price} TL</span>
+                    <div className="flex-1 min-w-0 pr-1">
+                      <p className="text-neutral-700 truncate">{item.product?.name}</p>
+                      <p className="text-xs text-neutral-400">Adet: {item.quantity}</p>
+                    </div>
+                    <span className="font-medium text-neutral-800 whitespace-nowrap">{formatPrice(itemPrice * item.quantity)} TL</span>
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="border-t border-neutral-100 pt-4 space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-neutral-500">Ara Toplam</span>
-                  <span className="text-neutral-800">1.256,90 TL</span>
+                  <span className="text-neutral-800">{formatPrice(total)} TL</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-500">Kargo</span>
-                  <span className="text-green-600 font-medium">Ücretsiz</span>
-                </div>
-                <div className="flex justify-between text-primary-600">
-                  <span>Kupon (HOSGELDIN)</span>
-                  <span className="font-medium">-125,69 TL</span>
+                  {shippingCost === 0 ? (
+                    <span className="text-green-600 font-medium">Ücretsiz</span>
+                  ) : (
+                    <span className="text-neutral-800">+{formatPrice(shippingCost)} TL</span>
+                  )}
                 </div>
               </div>
 
               <div className="border-t border-neutral-100 mt-4 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-base font-bold text-neutral-900">Toplam</span>
-                  <span className="text-xl font-bold text-neutral-900">1.131,21 TL</span>
+                  <span className="text-xl font-bold text-neutral-900">{formatPrice(grandTotal)} TL</span>
                 </div>
               </div>
 

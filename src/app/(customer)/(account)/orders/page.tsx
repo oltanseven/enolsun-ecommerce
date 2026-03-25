@@ -1,22 +1,79 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
+
+const _sb = createClient();
 
 const tabs = ["Tümü", "Hazırlanıyor", "Kargoda", "Teslim Edildi", "İptal"];
 
-const orders = [
-  { id: "ORD-2024-1847", date: "22 Mart 2024", status: "Kargoda", statusColor: "text-blue-700 bg-blue-50", items: 3, total: "1.256,90", tracking: "TR1234567890" },
-  { id: "ORD-2024-1832", date: "18 Mart 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 1, total: "899,00", tracking: "" },
-  { id: "ORD-2024-1810", date: "12 Mart 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 2, total: "548,00", tracking: "" },
-  { id: "ORD-2024-1798", date: "5 Mart 2024", status: "İptal", statusColor: "text-red-700 bg-red-50", items: 1, total: "349,90", tracking: "" },
-  { id: "ORD-2024-1765", date: "28 Şubat 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 4, total: "2.147,60", tracking: "" },
-];
+const statusMap: Record<string, { label: string; color: string }> = {
+  pending: { label: "Hazırlanıyor", color: "text-yellow-700 bg-yellow-50" },
+  preparing: { label: "Hazırlanıyor", color: "text-yellow-700 bg-yellow-50" },
+  shipped: { label: "Kargoda", color: "text-blue-700 bg-blue-50" },
+  delivered: { label: "Teslim Edildi", color: "text-green-700 bg-green-50" },
+  cancelled: { label: "İptal", color: "text-red-700 bg-red-50" },
+};
+
+interface OrderItem {
+  id: string;
+  quantity: number;
+  product: {
+    name: string;
+    slug: string;
+    product_images: { url: string; is_primary: boolean }[];
+  } | null;
+}
+
+interface Order {
+  id: string;
+  created_at: string;
+  status: string;
+  total: number;
+  order_items: OrderItem[];
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function formatPrice(price: number) {
+  return price.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState("Tümü");
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = activeTab === "Tümü" ? orders : orders.filter((o) => o.status === activeTab);
+  useEffect(() => {
+    async function fetchOrders() {
+      const { data: { user } } = await _sb.auth.getUser();
+      if (!user) { setLoading(false); return; }
+
+      const { data } = await _sb
+        .from("orders")
+        .select("*, order_items(*, product:products(name, slug, product_images(url, is_primary)))")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      setOrders((data as Order[]) ?? []);
+      setLoading(false);
+    }
+    fetchOrders();
+  }, []);
+
+  const filtered = activeTab === "Tümü"
+    ? orders
+    : orders.filter((o) => {
+        const mapped = statusMap[o.status];
+        return mapped?.label === activeTab;
+      });
 
   return (
     <>
@@ -32,47 +89,81 @@ export default function OrdersPage() {
         ))}
       </div>
 
-      {/* Order Cards */}
-      <div className="space-y-4">
-        {filtered.map((order) => (
-          <div key={order.id} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-4 sm:p-5 hover:shadow-align-sm transition-shadow">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+      {/* Loading Skeleton */}
+      {loading && (
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-4 sm:p-5 animate-pulse">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-neutral-100" />
+                  <div className="space-y-1.5">
+                    <div className="h-4 w-32 bg-neutral-100 rounded" />
+                    <div className="h-3 w-24 bg-neutral-100 rounded" />
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-neutral-900">{order.id}</p>
-                  <p className="text-xs text-neutral-400">{order.date}</p>
+                <div className="h-6 w-20 bg-neutral-100 rounded-full" />
+              </div>
+              <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="h-3 w-14 bg-neutral-100 rounded" />
+                  <div className="h-4 w-20 bg-neutral-100 rounded" />
                 </div>
+                <div className="h-4 w-12 bg-neutral-100 rounded" />
               </div>
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${order.statusColor}`}>{order.status}</span>
             </div>
-            <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
-              <div className="flex items-center gap-4 text-xs text-neutral-500">
-                <span>{order.items} ürün</span>
-                <span className="font-semibold text-neutral-800">{order.total} TL</span>
-              </div>
-              <Link href={`/orders/${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
-                Detay
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
-      {/* Pagination */}
-      <div className="flex items-center justify-center gap-2 pt-4">
-        <button className="w-9 h-9 rounded-lg border border-neutral-200 flex items-center justify-center text-sm text-neutral-400 hover:bg-neutral-50">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-        </button>
-        <button className="w-9 h-9 rounded-lg bg-primary-600 text-white text-sm font-semibold">1</button>
-        <button className="w-9 h-9 rounded-lg border border-neutral-200 text-sm text-neutral-600 hover:bg-neutral-50">2</button>
-        <button className="w-9 h-9 rounded-lg border border-neutral-200 text-sm text-neutral-600 hover:bg-neutral-50">3</button>
-        <button className="w-9 h-9 rounded-lg border border-neutral-200 flex items-center justify-center text-sm text-neutral-400 hover:bg-neutral-50">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-        </button>
-      </div>
+      {/* Empty State */}
+      {!loading && filtered.length === 0 && (
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-10 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-neutral-50 flex items-center justify-center">
+            <svg className="w-8 h-8 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+          </div>
+          <p className="text-sm font-semibold text-neutral-700 mb-1">Sipariş bulunamadı</p>
+          <p className="text-xs text-neutral-400">
+            {activeTab === "Tümü" ? "Henüz bir siparişiniz bulunmuyor." : `"${activeTab}" durumunda sipariş yok.`}
+          </p>
+        </div>
+      )}
+
+      {/* Order Cards */}
+      {!loading && filtered.length > 0 && (
+        <div className="space-y-4">
+          {filtered.map((order) => {
+            const status = statusMap[order.status] ?? { label: order.status, color: "text-neutral-700 bg-neutral-50" };
+            const itemCount = order.order_items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+
+            return (
+              <div key={order.id} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-4 sm:p-5 hover:shadow-align-sm transition-shadow">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-neutral-900">#{order.id.slice(0, 8).toUpperCase()}</p>
+                      <p className="text-xs text-neutral-400">{formatDate(order.created_at)}</p>
+                    </div>
+                  </div>
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${status.color}`}>{status.label}</span>
+                </div>
+                <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
+                  <div className="flex items-center gap-4 text-xs text-neutral-500">
+                    <span>{itemCount} ürün</span>
+                    <span className="font-semibold text-neutral-800">{formatPrice(order.total)} TL</span>
+                  </div>
+                  <Link href={`/orders/${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
+                    Detay
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
     </>
   );

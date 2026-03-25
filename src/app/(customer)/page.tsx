@@ -249,9 +249,9 @@ export default async function HomePage() {
                       <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{(product.discount_price || product.price).toLocaleString('tr-TR')}</span>
                       {hasDiscount && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>}
                     </div>
-                    <button className="p-2 bg-primary-50 hover:bg-primary-100 text-primary-600 rounded-xl transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Sepete ekle">
+                    <span className="p-2 bg-primary-50 group-hover:bg-primary-100 text-primary-600 rounded-xl transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center" aria-hidden="true">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                    </button>
+                    </span>
                   </div>
                 </div>
               </Link>
