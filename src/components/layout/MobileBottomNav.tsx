@@ -65,7 +65,7 @@ export default function MobileBottomNav() {
               aria-label={item.label}
             >
               {item.icon(active)}
-              <span className={`text-[10px] font-medium ${active ? 'text-primary-600' : 'text-neutral-400'}`}>{item.label}</span>
+              <span className={`text-[11px] font-medium ${active ? 'text-primary-600' : 'text-neutral-400'}`}>{item.label}</span>
               {item.badge && (
                 <span className="absolute top-0 right-1 w-4 h-4 bg-error-base rounded-full flex items-center justify-center text-[9px] font-bold text-white">{item.badge}</span>
               )}

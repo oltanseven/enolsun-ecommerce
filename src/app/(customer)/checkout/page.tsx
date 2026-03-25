@@ -230,23 +230,23 @@ export default function CheckoutPage() {
                   {/* Installments Table */}
                   <div className="mt-4">
                     <h3 className="text-sm font-semibold text-neutral-800 mb-3">Taksit Seçenekleri</h3>
-                    <div className="overflow-hidden rounded-xl border border-neutral-200">
-                      <table className="w-full text-sm">
+                    <div className="overflow-x-auto overflow-hidden rounded-xl border border-neutral-200">
+                      <table className="w-full text-xs sm:text-sm">
                         <thead className="bg-neutral-50">
                           <tr>
-                            <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500">Taksit</th>
-                            <th className="text-right px-4 py-2.5 text-xs font-medium text-neutral-500">Aylık</th>
-                            <th className="text-right px-4 py-2.5 text-xs font-medium text-neutral-500">Toplam</th>
-                            <th className="px-4 py-2.5 w-10"></th>
+                            <th className="text-left px-2 sm:px-4 py-2.5 text-xs font-medium text-neutral-500">Taksit</th>
+                            <th className="text-right px-2 sm:px-4 py-2.5 text-xs font-medium text-neutral-500">Aylık</th>
+                            <th className="text-right px-2 sm:px-4 py-2.5 text-xs font-medium text-neutral-500">Toplam</th>
+                            <th className="px-2 sm:px-4 py-2.5 w-8 sm:w-10"></th>
                           </tr>
                         </thead>
                         <tbody>
                           {installments.map((inst) => (
                             <tr key={inst.count} onClick={() => setSelectedInstallment(inst.count)} className={`cursor-pointer transition-colors ${selectedInstallment === inst.count ? "bg-primary-25" : "hover:bg-neutral-25"}`}>
-                              <td className="px-4 py-3 font-medium text-neutral-800">{inst.count === 1 ? "Tek Çekim" : `${inst.count} Taksit`}</td>
-                              <td className="px-4 py-3 text-right text-neutral-600">{inst.monthly} TL</td>
-                              <td className="px-4 py-3 text-right font-semibold text-neutral-800">{inst.total} TL</td>
-                              <td className="px-4 py-3 text-center">
+                              <td className="px-2 sm:px-4 py-2.5 sm:py-3 font-medium text-neutral-800">{inst.count === 1 ? "Tek Çekim" : `${inst.count} Taksit`}</td>
+                              <td className="px-2 sm:px-4 py-2.5 sm:py-3 text-right text-neutral-600">{inst.monthly} TL</td>
+                              <td className="px-2 sm:px-4 py-2.5 sm:py-3 text-right font-semibold text-neutral-800">{inst.total} TL</td>
+                              <td className="px-2 sm:px-4 py-2.5 sm:py-3 text-center">
                                 <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mx-auto ${selectedInstallment === inst.count ? "border-primary-500" : "border-neutral-300"}`}>
                                   {selectedInstallment === inst.count && <div className="w-2 h-2 rounded-full bg-primary-500"></div>}
                                 </div>

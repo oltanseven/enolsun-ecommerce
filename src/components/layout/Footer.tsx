@@ -3,7 +3,7 @@ import { FOOTER_LINKS } from '@/lib/constants'
 
 export default function Footer() {
   return (
-    <footer role="contentinfo" className="bg-neutral-900 text-neutral-300 pt-12 md:pt-16 pb-20 sm:pb-8">
+    <footer role="contentinfo" className="bg-neutral-900 text-neutral-300 pt-12 md:pt-16 pb-28 sm:pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
 

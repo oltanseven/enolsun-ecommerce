@@ -10,7 +10,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
   return (
     <>
       <Navbar />
-      <main className="pt-16 pb-20 md:pb-0">{children}</main>
+      <main className="pt-16 pb-24 sm:pb-0">{children}</main>
       <Footer />
       <MobileBottomNav />
       <ScrollToTop />
