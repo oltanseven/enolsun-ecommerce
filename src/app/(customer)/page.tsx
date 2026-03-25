@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getProducts, getCategories } from '@/lib/queries'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 
 export const metadata: Metadata = {
   title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
@@ -14,78 +16,18 @@ const SmallStar = ({ className = '' }: { className?: string }) => (
   <svg className={`w-3 md:w-3.5 h-3 md:h-3.5 ${className}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 )
 
-/* ---- data for the product grid ---- */
-const products = [
-  {
-    category: 'Ev & Yasam',
-    name: 'Organik Bambu Saksi Seti',
-    price: 249,
-    oldPrice: null,
-    rating: 5,
-    reviews: 128,
-    badge: 'Yeni',
-    badgeColor: 'bg-primary-500',
-    gradient: 'from-primary-50 via-primary-100 to-primary-50',
-    iconPath: 'M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z',
-    hasCircle: true,
-    favorited: false,
-    slug: 'organik-bambu-saksi-seti',
-  },
-  {
-    category: 'Aydinlatma',
-    name: 'Minimal Ay Gece Lambasi',
-    price: 132,
-    oldPrice: 189,
-    rating: 4,
-    reviews: 89,
-    badge: '%30',
-    badgeColor: 'bg-error-base',
-    gradient: 'from-primary-100 via-primary-200 to-primary-100',
-    iconPath: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z',
-    hasCircle: false,
-    favorited: false,
-    slug: 'minimal-ay-gece-lambasi',
-  },
-  {
-    category: 'Ev & Yasam',
-    name: 'El Yapimi Bambu Dekor Seti',
-    price: 549,
-    oldPrice: null,
-    rating: 5,
-    reviews: 256,
-    badge: 'Best',
-    badgeColor: 'bg-neutral-800',
-    gradient: 'from-primary-50 via-white to-primary-100',
-    iconPath: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4',
-    hasCircle: false,
-    favorited: true,
-    slug: 'el-yapimi-bambu-dekor-seti',
-  },
-  {
-    category: 'Dekorasyon',
-    name: 'Kristal Yildiz Dekor',
-    price: 129,
-    oldPrice: null,
-    rating: 4,
-    reviews: 67,
-    badge: null,
-    badgeColor: '',
-    gradient: 'from-primary-100 via-primary-50 to-white',
-    iconPath: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
-    hasCircle: false,
-    favorited: false,
-    slug: 'kristal-yildiz-dekor',
-  },
-]
+const primaryImage = (images: { url: string; is_primary: boolean }[]) =>
+  images?.find(img => img.is_primary)?.url || images?.[0]?.url
 
-const categories = [
-  { name: 'Ev & Yasam', count: 324, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg> },
-  { name: 'Dogal Bakim', count: 186, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> },
-  { name: 'Eko Giyim', count: 412, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg> },
-  { name: 'Aydinlatma', count: 98, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg> },
-  { name: 'Mutfak', count: 267, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"/></svg> },
-  { name: 'Outdoor', count: 153, icon: <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64"/></svg> },
-]
+const categoryIcons: Record<string, React.ReactNode> = {
+  'ev-yasam': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>,
+  'dogal-bakim': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>,
+  'eko-giyim': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg>,
+  'aydinlatma': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>,
+  'mutfak': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"/></svg>,
+  'outdoor': <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64"/></svg>,
+}
+const defaultCatIcon = <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z"/></svg>
 
 const testimonials = [
   { text: '"Bambu saksı setini aldım, EN iyi kalite ve EN şık tasarım! Evime çok yakıştı, çevre dostu olması da ayrı bir artı."', name: 'Ayşe Yılmaz', initials: 'AY', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
@@ -93,7 +35,11 @@ const testimonials = [
   { text: '"Üçüncü kez alışveriş yapıyorum. Her seferinde EN iyi kalite ve özen. Müşteri hizmetleri de EN ilgili ve çözüm odaklı."', name: 'Zeynep Demir', initials: 'ZD', bgColor: 'bg-primary-300', textColor: 'text-white' },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [{ products }, { categories }] = await Promise.all([
+    getProducts({ limit: 4 }),
+    getCategories(),
+  ])
   return (
     <main id="main-content">
       {/* ============ HERO SECTION ============ */}
@@ -233,15 +179,19 @@ export default function HomePage() {
           </div>
 
           <div className="flex md:grid md:grid-cols-6 gap-3 md:gap-4 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none' }}>
-            {categories.map((cat) => (
-              <Link key={cat.name} href="/products" className="group text-center p-4 md:p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-200 hover:bg-primary-25 shadow-align-xs card-hover shrink-0 w-28 md:w-auto min-w-[7rem] md:min-w-0 cursor-pointer">
-                <div className="w-12 h-12 md:w-14 md:h-14 mx-auto mb-2 md:mb-3 bg-primary-50 group-hover:bg-primary-100 rounded-2xl flex items-center justify-center transition-colors">
-                  {cat.icon}
-                </div>
-                <p className="text-xs md:text-sm font-semibold text-neutral-700 group-hover:text-primary-700">{cat.name}</p>
-                <p className="text-xs text-neutral-400 mt-1">{cat.count} Ürün</p>
-              </Link>
-            ))}
+            {categories.slice(0, 6).map((cat) => {
+              const productCount = cat.products?.[0]?.count || 0
+              const icon = categoryIcons[cat.slug] || defaultCatIcon
+              return (
+                <Link key={cat.id} href={`/products?category=${cat.id}`} className="group text-center p-4 md:p-6 bg-white rounded-2xl border border-neutral-100 hover:border-primary-200 hover:bg-primary-25 shadow-align-xs card-hover shrink-0 w-28 md:w-auto min-w-[7rem] md:min-w-0 cursor-pointer">
+                  <div className="w-12 h-12 md:w-14 md:h-14 mx-auto mb-2 md:mb-3 bg-primary-50 group-hover:bg-primary-100 rounded-2xl flex items-center justify-center transition-colors">
+                    {icon}
+                  </div>
+                  <p className="text-xs md:text-sm font-semibold text-neutral-700 group-hover:text-primary-700">{cat.name}</p>
+                  <p className="text-xs text-neutral-400 mt-1">{productCount} Ürün</p>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -263,39 +213,41 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-            {products.map((product) => (
+            {products.map((product) => {
+              const img = primaryImage(product.product_images || [])
+              const rating = product.rating || 0
+              const hasDiscount = product.discount_price && product.discount_price < product.price
+              const discountPercent = hasDiscount ? Math.round((1 - product.discount_price! / product.price) * 100) : 0
+              return (
               <Link key={product.slug} href={`/product/${product.slug}`} className="group bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block">
                 <div className="relative overflow-hidden">
-                  <div className={`w-full h-40 sm:h-56 bg-gradient-to-br ${product.gradient} flex items-center justify-center`}>
-                    <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5">
-                      <path d={product.iconPath}/>
-                      {product.hasCircle && <circle cx="12" cy="12" r="3"/>}
-                    </svg>
-                  </div>
-                  {product.badge && (
-                    <span className={`absolute top-2 md:top-3 left-2 md:left-3 px-2 py-0.5 md:px-2.5 md:py-1 ${product.badgeColor} text-white text-[10px] md:text-xs font-semibold rounded-lg`}>{product.badge}</span>
-                  )}
-                  <button aria-label="Favorilere ekle" className="absolute top-2 md:top-3 right-2 md:right-3 w-7 h-7 md:w-8 md:h-8 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white cursor-pointer">
-                    {product.favorited ? (
-                      <svg className="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>
+                  <div className="w-full h-40 sm:h-56 bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 flex items-center justify-center">
+                    {img ? (
+                      <img src={img} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
-                      <svg className="w-4 h-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                      <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
                     )}
-                  </button>
+                  </div>
+                  {hasDiscount && (
+                    <span className="absolute top-2 md:top-3 left-2 md:left-3 px-2 py-0.5 md:px-2.5 md:py-1 bg-error-base text-white text-[10px] md:text-xs font-semibold rounded-lg">%{discountPercent}</span>
+                  )}
+                  <div className="absolute top-2 md:top-3 right-2 md:right-3">
+                    <FavoriteButton productId={product.id} />
+                  </div>
                 </div>
                 <div className="p-3 md:p-4">
-                  <p className="text-[10px] md:text-xs text-neutral-400 mb-1">{product.category}</p>
+                  <p className="text-[10px] md:text-xs text-neutral-400 mb-1">{product.category?.name || ''}</p>
                   <h3 className="text-xs md:text-sm font-semibold text-neutral-800 mb-1 md:mb-2 line-clamp-2">{product.name}</h3>
                   <div className="flex items-center gap-1 mb-2 md:mb-3">
                     <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => <SmallStar key={i} className={i >= product.rating ? 'text-neutral-200' : ''} />)}
+                      {[...Array(5)].map((_, i) => <SmallStar key={i} className={i >= rating ? 'text-neutral-200' : ''} />)}
                     </div>
-                    <span className="text-[10px] md:text-xs text-neutral-400">({product.reviews})</span>
+                    <span className="text-[10px] md:text-xs text-neutral-400">({product.review_count})</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 md:gap-2">
-                      <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{product.price}</span>
-                      {product.oldPrice && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.oldPrice}</span>}
+                      <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{(product.discount_price || product.price).toLocaleString('tr-TR')}</span>
+                      {hasDiscount && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>}
                     </div>
                     <button className="p-2 bg-primary-50 hover:bg-primary-100 text-primary-600 rounded-xl transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Sepete ekle">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
@@ -303,7 +255,8 @@ export default function HomePage() {
                   </div>
                 </div>
               </Link>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

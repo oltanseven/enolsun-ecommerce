@@ -1,7 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+import { createClient } from '@/lib/supabase/client'
+import FavoriteButton from '@/components/ui/FavoriteButton'
+import AddToCartButton from '@/components/ui/AddToCartButton'
+import ProductCardSkeleton from '@/components/ui/ProductCardSkeleton'
+
+const _sb = createClient()
+
+const PRODUCTS_PER_PAGE = 12
 
 const StarIcon = ({ filled = true }: { filled?: boolean }) => (
   <svg className={`w-4 h-4 ${filled ? 'text-yellow-400' : 'text-neutral-200'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -11,42 +21,141 @@ const SmallStar = ({ filled = true }: { filled?: boolean }) => (
   <svg className={`w-3 md:w-3.5 h-3 md:h-3.5 ${filled ? 'text-yellow-400' : 'text-neutral-200'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 )
 
-const filterCategories = [
-  { name: 'Ev & Yaşam', count: 18 },
-  { name: 'Doğal Bakım', count: 12 },
-  { name: 'Eko Giyim', count: 10 },
-  { name: 'Aydınlatma', count: 8 },
-  { name: 'Mutfak', count: 9 },
-  { name: 'Outdoor', count: 7 },
-]
-
 const colors = [
   { name: 'Siyah', bg: 'bg-neutral-900', selected: true },
   { name: 'Beyaz', bg: 'bg-white' },
-  { name: 'Yeşil', bg: 'bg-primary-500' },
+  { name: 'Yesil', bg: 'bg-primary-500' },
   { name: 'Kahverengi', bg: 'bg-amber-600' },
   { name: 'Mavi', bg: 'bg-blue-500' },
-  { name: 'Kırmızı', bg: 'bg-red-500' },
-  { name: 'Sarı', bg: 'bg-yellow-400' },
+  { name: 'Kirmizi', bg: 'bg-red-500' },
+  { name: 'Sari', bg: 'bg-yellow-400' },
   { name: 'Gri', bg: 'bg-neutral-300' },
 ]
 
-const demoProducts = [
-  { slug: 'organik-bambu-saksi-seti', name: 'Organik Bambu Saksi Seti', category: 'Ev & Yasam', price: 249, oldPrice: null, rating: 5, reviews: 128, badge: 'Yeni', badgeColor: 'bg-primary-500', gradient: 'from-primary-50 via-primary-100 to-primary-50' },
-  { slug: 'minimal-ay-gece-lambasi', name: 'Minimal Ay Gece Lambasi', category: 'Aydinlatma', price: 132, oldPrice: 189, rating: 4, reviews: 89, badge: '%30', badgeColor: 'bg-error-base', gradient: 'from-primary-100 via-primary-200 to-primary-100' },
-  { slug: 'el-yapimi-bambu-dekor-seti', name: 'El Yapimi Bambu Dekor Seti', category: 'Ev & Yasam', price: 549, oldPrice: null, rating: 5, reviews: 256, badge: 'Best', badgeColor: 'bg-neutral-800', gradient: 'from-primary-50 via-white to-primary-100' },
-  { slug: 'kristal-yildiz-dekor', name: 'Kristal Yildiz Dekor', category: 'Dekorasyon', price: 129, oldPrice: null, rating: 4, reviews: 67, badge: null, badgeColor: '', gradient: 'from-primary-100 via-primary-50 to-white' },
-  { slug: 'dogal-tas-mumluk', name: 'Dogal Tas Mumluk', category: 'Ev & Yasam', price: 89, oldPrice: 120, rating: 4, reviews: 45, badge: '%25', badgeColor: 'bg-error-base', gradient: 'from-primary-50 via-primary-100 to-primary-200' },
-  { slug: 'organik-pamuk-yastik', name: 'Organik Pamuk Yastik', category: 'Ev & Yasam', price: 179, oldPrice: null, rating: 5, reviews: 92, badge: 'Yeni', badgeColor: 'bg-primary-500', gradient: 'from-white via-primary-50 to-primary-100' },
-  { slug: 'bambu-sirt-cantasi', name: 'Bambu Sirt Cantasi', category: 'Aksesuar', price: 349, oldPrice: null, rating: 4, reviews: 73, badge: null, badgeColor: '', gradient: 'from-primary-100 via-primary-200 to-primary-100' },
-  { slug: 'seramik-vazo-seti', name: 'El Yapimi Seramik Vazo', category: 'Ev & Yasam', price: 199, oldPrice: 249, rating: 5, reviews: 156, badge: '%20', badgeColor: 'bg-error-base', gradient: 'from-primary-50 via-white to-primary-50' },
-]
+const primaryImage = (images: any[]) => images?.find((img: any) => img.is_primary)?.url || images?.[0]?.url
 
-export default function ProductsPage() {
+function ProductsContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const searchQuery = searchParams.get('q') || ''
+  const categoryParam = searchParams.get('category') || ''
+
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState('popular')
   const [filterOpen, setFilterOpen] = useState(false)
-  const [priceRange, setPriceRange] = useState(3500)
+  const [priceRange, setPriceRange] = useState(5000)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const [products, setProducts] = useState<any[]>([])
+  const [categories, setCategories] = useState<any[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam)
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await _sb
+        .from('categories')
+        .select('*')
+        .order('name')
+      if (data) setCategories(data)
+    }
+    fetchCategories()
+  }, [])
+
+  // Fetch products
+  const fetchProducts = useCallback(async () => {
+    setLoading(true)
+
+    const from = (currentPage - 1) * PRODUCTS_PER_PAGE
+    const to = from + PRODUCTS_PER_PAGE - 1
+
+    let query = _sb
+      .from('products')
+      .select('*, category:categories(*), product_images(*)', { count: 'exact' })
+
+    // Search filter
+    if (searchQuery) {
+      query = query.ilike('name', `%${searchQuery}%`)
+    }
+
+    // Category filter
+    if (selectedCategory) {
+      query = query.eq('category_id', selectedCategory)
+    }
+
+    // Sorting
+    switch (sortBy) {
+      case 'newest':
+        query = query.order('created_at', { ascending: false })
+        break
+      case 'price_asc':
+        query = query.order('price', { ascending: true })
+        break
+      case 'price_desc':
+        query = query.order('price', { ascending: false })
+        break
+      case 'rating':
+        query = query.order('rating', { ascending: false })
+        break
+      case 'popular':
+      default:
+        query = query.order('review_count', { ascending: false })
+        break
+    }
+
+    query = query.range(from, to)
+
+    const { data, count } = await query
+
+    setProducts(data || [])
+    setTotalCount(count || 0)
+    setLoading(false)
+  }, [searchQuery, selectedCategory, sortBy, currentPage])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery, selectedCategory, sortBy])
+
+  // Sync category param
+  useEffect(() => {
+    setSelectedCategory(categoryParam)
+  }, [categoryParam])
+
+  const totalPages = Math.ceil(totalCount / PRODUCTS_PER_PAGE)
+
+  const handleCategoryToggle = (categoryId: string) => {
+    setSelectedCategory(prev => prev === categoryId ? '' : categoryId)
+  }
+
+  // Count products per category (from total, not filtered)
+  const getCategoryProductCount = (categoryId: string) => {
+    // We show category counts from the categories list if available
+    return categories.find(c => c.id === categoryId)?.product_count ?? ''
+  }
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = []
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i)
+    } else {
+      pages.push(1)
+      if (currentPage > 3) pages.push('...')
+      const start = Math.max(2, currentPage - 1)
+      const end = Math.min(totalPages - 1, currentPage + 1)
+      for (let i = start; i <= end; i++) pages.push(i)
+      if (currentPage < totalPages - 2) pages.push('...')
+      pages.push(totalPages)
+    }
+    return pages
+  }
 
   const FilterContent = () => (
     <div className="space-y-6">
@@ -54,11 +163,16 @@ export default function ProductsPage() {
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
         <h3 className="text-sm font-semibold text-neutral-900 mb-4">Kategoriler</h3>
         <div className="space-y-3">
-          {filterCategories.map((cat) => (
-            <label key={cat.name} className="flex items-center gap-3 cursor-pointer group">
-              <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 focus:ring-offset-0 transition-colors" />
+          {categories.map((cat) => (
+            <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={selectedCategory === cat.id}
+                onChange={() => handleCategoryToggle(cat.id)}
+                className="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 focus:ring-offset-0 transition-colors"
+              />
               <span className="text-sm text-neutral-600 group-hover:text-neutral-900 transition-colors">{cat.name}</span>
-              <span className="ml-auto text-xs text-neutral-300 bg-neutral-50 px-1.5 py-0.5 rounded-full">{cat.count}</span>
+              <span className="ml-auto text-xs text-neutral-300 bg-neutral-50 px-1.5 py-0.5 rounded-full">{getCategoryProductCount(cat.id)}</span>
             </label>
           ))}
         </div>
@@ -66,7 +180,7 @@ export default function ProductsPage() {
 
       {/* Fiyat Araligi */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Aralığı</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Araligi</h3>
         <div className="space-y-4">
           <div>
             <input type="range" min="0" max="5000" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} className="w-full accent-primary-500" />
@@ -101,7 +215,7 @@ export default function ProductsPage() {
 
       {/* Degerlendirme */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Değerlendirme</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Degerlendirme</h3>
         <div className="space-y-2">
           {[5, 4, 3].map((rating) => (
             <label key={rating} className="flex items-center gap-2 cursor-pointer group">
@@ -125,7 +239,7 @@ export default function ProductsPage() {
           <nav aria-label="Sayfa yolu" className="flex items-center gap-2 text-sm text-neutral-400 overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
             <Link href="/" className="hover:text-primary-500 transition-colors flex-shrink-0">Ana Sayfa</Link>
             <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-            <span className="text-neutral-700 font-medium flex-shrink-0">Ürünler</span>
+            <span className="text-neutral-700 font-medium flex-shrink-0">Urunler</span>
           </nav>
         </div>
       </div>
@@ -135,8 +249,12 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">Tüm Ürünler</h1>
-              <p className="mt-1 text-neutral-400 text-sm">EN geniş ürün yelpazemizde toplam <span className="font-semibold text-neutral-600">64</span> ürün listeleniyor</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">
+                {searchQuery ? `"${searchQuery}" icin sonuclar` : 'Tum Urunler'}
+              </h1>
+              <p className="mt-1 text-neutral-400 text-sm">
+                {searchQuery ? 'Arama sonuclarinizda' : 'EN genis urun yelpazemizde'} toplam <span className="font-semibold text-neutral-600">{totalCount}</span> urun listeleniyor
+              </p>
             </div>
           </div>
         </div>
@@ -168,7 +286,7 @@ export default function ProductsPage() {
                   <FilterContent />
                 </div>
                 <div className="p-5 border-t border-neutral-100">
-                  <button onClick={() => setFilterOpen(false)} className="w-full py-3 bg-primary-500 text-white font-semibold rounded-xl hover:bg-primary-600 transition-colors min-h-[44px]">EN İyi Sonuçları Göster</button>
+                  <button onClick={() => setFilterOpen(false)} className="w-full py-3 bg-primary-500 text-white font-semibold rounded-xl hover:bg-primary-600 transition-colors min-h-[44px]">EN Iyi Sonuclari Goster</button>
                 </div>
               </div>
             </div>
@@ -188,11 +306,11 @@ export default function ProductsPage() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400">
-                    <option value="popular">EN Popüler</option>
+                    <option value="popular">EN Populer</option>
                     <option value="newest">EN Yeniler</option>
-                    <option value="price_asc">Fiyat: EN Düşük</option>
-                    <option value="price_desc">Fiyat: EN Yüksek</option>
-                    <option value="rating">EN Yüksek Puan</option>
+                    <option value="price_asc">Fiyat: EN Dusuk</option>
+                    <option value="price_desc">Fiyat: EN Yuksek</option>
+                    <option value="rating">EN Yuksek Puan</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-1 bg-neutral-50 rounded-lg p-1">
@@ -206,61 +324,134 @@ export default function ProductsPage() {
               </div>
 
               {/* Product Grid */}
-              <div className={viewMode === 'grid' ? 'grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6' : 'space-y-4'}>
-                {demoProducts.map((product) => (
-                  <Link key={product.slug} href={`/product/${product.slug}`} className={`group bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block ${viewMode === 'list' ? 'flex gap-4' : ''}`}>
-                    <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-40 h-40 flex-shrink-0' : ''}`}>
-                      <div className={`${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'} bg-gradient-to-br ${product.gradient} flex items-center justify-center`}>
-                        <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
-                      </div>
-                      {product.badge && (
-                        <span className={`absolute top-2 md:top-3 left-2 md:left-3 px-2 py-0.5 md:px-2.5 md:py-1 ${product.badgeColor} text-white text-[10px] md:text-xs font-semibold rounded-lg`}>{product.badge}</span>
-                      )}
-                      <button aria-label="Favorilere ekle" className="absolute top-2 md:top-3 right-2 md:right-3 w-7 h-7 md:w-8 md:h-8 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white cursor-pointer">
-                        <svg className="w-4 h-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
-                      </button>
-                    </div>
-                    <div className="p-3 md:p-4 flex-1">
-                      <p className="text-[10px] md:text-xs text-neutral-400 mb-1">{product.category}</p>
-                      <h3 className="text-xs md:text-sm font-semibold text-neutral-800 mb-1 md:mb-2 line-clamp-2">{product.name}</h3>
-                      <div className="flex items-center gap-1 mb-2 md:mb-3">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => <SmallStar key={i} filled={i < product.rating} />)}
+              {loading ? (
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                  <ProductCardSkeleton count={6} />
+                </div>
+              ) : products.length === 0 ? (
+                <div className="text-center py-20">
+                  <svg className="w-16 h-16 text-neutral-200 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+                  <h3 className="text-lg font-semibold text-neutral-700 mb-1">Urun bulunamadi</h3>
+                  <p className="text-sm text-neutral-400">Farkli filtreler veya arama terimleri deneyebilirsiniz.</p>
+                </div>
+              ) : (
+                <div className={viewMode === 'grid' ? 'grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6' : 'space-y-4'}>
+                  {products.map((product) => {
+                    const imgUrl = primaryImage(product.product_images)
+                    const discountPercent = product.compare_at_price
+                      ? Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)
+                      : null
+
+                    return (
+                      <Link key={product.id} href={`/product/${product.slug}`} className={`group bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block ${viewMode === 'list' ? 'flex gap-4' : ''}`}>
+                        <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-40 h-40 flex-shrink-0' : ''}`}>
+                          {imgUrl ? (
+                            <div className={`relative ${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'}`}>
+                              <Image
+                                src={imgUrl}
+                                alt={product.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              />
+                            </div>
+                          ) : (
+                            <div className={`${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'} bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 flex items-center justify-center`}>
+                              <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </div>
+                          )}
+                          {discountPercent && (
+                            <span className="absolute top-2 md:top-3 left-2 md:left-3 px-2 py-0.5 md:px-2.5 md:py-1 bg-error-base text-white text-[10px] md:text-xs font-semibold rounded-lg">%{discountPercent}</span>
+                          )}
+                          <FavoriteButton
+                            productId={product.id}
+                            className="absolute top-2 md:top-3 right-2 md:right-3 w-7 h-7 md:w-8 md:h-8 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white cursor-pointer"
+                          />
                         </div>
-                        <span className="text-[10px] md:text-xs text-neutral-400">({product.reviews})</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1 md:gap-2">
-                          <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{product.price}</span>
-                          {product.oldPrice && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.oldPrice}</span>}
+                        <div className="p-3 md:p-4 flex-1">
+                          <p className="text-[10px] md:text-xs text-neutral-400 mb-1">{product.category?.name}</p>
+                          <h3 className="text-xs md:text-sm font-semibold text-neutral-800 mb-1 md:mb-2 line-clamp-2">{product.name}</h3>
+                          <div className="flex items-center gap-1 mb-2 md:mb-3">
+                            <div className="flex">
+                              {[...Array(5)].map((_, i) => <SmallStar key={i} filled={i < (product.rating || 0)} />)}
+                            </div>
+                            <span className="text-[10px] md:text-xs text-neutral-400">({product.review_count || 0})</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1 md:gap-2">
+                              <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{product.price}</span>
+                              {product.compare_at_price && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.compare_at_price}</span>}
+                            </div>
+                            <AddToCartButton
+                              productId={product.id}
+                              className="p-2 bg-primary-50 hover:bg-primary-100 text-primary-600 rounded-xl transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            >
+                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            </AddToCartButton>
+                          </div>
                         </div>
-                        <button className="p-2 bg-primary-50 hover:bg-primary-100 text-primary-600 rounded-xl transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Sepete ekle">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                        </button>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
 
               {/* Pagination */}
-              <div className="flex items-center justify-center gap-2 mt-10">
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
-                </button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-500 text-white text-sm font-medium">1</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 text-sm font-medium transition-colors">2</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 text-sm font-medium transition-colors">3</button>
-                <span className="px-2 text-neutral-400">...</span>
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 text-sm font-medium transition-colors">8</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-                </button>
-              </div>
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-10">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(prev => prev - 1)}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                  </button>
+                  {getPageNumbers().map((page, idx) =>
+                    page === '...' ? (
+                      <span key={`dots-${idx}`} className="px-2 text-neutral-400">...</span>
+                    ) : (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page as number)}
+                        className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+                          currentPage === page
+                            ? 'bg-primary-500 text-white'
+                            : 'border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(prev => prev + 1)}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </main>
     </>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+            <ProductCardSkeleton count={6} />
+          </div>
+        </div>
+      </div>
+    }>
+      <ProductsContent />
+    </Suspense>
   )
 }
