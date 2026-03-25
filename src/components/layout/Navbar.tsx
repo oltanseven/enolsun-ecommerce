@@ -1,20 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
 import MobileMenu from './MobileMenu'
 import { NAV_ITEMS, MEGA_MENU_CATEGORIES } from '@/lib/constants'
+import { createClient } from '@/lib/supabase/client'
 
 export default function Navbar() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userInitial, setUserInitial] = useState('E')
 
-  // Simple auth check placeholder (connect Supabase later)
-  const isLoggedIn = false
-  const userInitial = 'E'
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setIsLoggedIn(true)
+        const name = user.user_metadata?.full_name || user.email || ''
+        setUserInitial(name.charAt(0).toUpperCase() || 'U')
+      }
+    })
+  }, [])
 
   function isActive(href: string) {
     if (href === '/') return pathname === '/'

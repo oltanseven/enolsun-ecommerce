@@ -121,7 +121,7 @@ export const SELLER_NAV_ITEMS = [
     section: 'secondary',
     items: [
       { label: 'Yardım Merkezi', href: '#', icon: 'help' },
-      { label: 'Mağazayı Görüntüle', href: '/store/yesil-yaprak', icon: 'external', external: true },
+      { label: 'Mağazayı Görüntüle', href: '/store/yesil-yaprak-atolye', icon: 'external', external: true },
       { label: 'Çıkış Yap', href: '/seller-login', icon: 'logout', danger: true },
     ],
   },

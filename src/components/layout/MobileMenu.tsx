@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Logo from './Logo'
 import { MEGA_MENU_CATEGORIES } from '@/lib/constants'
+import { createClient } from '@/lib/supabase/client'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -13,6 +14,15 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setIsLoggedIn(!!user)
+    })
+  }, [])
   const [accordionOpen, setAccordionOpen] = useState(false)
 
   // Close menu on route change
@@ -139,10 +149,31 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
         {/* Login/Profile */}
         <div className="p-4 border-t border-neutral-100">
-          <Link href="/login" onClick={onClose} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 rounded-xl cursor-pointer min-h-[44px]">
-            <div className="w-8 h-8 rounded-full bg-primary-100 border-2 border-primary-200 flex items-center justify-center text-sm font-semibold text-primary-700">E</div>
-            Hesabim
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="/dashboard" onClick={onClose} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 rounded-xl cursor-pointer min-h-[44px]">
+                <div className="w-8 h-8 rounded-full bg-primary-100 border-2 border-primary-200 flex items-center justify-center text-sm font-semibold text-primary-700">E</div>
+                Hesabım
+              </Link>
+              <button
+                onClick={async () => {
+                  const supabase = createClient()
+                  await supabase.auth.signOut()
+                  onClose()
+                  router.push('/login')
+                }}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl cursor-pointer min-h-[44px] w-full"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/></svg>
+                Çıkış Yap
+              </button>
+            </>
+          ) : (
+            <Link href="/login" onClick={onClose} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 rounded-xl cursor-pointer min-h-[44px]">
+              <div className="w-8 h-8 rounded-full bg-neutral-100 border-2 border-neutral-200 flex items-center justify-center text-sm font-semibold text-neutral-500">?</div>
+              Giriş Yap
+            </Link>
+          )}
         </div>
       </div>
     </div>
