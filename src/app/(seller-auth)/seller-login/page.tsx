@@ -77,7 +77,7 @@ export default function SellerLoginPage() {
     }
 
     showToast("success", "Başarılı!", "Satıcı panelinize yönlendiriliyorsunuz...")
-    setTimeout(() => router.push("/seller-dashboard"), 1000)
+    setTimeout(() => { window.location.href = "/seller-dashboard" }, 1000)
   }
 
   return (

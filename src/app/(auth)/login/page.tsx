@@ -68,11 +68,7 @@ export default function LoginPage() {
 
       const role = data.user?.user_metadata?.role
       setTimeout(() => {
-        if (role === 'seller') {
-          router.push('/seller-dashboard')
-        } else {
-          router.push('/dashboard')
-        }
+        window.location.href = role === 'seller' ? '/seller-dashboard' : '/dashboard'
       }, 1000)
     } catch {
       showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error')
