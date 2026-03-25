@@ -127,7 +127,7 @@ export default function SellerDashboardPage() {
         // All orders for stats
         _sb
           .from("orders")
-          .select("id, created_at, status, total_amount, user_id")
+          .select("id, created_at, status, total, user_id")
           .eq("store_id", store.id)
           .order("created_at", { ascending: false }),
 
@@ -163,7 +163,7 @@ export default function SellerDashboardPage() {
 
       const allOrders = ordersRes.data ?? []
       setTotalOrders(allOrders.length)
-      const revenue = allOrders.reduce((sum: number, o: any) => sum + (o.total_amount ?? o.total ?? 0), 0)
+      const revenue = allOrders.reduce((sum: number, o: any) => sum + (o.total ?? 0), 0)
       setTotalRevenue(revenue)
       setProductsCount(productsRes.count ?? 0)
       setPendingOrders(pendingRes.count ?? 0)
@@ -198,7 +198,7 @@ export default function SellerDashboardPage() {
           id: o.id,
           created_at: o.created_at,
           status: o.status,
-          total: o.total_amount ?? o.total ?? 0,
+          total: o.total ?? 0,
           buyer_name: profileMap[o.user_id] ?? "Müşteri",
           first_product_name: orderProductMap[o.id] ?? "Ürün",
         })))

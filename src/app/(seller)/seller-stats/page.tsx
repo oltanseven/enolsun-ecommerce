@@ -65,7 +65,7 @@ export default function SellerStatsPage() {
     const [ordersRes, productsRes, reviewsRes] = await Promise.all([
       _sb
         .from("orders")
-        .select("id, total_amount")
+        .select("id, total")
         .eq("store_id", store.id),
 
       _sb
@@ -80,7 +80,7 @@ export default function SellerStatsPage() {
     ])
 
     const orders = ordersRes.data ?? []
-    const revenue = orders.reduce((sum: number, o: any) => sum + (o.total_amount ?? 0), 0)
+    const revenue = orders.reduce((sum: number, o: any) => sum + (o.total ?? 0), 0)
     setTotalOrders(orders.length)
     setTotalRevenue(revenue)
     setAvgOrderValue(orders.length > 0 ? revenue / orders.length : 0)

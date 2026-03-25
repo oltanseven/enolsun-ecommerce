@@ -28,7 +28,7 @@ interface Order {
   id: string;
   created_at: string;
   status: string;
-  total_amount: number;
+  total: number;
 }
 
 interface Product {
@@ -77,7 +77,7 @@ export default function DashboardPage() {
       // Fetch recent orders
       const { data: orders } = await _sb
         .from("orders")
-        .select("id, created_at, status, total_amount")
+        .select("id, created_at, status, total")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(3);
@@ -250,7 +250,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className={`hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${s.color}`}>{s.label}</span>
-                      <span className="text-sm font-semibold text-neutral-800">{formatPrice(order.total_amount)} TL</span>
+                      <span className="text-sm font-semibold text-neutral-800">{formatPrice(order.total)} TL</span>
                     </div>
                   </div>
                   );

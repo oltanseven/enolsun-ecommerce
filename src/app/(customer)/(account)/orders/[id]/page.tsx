@@ -91,8 +91,8 @@ export default function OrderTrackingPage() {
           id: data.id,
           created_at: data.created_at,
           status: data.status,
-          total: data.total ?? data.total_amount ?? 0,
-          subtotal: data.subtotal ?? data.total ?? data.total_amount ?? 0,
+          total: data.total ?? 0,
+          subtotal: data.subtotal ?? data.total ?? 0,
           shipping_cost: data.shipping_cost ?? 0,
           discount_amount: data.discount_amount ?? 0,
           tracking_number: data.tracking_number ?? null,
@@ -105,16 +105,9 @@ export default function OrderTrackingPage() {
         });
       }
 
-      // Fetch status history
-      const { data: history } = await _sb
-        .from("order_status_history")
-        .select("status, created_at, note")
-        .eq("order_id", orderId)
-        .order("created_at", { ascending: false });
-
-      if (history && history.length > 0) {
-        setStatusHistory(history);
-      }
+      // order_status_history table does not exist; status comes from the order itself
+      // statusHistory state will remain empty, and the timeline will fall back
+      // to showing order.created_at as the single event.
 
       setLoading(false);
     }

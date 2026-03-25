@@ -58,7 +58,7 @@ interface Order {
   id: string
   created_at: string
   status: string
-  total_amount: number
+  total: number
   tracking_number: string | null
   user_id: string
   buyer_name: string
@@ -108,7 +108,7 @@ export default function SellerOrdersPage() {
 
     const { data } = await _sb
       .from("orders")
-      .select("id, created_at, status, total_amount, tracking_number, user_id, order_items(id, quantity, unit_price, product:products(name, product_images(url, is_primary)))")
+      .select("id, created_at, status, total, tracking_number, user_id, order_items(id, quantity, unit_price, product:products(name, product_images(url, is_primary)))")
       .eq("store_id", store.id)
       .order("created_at", { ascending: false })
 
@@ -127,7 +127,7 @@ export default function SellerOrdersPage() {
 
       setOrders(ordersRaw.map((o: any) => ({
         ...o,
-        total_amount: o.total_amount ?? o.total ?? 0,
+        total: o.total ?? 0,
         buyer_name: profileMap[o.user_id] ?? "Müşteri",
         order_items: o.order_items ?? [],
       })))
@@ -366,7 +366,7 @@ export default function SellerOrdersPage() {
                           {order.order_items.length > 2 && <span className="text-xs text-neutral-400 ml-1">+{order.order_items.length - 2}</span>}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm font-semibold text-neutral-800">&#8378;{formatPrice(order.total_amount)}</td>
+                      <td className="px-4 py-3 text-sm font-semibold text-neutral-800">&#8378;{formatPrice(order.total)}</td>
                       <td className="px-4 py-3"><span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${sm.statusClass}`}>{sm.label}</span></td>
                       <td className="px-4 py-3 text-sm text-neutral-500">{formatDate(order.created_at)}</td>
                       <td className="px-4 py-3">
@@ -423,7 +423,7 @@ export default function SellerOrdersPage() {
                   <span className="text-sm text-neutral-700">{order.buyer_name}</span>
                 </div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-neutral-800">&#8378;{formatPrice(order.total_amount)}</span>
+                  <span className="text-sm font-semibold text-neutral-800">&#8378;{formatPrice(order.total)}</span>
                   <span className="text-xs text-neutral-500">{formatDate(order.created_at)}</span>
                 </div>
                 {nextStatus && (

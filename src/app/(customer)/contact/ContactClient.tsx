@@ -33,9 +33,10 @@ export default function ContactClient() {
 
     try {
       const _sb = createClient();
-      await _sb.from("contact_submissions").insert(payload);
+      const { error } = await _sb.from("contact_submissions").insert(payload);
+      if (error) throw error;
     } catch {
-      // Table may not exist yet — save to localStorage as fallback
+      // Table may not exist or insert failed — save to localStorage as fallback
       try {
         const prev = JSON.parse(localStorage.getItem("contact_submissions") || "[]");
         prev.push({ ...payload, created_at: new Date().toISOString() });

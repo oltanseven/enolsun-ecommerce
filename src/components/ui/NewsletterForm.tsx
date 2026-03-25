@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { showToast } from '@/components/ui/Toast'
-import { createClient } from '@/lib/supabase/client'
+
+const LS_KEY = 'enolsun_newsletter_emails'
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
@@ -19,24 +20,18 @@ export default function NewsletterForm() {
     setSubmitting(true)
 
     try {
-      const _sb = createClient()
+      const stored: string[] = JSON.parse(localStorage.getItem(LS_KEY) || '[]')
 
-      // Check for duplicate
-      const { data: existing } = await _sb
-        .from('newsletter_subscribers')
-        .select('id')
-        .eq('email', email)
-        .maybeSingle()
-
-      if (existing) {
+      if (stored.includes(email)) {
         showToast('Bu e-posta adresi zaten kayitli.', 'info')
         setSubmitting(false)
         return
       }
 
-      await _sb.from('newsletter_subscribers').insert({ email })
+      stored.push(email)
+      localStorage.setItem(LS_KEY, JSON.stringify(stored))
     } catch {
-      // Table may not exist yet — silently continue
+      // localStorage unavailable — silently continue
     }
 
     showToast('Basariyla abone oldunuz!', 'success')
