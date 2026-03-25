@@ -6,6 +6,28 @@ import { showToast } from "@/components/ui/Toast";
 
 const _sb = createClient();
 
+interface Address {
+  id: string;
+  user_id: string;
+  title: string;
+  full_address: string;
+  city: string;
+  district: string;
+  postal_code: string;
+  phone: string;
+  is_default: boolean;
+  created_at: string;
+}
+
+const emptyAddressForm = {
+  title: "",
+  full_address: "",
+  city: "",
+  district: "",
+  postal_code: "",
+  phone: "",
+};
+
 export default function ProfilePage() {
   const [notifications, setNotifications] = useState({ email: true, sms: false, push: true });
   const [loading, setLoading] = useState(true);
@@ -18,10 +40,24 @@ export default function ProfilePage() {
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("Belirtmek İstemiyorum");
 
+  // Password state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [savingPassword, setSavingPassword] = useState(false);
+
+  // Address state
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [addressesLoading, setAddressesLoading] = useState(true);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+  const [addressForm, setAddressForm] = useState(emptyAddressForm);
+  const [savingAddress, setSavingAddress] = useState(false);
+
   useEffect(() => {
     async function fetchProfile() {
       const { data: { user } } = await _sb.auth.getUser();
-      if (!user) { setLoading(false); return; }
+      if (!user) { setLoading(false); setAddressesLoading(false); return; }
 
       setEmail(user.email ?? "");
 
@@ -40,6 +76,17 @@ export default function ProfilePage() {
         setGender(profile.gender ?? "Belirtmek İstemiyorum");
       }
       setLoading(false);
+
+      // Fetch addresses
+      const { data: addr } = await _sb
+        .from("addresses")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("is_default", { ascending: false })
+        .order("created_at", { ascending: false });
+
+      setAddresses(addr ?? []);
+      setAddressesLoading(false);
     }
     fetchProfile();
   }, []);
@@ -69,6 +116,169 @@ export default function ProfilePage() {
     }
   }
 
+  async function handlePasswordChange() {
+    if (newPassword !== confirmPassword) {
+      showToast("Yeni şifreler eşleşmiyor.", "error");
+      return;
+    }
+    if (newPassword.length < 8) {
+      showToast("Yeni şifre en az 8 karakter olmalıdır.", "error");
+      return;
+    }
+
+    setSavingPassword(true);
+    const { error } = await _sb.auth.updateUser({ password: newPassword });
+    setSavingPassword(false);
+
+    if (error) {
+      showToast("Şifre güncellenirken bir hata oluştu.", "error");
+    } else {
+      showToast("Şifreniz başarıyla güncellendi.", "success");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  }
+
+  // Address helpers
+  async function fetchAddresses() {
+    const { data: { user } } = await _sb.auth.getUser();
+    if (!user) return;
+    const { data } = await _sb
+      .from("addresses")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("is_default", { ascending: false })
+      .order("created_at", { ascending: false });
+    setAddresses(data ?? []);
+  }
+
+  async function handleSaveAddress() {
+    const { title, full_address, city, district, postal_code, phone: addrPhone } = addressForm;
+    if (!title.trim() || !full_address.trim() || !city.trim() || !district.trim()) {
+      showToast("Lütfen zorunlu alanları doldurun.", "error");
+      return;
+    }
+
+    setSavingAddress(true);
+    const { data: { user } } = await _sb.auth.getUser();
+    if (!user) { setSavingAddress(false); return; }
+
+    if (editingAddressId) {
+      // Update existing
+      const { error } = await _sb
+        .from("addresses")
+        .update({
+          title: title.trim(),
+          full_address: full_address.trim(),
+          city: city.trim(),
+          district: district.trim(),
+          postal_code: postal_code.trim(),
+          phone: addrPhone.trim(),
+        })
+        .eq("id", editingAddressId)
+        .eq("user_id", user.id);
+
+      setSavingAddress(false);
+      if (error) {
+        showToast("Adres güncellenirken bir hata oluştu.", "error");
+      } else {
+        showToast("Adres başarıyla güncellendi.", "success");
+        setShowAddressForm(false);
+        setEditingAddressId(null);
+        setAddressForm(emptyAddressForm);
+        await fetchAddresses();
+      }
+    } else {
+      // Insert new — if first address, make default
+      const isFirst = addresses.length === 0;
+      const { error } = await _sb
+        .from("addresses")
+        .insert({
+          user_id: user.id,
+          title: title.trim(),
+          full_address: full_address.trim(),
+          city: city.trim(),
+          district: district.trim(),
+          postal_code: postal_code.trim(),
+          phone: addrPhone.trim(),
+          is_default: isFirst,
+        });
+
+      setSavingAddress(false);
+      if (error) {
+        showToast("Adres eklenirken bir hata oluştu.", "error");
+      } else {
+        showToast("Adres başarıyla eklendi.", "success");
+        setShowAddressForm(false);
+        setAddressForm(emptyAddressForm);
+        await fetchAddresses();
+      }
+    }
+  }
+
+  async function handleDeleteAddress(id: string) {
+    const { data: { user } } = await _sb.auth.getUser();
+    if (!user) return;
+
+    const { error } = await _sb
+      .from("addresses")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+    if (error) {
+      showToast("Adres silinirken bir hata oluştu.", "error");
+    } else {
+      showToast("Adres silindi.", "success");
+      await fetchAddresses();
+    }
+  }
+
+  async function handleSetDefault(id: string) {
+    const { data: { user } } = await _sb.auth.getUser();
+    if (!user) return;
+
+    // Remove default from all
+    await _sb
+      .from("addresses")
+      .update({ is_default: false })
+      .eq("user_id", user.id);
+
+    // Set new default
+    const { error } = await _sb
+      .from("addresses")
+      .update({ is_default: true })
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+    if (error) {
+      showToast("Varsayılan adres ayarlanırken bir hata oluştu.", "error");
+    } else {
+      showToast("Varsayılan adres güncellendi.", "success");
+      await fetchAddresses();
+    }
+  }
+
+  function openEditAddress(addr: Address) {
+    setEditingAddressId(addr.id);
+    setAddressForm({
+      title: addr.title,
+      full_address: addr.full_address,
+      city: addr.city,
+      district: addr.district,
+      postal_code: addr.postal_code,
+      phone: addr.phone ?? "",
+    });
+    setShowAddressForm(true);
+  }
+
+  function openNewAddress() {
+    setEditingAddressId(null);
+    setAddressForm(emptyAddressForm);
+    setShowAddressForm(true);
+  }
+
   if (loading) {
     return (
       <>
@@ -92,6 +302,8 @@ export default function ProfilePage() {
     );
   }
 
+  const inputClass = "w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all";
+
   return (
     <>
     <title>Profil Bilgilerim | enolsun.com</title>
@@ -106,11 +318,11 @@ export default function ProfilePage() {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Ad</label>
-            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyad</label>
-            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">E-posta</label>
@@ -118,15 +330,15 @@ export default function ProfilePage() {
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Telefon</label>
-            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Doğum Tarihi</label>
-            <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Cinsiyet</label>
-            <select value={gender} onChange={(e) => setGender(e.target.value)} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
+            <select value={gender} onChange={(e) => setGender(e.target.value)} className={`${inputClass} bg-white`}>
               <option>Erkek</option>
               <option>Kadın</option>
               <option>Belirtmek İstemiyorum</option>
@@ -144,17 +356,19 @@ export default function ProfilePage() {
         <div className="space-y-4 max-w-md">
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Mevcut Şifre</label>
-            <input type="password" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Yeni Şifre</label>
-            <input type="password" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="block text-xs font-medium text-neutral-500 mb-1.5">Yeni Şifre (Tekrar)</label>
-            <input type="password" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={inputClass} />
           </div>
-          <button className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Şifreyi Güncelle</button>
+          <button onClick={handlePasswordChange} disabled={savingPassword} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60">
+            {savingPassword ? "Güncelleniyor..." : "Şifreyi Güncelle"}
+          </button>
         </div>
       </div>
 
@@ -162,27 +376,86 @@ export default function ProfilePage() {
       <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-5 sm:p-6">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-bold text-neutral-900">Adreslerim</h2>
-          <button className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">+ Yeni Adres</button>
+          <button onClick={openNewAddress} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">+ Yeni Adres</button>
         </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl border-2 border-primary-500 bg-primary-25 relative">
-            <span className="absolute top-2 right-2 text-[10px] font-semibold text-primary-700 bg-primary-100 px-2 py-0.5 rounded-full">Varsayılan</span>
-            <p className="text-sm font-semibold text-neutral-800 mb-1">Ev Adresi</p>
-            <p className="text-xs text-neutral-500 leading-relaxed">Levent Mah. Buyukdere Cad. No:185 K:12, Sisli, Istanbul 34394</p>
-            <div className="flex gap-3 mt-3">
-              <button className="text-xs font-medium text-primary-600 hover:text-primary-700">Düzenle</button>
-              <button className="text-xs font-medium text-red-500 hover:text-red-600">Sil</button>
+
+        {/* Address Form (inline) */}
+        {showAddressForm && (
+          <div className="mb-5 p-4 rounded-xl border border-neutral-200 bg-neutral-50 space-y-4">
+            <h3 className="text-sm font-semibold text-neutral-800">{editingAddressId ? "Adresi Düzenle" : "Yeni Adres Ekle"}</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adres Başlığı *</label>
+                <input type="text" placeholder="Ev, İş vb." value={addressForm.title} onChange={(e) => setAddressForm((p) => ({ ...p, title: e.target.value }))} className={inputClass} />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">Telefon</label>
+                <input type="tel" value={addressForm.phone} onChange={(e) => setAddressForm((p) => ({ ...p, phone: e.target.value }))} className={inputClass} />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">Açık Adres *</label>
+                <input type="text" value={addressForm.full_address} onChange={(e) => setAddressForm((p) => ({ ...p, full_address: e.target.value }))} className={inputClass} />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">İl *</label>
+                <input type="text" value={addressForm.city} onChange={(e) => setAddressForm((p) => ({ ...p, city: e.target.value }))} className={inputClass} />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">İlçe *</label>
+                <input type="text" value={addressForm.district} onChange={(e) => setAddressForm((p) => ({ ...p, district: e.target.value }))} className={inputClass} />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-500 mb-1.5">Posta Kodu</label>
+                <input type="text" value={addressForm.postal_code} onChange={(e) => setAddressForm((p) => ({ ...p, postal_code: e.target.value }))} className={inputClass} />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={handleSaveAddress} disabled={savingAddress} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60">
+                {savingAddress ? "Kaydediliyor..." : "Kaydet"}
+              </button>
+              <button onClick={() => { setShowAddressForm(false); setEditingAddressId(null); setAddressForm(emptyAddressForm); }} className="px-5 py-2.5 text-sm font-semibold text-neutral-600 hover:text-neutral-800 transition-colors">
+                İptal
+              </button>
             </div>
           </div>
-          <div className="p-4 rounded-xl border border-neutral-200">
-            <p className="text-sm font-semibold text-neutral-800 mb-1">İş Adresi</p>
-            <p className="text-xs text-neutral-500 leading-relaxed">Maslak Mah. Ahi Evran Cad. No:6/1, Sariyer, Istanbul 34398</p>
-            <div className="flex gap-3 mt-3">
-              <button className="text-xs font-medium text-primary-600 hover:text-primary-700">Düzenle</button>
-              <button className="text-xs font-medium text-red-500 hover:text-red-600">Sil</button>
-            </div>
+        )}
+
+        {/* Address List */}
+        {addressesLoading ? (
+          <div className="grid sm:grid-cols-2 gap-4">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="p-4 rounded-xl border border-neutral-200 space-y-2">
+                <div className="h-4 w-24 bg-neutral-100 rounded animate-pulse" />
+                <div className="h-3 w-full bg-neutral-100 rounded animate-pulse" />
+                <div className="h-3 w-2/3 bg-neutral-100 rounded animate-pulse" />
+              </div>
+            ))}
           </div>
-        </div>
+        ) : addresses.length === 0 ? (
+          <p className="text-sm text-neutral-400">Henüz kayıtlı adresiniz yok.</p>
+        ) : (
+          <div className="grid sm:grid-cols-2 gap-4">
+            {addresses.map((addr) => (
+              <div key={addr.id} className={`p-4 rounded-xl relative ${addr.is_default ? "border-2 border-primary-500 bg-primary-25" : "border border-neutral-200"}`}>
+                {addr.is_default && (
+                  <span className="absolute top-2 right-2 text-[10px] font-semibold text-primary-700 bg-primary-100 px-2 py-0.5 rounded-full">Varsayılan</span>
+                )}
+                <p className="text-sm font-semibold text-neutral-800 mb-1">{addr.title}</p>
+                <p className="text-xs text-neutral-500 leading-relaxed">
+                  {addr.full_address}, {addr.district}, {addr.city} {addr.postal_code}
+                </p>
+                {addr.phone && <p className="text-xs text-neutral-400 mt-1">{addr.phone}</p>}
+                <div className="flex gap-3 mt-3">
+                  <button onClick={() => openEditAddress(addr)} className="text-xs font-medium text-primary-600 hover:text-primary-700">Düzenle</button>
+                  {!addr.is_default && (
+                    <button onClick={() => handleSetDefault(addr.id)} className="text-xs font-medium text-primary-600 hover:text-primary-700">Varsayılan Yap</button>
+                  )}
+                  <button onClick={() => handleDeleteAddress(addr.id)} className="text-xs font-medium text-red-500 hover:text-red-600">Sil</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Notification Preferences */}

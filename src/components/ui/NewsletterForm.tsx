@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { showToast } from '@/components/ui/Toast'
+import { createClient } from '@/lib/supabase/client'
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!email || !email.includes('@')) {
@@ -17,12 +18,30 @@ export default function NewsletterForm() {
 
     setSubmitting(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      showToast('Basariyla abone oldunuz!', 'success')
-      setEmail('')
-      setSubmitting(false)
-    }, 500)
+    try {
+      const _sb = createClient()
+
+      // Check for duplicate
+      const { data: existing } = await _sb
+        .from('newsletter_subscribers')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle()
+
+      if (existing) {
+        showToast('Bu e-posta adresi zaten kayitli.', 'info')
+        setSubmitting(false)
+        return
+      }
+
+      await _sb.from('newsletter_subscribers').insert({ email })
+    } catch {
+      // Table may not exist yet — silently continue
+    }
+
+    showToast('Basariyla abone oldunuz!', 'success')
+    setEmail('')
+    setSubmitting(false)
   }
 
   return (

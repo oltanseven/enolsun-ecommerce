@@ -32,11 +32,36 @@ const fallbackGradients = [
   'from-primary-200 via-primary-100 to-primary-50',
 ]
 
-const reviews = [
-  { name: 'Ayse Y.', initials: 'AY', rating: 5, date: '2 hafta once', text: 'EN iyi kalitede bir urun! Tasarimi muhtesem ve eve cok yakisti. Kesinlikle tavsiye ederim.', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
-  { name: 'Mehmet K.', initials: 'MK', rating: 5, date: '1 ay once', text: 'Bekledigimden cok daha guzel cikti. EN ozenli paketleme, EN hizli kargo. Tesekkurler!', bgColor: 'bg-primary-200', textColor: 'text-primary-800' },
-  { name: 'Zeynep D.', initials: 'ZD', rating: 4, date: '1 ay once', text: 'Guzel urun, EN dogal malzeme hissiyati. Rengi fotograftan biraz farkli ama yine de cok begendim.', bgColor: 'bg-primary-300', textColor: 'text-white' },
+type ReviewWithProfile = {
+  id: string
+  rating: number
+  comment: string | null
+  created_at: string
+  profile: { full_name: string | null } | null
+}
+
+const avatarColors = [
+  { bg: 'bg-primary-100', text: 'text-primary-700' },
+  { bg: 'bg-primary-200', text: 'text-primary-800' },
+  { bg: 'bg-primary-300', text: 'text-white' },
+  { bg: 'bg-primary-400', text: 'text-white' },
+  { bg: 'bg-primary-50', text: 'text-primary-600' },
 ]
+
+function getInitials(name: string | null | undefined): string {
+  if (!name) return '?'
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+}
+
+function formatRelativeDate(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const days = Math.floor(diff / 86400000)
+  if (days < 1) return 'Bugun'
+  if (days < 7) return `${days} gun once`
+  if (days < 30) return `${Math.floor(days / 7)} hafta once`
+  if (days < 365) return `${Math.floor(days / 30)} ay once`
+  return `${Math.floor(days / 365)} yil once`
+}
 
 const specs = [
   { label: 'Malzeme', value: '%100 Organik Bambu' },
@@ -124,6 +149,8 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState(1)
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description')
+  const [productReviews, setProductReviews] = useState<ReviewWithProfile[]>([])
+  const [reviewsLoading, setReviewsLoading] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -159,6 +186,21 @@ export default function ProductDetailPage() {
 
         setSimilarProducts((similar || []) as Product[])
       }
+
+      // Fetch reviews
+      setReviewsLoading(true)
+      try {
+        const { data: reviewsData } = await _sb
+          .from('reviews')
+          .select('*, profile:profiles(full_name)')
+          .eq('product_id', data.id)
+          .order('created_at', { ascending: false })
+
+        setProductReviews((reviewsData || []) as ReviewWithProfile[])
+      } catch {
+        setProductReviews([])
+      }
+      setReviewsLoading(false)
 
       setLoading(false)
     }
@@ -207,8 +249,11 @@ export default function ProductDetailPage() {
     ? sizeVariants.map((v) => ({ name: v.value, id: v.id }))
     : fallbackSizes.map((s) => ({ name: s, id: s }))
 
-  const rating = product.rating ?? 4.9
-  const reviewCount = product.review_count ?? 0
+  const realRating = productReviews.length > 0
+    ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+    : null
+  const rating = realRating ?? product.rating ?? 0
+  const reviewCount = productReviews.length > 0 ? productReviews.length : (product.review_count ?? 0)
   const categoryName = product.category?.name || 'Urunler'
   const displayPrice = product.discount_price ?? product.price
   const hasDiscount = product.discount_price != null && product.discount_price < product.price
@@ -432,48 +477,77 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {activeTab === 'reviews' && (
-              <div className="space-y-6">
-                {/* Summary */}
-                <div className="flex items-center gap-6 p-6 bg-neutral-50 rounded-2xl">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-neutral-900">{rating.toFixed(1)}</div>
-                    <div className="flex mt-1">{[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < Math.round(rating)} />)}</div>
-                    <p className="text-xs text-neutral-400 mt-1">{reviewCount} degerlendirme</p>
-                  </div>
-                  <div className="flex-1 space-y-1.5">
-                    {[5, 4, 3, 2, 1].map((star) => (
-                      <div key={star} className="flex items-center gap-2">
-                        <span className="text-xs text-neutral-500 w-3">{star}</span>
-                        <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-yellow-400 rounded-full" style={{ width: star === 5 ? '78%' : star === 4 ? '15%' : star === 3 ? '5%' : '1%' }} />
-                        </div>
-                        <span className="text-xs text-neutral-400 w-8 text-right">{star === 5 ? '100' : star === 4 ? '19' : star === 3 ? '6' : star === 2 ? '2' : '1'}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            {activeTab === 'reviews' && (() => {
+              const realAvg = productReviews.length > 0
+                ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+                : 0
+              const distribution = [5, 4, 3, 2, 1].map(star => ({
+                star,
+                count: productReviews.filter(r => r.rating === star).length,
+              }))
+              const totalReviews = productReviews.length
 
-                {/* Reviews List */}
-                <div className="space-y-4">
-                  {reviews.map((review) => (
-                    <div key={review.name} className="p-5 border border-neutral-100 rounded-2xl">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-full ${review.bgColor} flex items-center justify-center text-sm font-bold ${review.textColor}`}>{review.initials}</div>
-                          <div>
-                            <p className="text-sm font-semibold text-neutral-800">{review.name}</p>
-                            <p className="text-xs text-neutral-400">{review.date}</p>
-                          </div>
-                        </div>
-                        <div className="flex">{[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < review.rating} />)}</div>
+              return (
+              <div className="space-y-6">
+                {reviewsLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="w-8 h-8 border-2 border-primary-200 border-t-primary-500 rounded-full animate-spin" />
+                  </div>
+                ) : totalReviews === 0 ? (
+                  <div className="text-center py-12">
+                    <svg className="w-16 h-16 text-neutral-200 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg>
+                    <h3 className="text-lg font-bold text-neutral-900 mb-2">Henuz degerlendirme yok</h3>
+                    <p className="text-sm text-neutral-400">Bu urun icin henuz bir degerlendirme yapilmamis.</p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Summary */}
+                    <div className="flex items-center gap-6 p-6 bg-neutral-50 rounded-2xl">
+                      <div className="text-center">
+                        <div className="text-4xl font-bold text-neutral-900">{realAvg.toFixed(1)}</div>
+                        <div className="flex mt-1">{[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < Math.round(realAvg)} />)}</div>
+                        <p className="text-xs text-neutral-400 mt-1">{totalReviews} degerlendirme</p>
                       </div>
-                      <p className="text-sm text-neutral-600 leading-relaxed">{review.text}</p>
+                      <div className="flex-1 space-y-1.5">
+                        {distribution.map(({ star, count }) => (
+                          <div key={star} className="flex items-center gap-2">
+                            <span className="text-xs text-neutral-500 w-3">{star}</span>
+                            <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
+                              <div className="h-full bg-yellow-400 rounded-full" style={{ width: `${totalReviews > 0 ? (count / totalReviews) * 100 : 0}%` }} />
+                            </div>
+                            <span className="text-xs text-neutral-400 w-8 text-right">{count}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Reviews List */}
+                    <div className="space-y-4">
+                      {productReviews.map((review, idx) => {
+                        const name = review.profile?.full_name || 'Anonim'
+                        const color = avatarColors[idx % avatarColors.length]
+                        return (
+                          <div key={review.id} className="p-5 border border-neutral-100 rounded-2xl">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-full ${color.bg} flex items-center justify-center text-sm font-bold ${color.text}`}>{getInitials(name)}</div>
+                                <div>
+                                  <p className="text-sm font-semibold text-neutral-800">{name}</p>
+                                  <p className="text-xs text-neutral-400">{formatRelativeDate(review.created_at)}</p>
+                                </div>
+                              </div>
+                              <div className="flex">{[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < review.rating} />)}</div>
+                            </div>
+                            {review.comment && <p className="text-sm text-neutral-600 leading-relaxed">{review.comment}</p>}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>
+                )}
               </div>
-            )}
+              )
+            })()}
           </div>
 
           {/* SIMILAR PRODUCTS */}

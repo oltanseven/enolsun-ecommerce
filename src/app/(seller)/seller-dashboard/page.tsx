@@ -2,31 +2,12 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
+
+const _sb = createClient()
 
 const starIcon = <svg className="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 const starDim = <svg className="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-
-const recentOrders = [
-  { id: "#ENS-10247", customer: "Ayşe Yılmaz", initials: "AY", color: "bg-blue-100 text-blue-600", product: "Makrome Duvar Süsü", amount: "485,00", status: "Yeni", statusClass: "bg-blue-50 text-blue-700", date: "23 Mar 2026" },
-  { id: "#ENS-10246", customer: "Mehmet Kara", initials: "MK", color: "bg-purple-100 text-purple-600", product: "Bambu Masa Lambası", amount: "1.250,00", status: "Hazırlanıyor", statusClass: "bg-warning-light text-warning-dark", date: "23 Mar 2026" },
-  { id: "#ENS-10244", customer: "Zeynep Demir", initials: "ZD", color: "bg-emerald-100 text-emerald-600", product: "Seramik Vazo Seti (3'lü)", amount: "890,00", status: "Kargoda", statusClass: "bg-orange-50 text-orange-700", date: "22 Mar 2026" },
-  { id: "#ENS-10240", customer: "Elif Özkan", initials: "EÖ", color: "bg-rose-100 text-rose-600", product: "Doğal Taş Mumluk", amount: "340,00", status: "Teslim Edildi", statusClass: "bg-success-light text-success-dark", date: "21 Mar 2026" },
-  { id: "#ENS-10238", customer: "Can Arslan", initials: "CA", color: "bg-gray-100 text-gray-600", product: "Ahşap Saat", amount: "720,00", status: "İptal", statusClass: "bg-error-light text-error-dark", date: "20 Mar 2026" },
-]
-
-const topProducts = [
-  { rank: 1, name: "Makrome Duvar Süsü", sold: "128 adet satıldı", revenue: "62.080", rankClass: "bg-primary-500 text-white" },
-  { rank: 2, name: "Bambu Masa Lambası", sold: "94 adet satıldı", revenue: "117.500", rankClass: "bg-primary-400 text-white" },
-  { rank: 3, name: "Seramik Vazo Seti (3'lü)", sold: "76 adet satıldı", revenue: "67.640", rankClass: "bg-primary-300 text-white" },
-  { rank: 4, name: "Doğal Taş Mumluk", sold: "63 adet satıldı", revenue: "21.420", rankClass: "bg-primary-200 text-primary-800" },
-  { rank: 5, name: "Ahşap Saat", sold: "51 adet satıldı", revenue: "36.720", rankClass: "bg-primary-100 text-primary-700" },
-]
-
-const reviews = [
-  { name: "Selin Bulut", initials: "SB", color: "bg-emerald-100 text-emerald-600", time: "2 saat önce", stars: 5, text: "Makrome duvar süsü harika görünüyor! Oturma odamıza çok yakıştı. Renk tonları fotoğraftaki gibi, çok memnunum.", product: "Makrome Duvar Süsü" },
-  { name: "Ozan Tunç", initials: "OT", color: "bg-blue-100 text-blue-600", time: "5 saat önce", stars: 4, text: "Bambu lamba gerçekten kaliteli. Işık dağılımı çok hoş. Tek eksik kargo biraz geç geldi ama ürün mükemmel.", product: "Bambu Masa Lambası" },
-  { name: "Deniz Akın", initials: "DA", color: "bg-rose-100 text-rose-600", time: "1 gün önce", stars: 5, text: "Seramik vazo seti beklediğimden bile güzel çıktı. Paketleme özenli, her biri ayrı ayrı korunmuş. Teşekkürler!", product: "Seramik Vazo Seti (3'lü)" },
-]
 
 const chartData = [
   { label: "Pzt", value: "6.8K", height: "58%", shade: "bg-primary-300" },
@@ -38,10 +19,318 @@ const chartData = [
   { label: "Paz", value: "12K", height: "100%", shade: "bg-primary-600" },
 ]
 
+const statusMap: Record<string, { label: string; statusClass: string }> = {
+  pending: { label: "Beklemede", statusClass: "bg-yellow-50 text-yellow-700" },
+  preparing: { label: "Hazırlanıyor", statusClass: "bg-warning-light text-warning-dark" },
+  shipped: { label: "Kargoda", statusClass: "bg-orange-50 text-orange-700" },
+  delivered: { label: "Teslim Edildi", statusClass: "bg-success-light text-success-dark" },
+  cancelled: { label: "İptal", statusClass: "bg-error-light text-error-dark" },
+}
+
+const avatarColors = [
+  "bg-blue-100 text-blue-600",
+  "bg-purple-100 text-purple-600",
+  "bg-emerald-100 text-emerald-600",
+  "bg-rose-100 text-rose-600",
+  "bg-gray-100 text-gray-600",
+]
+
+const rankClasses = [
+  "bg-primary-500 text-white",
+  "bg-primary-400 text-white",
+  "bg-primary-300 text-white",
+  "bg-primary-200 text-primary-800",
+  "bg-primary-100 text-primary-700",
+]
+
+interface RecentOrder {
+  id: string
+  created_at: string
+  status: string
+  total: number
+  buyer_name: string
+  first_product_name: string
+}
+
+interface TopProduct {
+  id: string
+  name: string
+  review_count: number
+  price: number
+  rating: number | null
+}
+
+interface RecentReview {
+  id: string
+  rating: number
+  comment: string | null
+  created_at: string
+  user_name: string
+  product_name: string
+}
+
+function formatPrice(price: number) {
+  return price.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("tr-TR", { day: "numeric", month: "short", year: "numeric" })
+}
+
+function getInitials(name: string) {
+  return name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
+}
+
+function timeAgo(dateStr: string) {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const minutes = Math.floor(diff / 60000)
+  if (minutes < 60) return `${minutes} dk önce`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} saat önce`
+  const days = Math.floor(hours / 24)
+  return `${days} gün önce`
+}
+
 export default function SellerDashboardPage() {
   const [showTips, setShowTips] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [storeName, setStoreName] = useState("")
+  const [totalOrders, setTotalOrders] = useState(0)
+  const [totalRevenue, setTotalRevenue] = useState(0)
+  const [productsCount, setProductsCount] = useState(0)
+  const [avgRating, setAvgRating] = useState(0)
+  const [reviewCount, setReviewCount] = useState(0)
+  const [pendingOrders, setPendingOrders] = useState(0)
+  const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([])
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([])
+  const [reviews, setReviews] = useState<RecentReview[]>([])
 
-  useEffect(() => { document.title = "Satıcı Paneli | enolsun.com Satıcı Merkezi" }, [])
+  useEffect(() => {
+    document.title = "Satıcı Paneli | enolsun.com Satıcı Merkezi"
+
+    async function load() {
+      const { data: { user } } = await _sb.auth.getUser()
+      if (!user) { setLoading(false); return }
+
+      // Get store
+      const { data: store } = await _sb
+        .from("stores")
+        .select("id, name")
+        .eq("owner_id", user.id)
+        .maybeSingle()
+
+      if (!store) { setLoading(false); return }
+      setStoreName(store.name)
+
+      // Fetch all data in parallel
+      const [ordersRes, productsRes, pendingRes, reviewsRes, topProductsRes] = await Promise.all([
+        // All orders for stats
+        _sb
+          .from("orders")
+          .select("id, created_at, status, total_amount, user_id")
+          .eq("store_id", store.id)
+          .order("created_at", { ascending: false }),
+
+        // Products count
+        _sb
+          .from("products")
+          .select("id", { count: "exact", head: true })
+          .eq("store_id", store.id),
+
+        // Pending orders count
+        _sb
+          .from("orders")
+          .select("id", { count: "exact", head: true })
+          .eq("store_id", store.id)
+          .in("status", ["pending", "preparing"]),
+
+        // Recent reviews with product name
+        _sb
+          .from("reviews")
+          .select("id, rating, comment, created_at, user_id, product:products!inner(name, store_id)")
+          .eq("product.store_id", store.id)
+          .order("created_at", { ascending: false })
+          .limit(3),
+
+        // Top products by review_count
+        _sb
+          .from("products")
+          .select("id, name, review_count, price, rating")
+          .eq("store_id", store.id)
+          .order("review_count", { ascending: false })
+          .limit(5),
+      ])
+
+      const allOrders = ordersRes.data ?? []
+      setTotalOrders(allOrders.length)
+      const revenue = allOrders.reduce((sum: number, o: any) => sum + (o.total_amount ?? o.total ?? 0), 0)
+      setTotalRevenue(revenue)
+      setProductsCount(productsRes.count ?? 0)
+      setPendingOrders(pendingRes.count ?? 0)
+
+      // Get recent 5 orders with buyer names
+      const recent5 = allOrders.slice(0, 5)
+      if (recent5.length > 0) {
+        const userIds = [...new Set(recent5.map((o: any) => o.user_id))]
+        const { data: profiles } = await _sb
+          .from("profiles")
+          .select("id, full_name")
+          .in("id", userIds)
+
+        const profileMap: Record<string, string> = {}
+        ;(profiles ?? []).forEach((p: any) => { profileMap[p.id] = p.full_name ?? "Müşteri" })
+
+        // Get first product name for each order
+        const orderIds = recent5.map((o: any) => o.id)
+        const { data: orderItems } = await _sb
+          .from("order_items")
+          .select("order_id, product:products(name)")
+          .in("order_id", orderIds)
+
+        const orderProductMap: Record<string, string> = {}
+        ;(orderItems ?? []).forEach((item: any) => {
+          if (!orderProductMap[item.order_id]) {
+            orderProductMap[item.order_id] = item.product?.name ?? "Ürün"
+          }
+        })
+
+        setRecentOrders(recent5.map((o: any) => ({
+          id: o.id,
+          created_at: o.created_at,
+          status: o.status,
+          total: o.total_amount ?? o.total ?? 0,
+          buyer_name: profileMap[o.user_id] ?? "Müşteri",
+          first_product_name: orderProductMap[o.id] ?? "Ürün",
+        })))
+      }
+
+      // Top products
+      setTopProducts((topProductsRes.data ?? []) as TopProduct[])
+
+      // Reviews - get user names
+      const reviewsData = reviewsRes.data ?? []
+      if (reviewsData.length > 0) {
+        const reviewUserIds = [...new Set(reviewsData.map((r: any) => r.user_id))]
+        const { data: reviewProfiles } = await _sb
+          .from("profiles")
+          .select("id, full_name")
+          .in("id", reviewUserIds)
+
+        const rpMap: Record<string, string> = {}
+        ;(reviewProfiles ?? []).forEach((p: any) => { rpMap[p.id] = p.full_name ?? "Müşteri" })
+
+        setReviews(reviewsData.map((r: any) => ({
+          id: r.id,
+          rating: r.rating,
+          comment: r.comment,
+          created_at: r.created_at,
+          user_name: rpMap[r.user_id] ?? "Müşteri",
+          product_name: r.product?.name ?? "Ürün",
+        })))
+      }
+
+      // Avg rating from reviews on store products
+      const { data: allReviews } = await _sb
+        .from("reviews")
+        .select("rating, product:products!inner(store_id)")
+        .eq("product.store_id", store.id)
+
+      if (allReviews && allReviews.length > 0) {
+        const avg = allReviews.reduce((sum: number, r: any) => sum + r.rating, 0) / allReviews.length
+        setAvgRating(Math.round(avg * 10) / 10)
+        setReviewCount(allReviews.length)
+      }
+
+      setLoading(false)
+    }
+
+    load()
+  }, [])
+
+  if (loading) {
+    return (
+      <>
+        {/* Welcome Banner Skeleton */}
+        <section className="animate-pulse mb-8">
+          <div className="bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 rounded-2xl p-6 lg:p-8">
+            <div className="h-7 bg-white/20 rounded w-96 mb-2" />
+            <div className="h-5 bg-white/15 rounded w-64 mb-5" />
+            <div className="flex gap-3">
+              <div className="h-10 bg-white/20 rounded-xl w-36" />
+              <div className="h-10 bg-white/15 rounded-xl w-36" />
+            </div>
+          </div>
+        </section>
+
+        {/* KPI Skeleton */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="bg-white rounded-2xl p-5 shadow-align-xs border border-neutral-100 animate-pulse">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-neutral-100 rounded-xl" />
+                <div className="w-12 h-5 bg-neutral-100 rounded-full" />
+              </div>
+              <div className="h-7 bg-neutral-100 rounded w-24 mb-1" />
+              <div className="h-4 bg-neutral-100 rounded w-28 mt-1" />
+            </div>
+          ))}
+        </section>
+
+        {/* Charts Skeleton */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-8">
+          {[1, 2].map(i => (
+            <div key={i} className="bg-white rounded-2xl p-6 shadow-align-xs border border-neutral-100 animate-pulse">
+              <div className="h-5 bg-neutral-100 rounded w-40 mb-2" />
+              <div className="h-4 bg-neutral-100 rounded w-52 mb-6" />
+              <div className="h-44 bg-neutral-50 rounded-lg" />
+            </div>
+          ))}
+        </section>
+
+        {/* Table Skeleton */}
+        <section className="bg-white rounded-2xl shadow-align-xs border border-neutral-100 mb-8 overflow-hidden animate-pulse">
+          <div className="p-5 lg:p-6 border-b border-neutral-100">
+            <div className="h-5 bg-neutral-100 rounded w-36 mb-1" />
+            <div className="h-4 bg-neutral-100 rounded w-52" />
+          </div>
+          <div className="p-5 space-y-4">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="flex items-center gap-4">
+                <div className="h-4 bg-neutral-100 rounded w-24" />
+                <div className="h-4 bg-neutral-100 rounded w-32 flex-1" />
+                <div className="h-4 bg-neutral-100 rounded w-20" />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Bottom section skeleton */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-8">
+          {[1, 2].map(i => (
+            <div key={i} className="bg-white rounded-2xl shadow-align-xs border border-neutral-100 overflow-hidden animate-pulse">
+              <div className="p-5 lg:p-6 border-b border-neutral-100">
+                <div className="h-5 bg-neutral-100 rounded w-44 mb-1" />
+                <div className="h-4 bg-neutral-100 rounded w-56" />
+              </div>
+              <div className="p-5 space-y-4">
+                {[1, 2, 3].map(j => (
+                  <div key={j} className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-neutral-100 rounded-full" />
+                    <div className="flex-1 space-y-1">
+                      <div className="h-4 bg-neutral-100 rounded w-32" />
+                      <div className="h-3 bg-neutral-100 rounded w-48" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      </>
+    )
+  }
+
+  const fullStars = Math.floor(avgRating)
 
   return (
     <>
@@ -51,7 +340,7 @@ export default function SellerDashboardPage() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/3 translate-x-1/3"></div>
           <div className="absolute bottom-0 left-1/2 w-40 h-40 bg-white/5 rounded-full translate-y-1/2"></div>
           <div className="relative z-10">
-            <h1 className="text-xl lg:text-2xl font-bold mb-1">EN başarılı satıcılar burada! Hoş geldiniz, Yeşil Yaprak Atölye!</h1>
+            <h1 className="text-xl lg:text-2xl font-bold mb-1">EN başarılı satıcılar burada! Hoş geldiniz, {storeName || "Mağaza"}!</h1>
             <p className="text-primary-100 text-sm lg:text-base mb-5">Bugün mağazanız EN aktif günlerinden birini yaşıyor!</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/seller-add-product" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-primary-700 font-semibold text-sm rounded-xl hover:bg-primary-25 transition-colors shadow-align-sm">
@@ -69,20 +358,15 @@ export default function SellerDashboardPage() {
 
       {/* 2. KPI Cards */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-        {/* Bugünkü Satış */}
+        {/* Toplam Gelir */}
         <div className="animate-fade-in-up stagger-1 bg-white rounded-2xl p-5 shadow-align-xs border border-neutral-100 hover:shadow-align-md transition-shadow">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
             </div>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-success-light text-success-dark text-xs font-medium rounded-full">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M7 17l5-5 5 5M7 7l5-5 5 5"/></svg>
-              %18
-            </span>
           </div>
-          <p className="text-2xl font-bold text-neutral-900">&#8378;12.450</p>
-          <p className="text-sm text-neutral-500 mt-1">Bugünkü Satış</p>
-          <p className="text-xs text-neutral-400 mt-0.5">dünden &uarr;</p>
+          <p className="text-2xl font-bold text-neutral-900">&#8378;{formatPrice(totalRevenue)}</p>
+          <p className="text-sm text-neutral-500 mt-1">Toplam Gelir</p>
         </div>
 
         {/* Toplam Sipariş */}
@@ -91,14 +375,9 @@ export default function SellerDashboardPage() {
             <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
             </div>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-success-light text-success-dark text-xs font-medium rounded-full">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M7 17l5-5 5 5M7 7l5-5 5 5"/></svg>
-              %12
-            </span>
           </div>
-          <p className="text-2xl font-bold text-neutral-900">47</p>
+          <p className="text-2xl font-bold text-neutral-900">{totalOrders}</p>
           <p className="text-sm text-neutral-500 mt-1">Toplam Sipariş</p>
-          <p className="text-xs text-neutral-400 mt-0.5">dünden &uarr;</p>
         </div>
 
         {/* Bekleyen Sipariş */}
@@ -107,11 +386,11 @@ export default function SellerDashboardPage() {
             <div className="w-10 h-10 bg-warning-light rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-warning-dark" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             </div>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-warning-light text-warning-dark text-xs font-medium rounded-full">Dikkat</span>
+            {pendingOrders > 0 && <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-warning-light text-warning-dark text-xs font-medium rounded-full">Dikkat</span>}
           </div>
-          <p className="text-2xl font-bold text-neutral-900">8</p>
+          <p className="text-2xl font-bold text-neutral-900">{pendingOrders}</p>
           <p className="text-sm text-neutral-500 mt-1">Bekleyen Sipariş</p>
-          <p className="text-xs text-warning-dark mt-0.5">Hazırlanmayı bekliyor</p>
+          {pendingOrders > 0 && <p className="text-xs text-warning-dark mt-0.5">Hazırlanmayı bekliyor</p>}
         </div>
 
         {/* Mağaza Puanı */}
@@ -120,15 +399,19 @@ export default function SellerDashboardPage() {
             <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <div className="flex gap-0.5">{[1,2,3,4].map(i => <span key={i}>{starIcon}</span>)}{starDim}</div>
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }, (_, i) => (
+                <span key={i}>{i < fullStars ? starIcon : starDim}</span>
+              ))}
+            </div>
           </div>
-          <p className="text-2xl font-bold text-neutral-900">4.8<span className="text-base font-normal text-neutral-400">/5</span></p>
+          <p className="text-2xl font-bold text-neutral-900">{avgRating > 0 ? avgRating : "—"}<span className="text-base font-normal text-neutral-400">/5</span></p>
           <p className="text-sm text-neutral-500 mt-1">Mağaza Puanı</p>
-          <p className="text-xs text-neutral-400 mt-0.5">312 değerlendirme</p>
+          <p className="text-xs text-neutral-400 mt-0.5">{reviewCount} değerlendirme</p>
         </div>
       </section>
 
-      {/* 3. Charts Section */}
+      {/* 3. Charts Section (hardcoded) */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-8">
         {/* Sales Chart */}
         <div className="animate-fade-in-up stagger-2 bg-white rounded-2xl p-6 shadow-align-xs border border-neutral-100">
@@ -137,7 +420,7 @@ export default function SellerDashboardPage() {
               <h2 className="text-base font-semibold text-neutral-900">Son 7 Gün Satış</h2>
               <p className="text-sm text-neutral-500 mt-0.5">Günlük satış performansınız</p>
             </div>
-            <span className="text-sm font-semibold text-primary-600">&#8378;58.200</span>
+            <span className="text-sm font-semibold text-primary-600">&#8378;{formatPrice(totalRevenue)}</span>
           </div>
           <div className="flex items-end justify-between gap-2 h-44">
             {chartData.map((d, i) => (
@@ -191,43 +474,52 @@ export default function SellerDashboardPage() {
             Tüm Siparişleri Gör &rarr;
           </Link>
         </div>
-        <div className="overflow-x-auto">
-          <table className="orders-table w-full">
-            <thead>
-              <tr className="bg-neutral-25 text-left">
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Sipariş No</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Müşteri</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Ürün</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tutar</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Durum</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tarih</th>
-                <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">İşlem</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-100">
-              {recentOrders.map(order => (
-                <tr key={order.id} className="hover:bg-neutral-25 transition-colors">
-                  <td data-label="Sipariş No" className="px-5 lg:px-6 py-4 text-sm font-medium text-primary-600">{order.id}</td>
-                  <td data-label="Müşteri" className="px-5 lg:px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-7 h-7 ${order.color} rounded-full flex items-center justify-center text-xs font-semibold`}>{order.initials}</div>
-                      <span className="text-sm text-neutral-800">{order.customer}</span>
-                    </div>
-                  </td>
-                  <td data-label="Ürün" className="px-5 lg:px-6 py-4 text-sm text-neutral-600">{order.product}</td>
-                  <td data-label="Tutar" className="px-5 lg:px-6 py-4 text-sm font-semibold text-neutral-900">&#8378;{order.amount}</td>
-                  <td data-label="Durum" className="px-5 lg:px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.statusClass}`}>{order.status}</span>
-                  </td>
-                  <td data-label="Tarih" className="px-5 lg:px-6 py-4 text-sm text-neutral-500">{order.date}</td>
-                  <td data-label="İşlem" className="px-5 lg:px-6 py-4">
-                    <Link href={`/seller-orders?order=${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Detay</Link>
-                  </td>
+        {recentOrders.length === 0 ? (
+          <div className="p-8 text-center text-neutral-500 text-sm">Henüz sipariş bulunmuyor.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="orders-table w-full">
+              <thead>
+                <tr className="bg-neutral-25 text-left">
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Sipariş No</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Müşteri</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Ürün</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tutar</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Durum</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tarih</th>
+                  <th className="px-5 lg:px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">İşlem</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-neutral-100">
+                {recentOrders.map((order, idx) => {
+                  const sm = statusMap[order.status] ?? { label: order.status, statusClass: "bg-neutral-100 text-neutral-600" }
+                  const initials = getInitials(order.buyer_name)
+                  const color = avatarColors[idx % avatarColors.length]
+                  return (
+                    <tr key={order.id} className="hover:bg-neutral-25 transition-colors">
+                      <td data-label="Sipariş No" className="px-5 lg:px-6 py-4 text-sm font-medium text-primary-600">#{order.id.slice(0, 8)}</td>
+                      <td data-label="Müşteri" className="px-5 lg:px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-7 h-7 ${color} rounded-full flex items-center justify-center text-xs font-semibold`}>{initials}</div>
+                          <span className="text-sm text-neutral-800">{order.buyer_name}</span>
+                        </div>
+                      </td>
+                      <td data-label="Ürün" className="px-5 lg:px-6 py-4 text-sm text-neutral-600">{order.first_product_name}</td>
+                      <td data-label="Tutar" className="px-5 lg:px-6 py-4 text-sm font-semibold text-neutral-900">&#8378;{formatPrice(order.total)}</td>
+                      <td data-label="Durum" className="px-5 lg:px-6 py-4">
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${sm.statusClass}`}>{sm.label}</span>
+                      </td>
+                      <td data-label="Tarih" className="px-5 lg:px-6 py-4 text-sm text-neutral-500">{formatDate(order.created_at)}</td>
+                      <td data-label="İşlem" className="px-5 lg:px-6 py-4">
+                        <Link href={`/seller-orders?order=${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Detay</Link>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       {/* 5. Best Sellers + Reviews */}
@@ -236,23 +528,27 @@ export default function SellerDashboardPage() {
         <div className="animate-fade-in-up stagger-4 bg-white rounded-2xl shadow-align-xs border border-neutral-100 overflow-hidden">
           <div className="p-5 lg:p-6 border-b border-neutral-100">
             <h2 className="text-base font-semibold text-neutral-900">EN Çok Satan Ürünler</h2>
-            <p className="text-sm text-neutral-500 mt-0.5">Bu ayki EN popüler ürünleriniz</p>
+            <p className="text-sm text-neutral-500 mt-0.5">EN popüler ürünleriniz</p>
           </div>
-          <div className="divide-y divide-neutral-100">
-            {topProducts.map(p => (
-              <div key={p.rank} className="flex items-center gap-4 p-4 lg:px-6 hover:bg-neutral-25 transition-colors">
-                <span className={`w-7 h-7 ${p.rankClass} rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0`}>{p.rank}</span>
-                <div className="w-11 h-11 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          {topProducts.length === 0 ? (
+            <div className="p-8 text-center text-neutral-500 text-sm">Henüz ürün bulunmuyor.</div>
+          ) : (
+            <div className="divide-y divide-neutral-100">
+              {topProducts.map((p, idx) => (
+                <div key={p.id} className="flex items-center gap-4 p-4 lg:px-6 hover:bg-neutral-25 transition-colors">
+                  <span className={`w-7 h-7 ${rankClasses[idx] ?? rankClasses[4]} rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0`}>{idx + 1}</span>
+                  <div className="w-11 h-11 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-neutral-900 truncate">{p.name}</p>
+                    <p className="text-xs text-neutral-500">{p.review_count} değerlendirme</p>
+                  </div>
+                  <span className="text-sm font-semibold text-neutral-900">&#8378;{formatPrice(p.price)}</span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-neutral-900 truncate">{p.name}</p>
-                  <p className="text-xs text-neutral-500">{p.sold}</p>
-                </div>
-                <span className="text-sm font-semibold text-neutral-900">&#8378;{p.revenue}</span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Recent Reviews */}
@@ -261,26 +557,34 @@ export default function SellerDashboardPage() {
             <h2 className="text-base font-semibold text-neutral-900">Son Değerlendirmeler</h2>
             <p className="text-sm text-neutral-500 mt-0.5">Müşterilerinizden gelen yorumlar</p>
           </div>
-          <div className="divide-y divide-neutral-100">
-            {reviews.map((r, i) => (
-              <div key={i} className="p-4 lg:px-6 hover:bg-neutral-25 transition-colors">
-                <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 ${r.color} rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0`}>{r.initials}</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-neutral-900">{r.name}</span>
-                      <span className="text-xs text-neutral-400">{r.time}</span>
+          {reviews.length === 0 ? (
+            <div className="p-8 text-center text-neutral-500 text-sm">Henüz değerlendirme bulunmuyor.</div>
+          ) : (
+            <div className="divide-y divide-neutral-100">
+              {reviews.map((r, i) => {
+                const initials = getInitials(r.user_name)
+                const color = avatarColors[i % avatarColors.length]
+                return (
+                  <div key={r.id} className="p-4 lg:px-6 hover:bg-neutral-25 transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className={`w-9 h-9 ${color} rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0`}>{initials}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-neutral-900">{r.user_name}</span>
+                          <span className="text-xs text-neutral-400">{timeAgo(r.created_at)}</span>
+                        </div>
+                        <div className="flex gap-0.5 mb-1.5">
+                          {Array.from({ length: 5 }, (_, j) => j < r.rating ? <span key={j}>{starIcon}</span> : <span key={j}><svg className="w-3.5 h-3.5 text-neutral-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>)}
+                        </div>
+                        <p className="text-sm text-neutral-600 line-clamp-2">{r.comment || "Yorum eklenmemiş."}</p>
+                        <p className="text-xs text-primary-600 mt-1.5 font-medium">{r.product_name}</p>
+                      </div>
                     </div>
-                    <div className="flex gap-0.5 mb-1.5">
-                      {Array.from({ length: 5 }, (_, j) => j < r.stars ? <span key={j}>{starIcon}</span> : <span key={j}><svg className="w-3.5 h-3.5 text-neutral-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>)}
-                    </div>
-                    <p className="text-sm text-neutral-600 line-clamp-2">{r.text}</p>
-                    <p className="text-xs text-primary-600 mt-1.5 font-medium">{r.product}</p>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       </section>
 

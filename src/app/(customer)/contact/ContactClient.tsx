@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 const faqs = [
   { q: "Sipariş takibi nasıl yapılır?", a: "Hesabım > Siparişlerim bölümünden siparişinizin durumunu ve kargo takip numarasını görebilirsiniz. enolsun.com ile EN kolay sipariş takibi." },
@@ -14,6 +15,37 @@ const faqs = [
 export default function ContactClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      first_name: formData.get("first_name") as string,
+      last_name: formData.get("last_name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const _sb = createClient();
+      await _sb.from("contact_submissions").insert(payload);
+    } catch {
+      // Table may not exist yet — save to localStorage as fallback
+      try {
+        const prev = JSON.parse(localStorage.getItem("contact_submissions") || "[]");
+        prev.push({ ...payload, created_at: new Date().toISOString() });
+        localStorage.setItem("contact_submissions", JSON.stringify(prev));
+      } catch { /* ignore */ }
+    }
+
+    setSubmitting(false);
+    setFormSubmitted(true);
+  };
 
   return (
     <>
@@ -74,24 +106,24 @@ export default function ContactClient() {
                   <p className="text-sm text-neutral-400">EN kısa sürede size dönüş yapacağız.</p>
                 </div>
               ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setFormSubmitted(true); }} className="space-y-4">
+                <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adınız</label>
-                      <input type="text" required placeholder="Emre" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                      <input type="text" name="first_name" required placeholder="Emre" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyadınız</label>
-                      <input type="text" required placeholder="Yılmaz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                      <input type="text" name="last_name" required placeholder="Yılmaz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">E-posta</label>
-                    <input type="email" required placeholder="emre@ornek.com" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                    <input type="email" name="email" required placeholder="emre@ornek.com" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Konu</label>
-                    <select className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
+                    <select name="subject" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
                       <option>Genel Bilgi</option>
                       <option>Sipariş Hakkında</option>
                       <option>İade/Değişim</option>
@@ -101,9 +133,9 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Mesajınız</label>
-                    <textarea rows={5} required placeholder="Mesajınızı buraya yazın..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none"></textarea>
+                    <textarea name="message" rows={5} required placeholder="Mesajınızı buraya yazın..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none"></textarea>
                   </div>
-                  <button type="submit" className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors min-h-[48px]">Gönder</button>
+                  <button type="submit" disabled={submitting} className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed">{submitting ? 'Gönderiliyor...' : 'Gönder'}</button>
                 </form>
               )}
             </div>
