@@ -18,7 +18,7 @@ export default function CardsPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState({ number: "", cvv: "" });
+  const [formData, setFormData] = useState({ number: "" });
 
   useEffect(() => {
     fetchCards();
@@ -74,7 +74,7 @@ export default function CardsPage() {
   }
 
   async function handleAddCard() {
-    if (!formData.number || !formData.cvv) {
+    if (!formData.number) {
       showToast("Lütfen tüm alanları doldurun.", "error");
       return;
     }
@@ -105,7 +105,7 @@ export default function CardsPage() {
       showToast("Kart eklenemedi.", "error");
     } else {
       showToast("Kart başarıyla eklendi.", "success");
-      setFormData({ number: "", cvv: "" });
+      setFormData({ number: "" });
       setShowForm(false);
       fetchCards();
     }
@@ -124,6 +124,12 @@ export default function CardsPage() {
       </div>
 
       {/* Add Card Form */}
+      {/* Security Info */}
+      <div className="flex items-start gap-3 p-4 bg-primary-25 border border-primary-100 rounded-xl">
+        <svg className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        <p className="text-xs text-primary-700">Kart bilgileriniz güvenli şekilde saklanır. Ödeme işlemleri için tam kart bilgileri ödeme sayfasında girilecektir.</p>
+      </div>
+
       {showForm && (
         <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-5 sm:p-6 animate-fade-in-up">
           <h2 className="text-base font-bold text-neutral-900 mb-5">Yeni Kart Ekle</h2>
@@ -131,10 +137,7 @@ export default function CardsPage() {
             <div>
               <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarasi</label>
               <input type="text" value={formData.number} onChange={(e) => setFormData((p) => ({ ...p, number: e.target.value }))} placeholder="0000 0000 0000 0000" maxLength={19} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all tabular-nums" />
-            </div>
-            <div className="max-w-[200px]">
-              <label className="block text-xs font-medium text-neutral-500 mb-1.5">CVV</label>
-              <input type="text" value={formData.cvv} onChange={(e) => setFormData((p) => ({ ...p, cvv: e.target.value }))} placeholder="000" maxLength={4} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+              <p className="text-xs text-neutral-400 mt-1">Sadece son 4 hane ve kart markası kaydedilir.</p>
             </div>
             <button onClick={handleAddCard} disabled={saving} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60">
               {saving ? "Kaydediliyor..." : "Kartı Kaydet"}

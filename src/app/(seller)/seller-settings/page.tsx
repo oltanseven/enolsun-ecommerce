@@ -156,8 +156,8 @@ export default function SellerSettingsPage() {
       showToast("Yeni sifreler eslesmiyor.", "error")
       return
     }
-    if (newPassword.length < 8) {
-      showToast("Sifre en az 8 karakter olmalidir.", "error")
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+      showToast("Sifre en az 8 karakter, 1 buyuk harf, 1 kucuk harf ve 1 rakam icermelidir.", "error")
       return
     }
     setSaving(true)

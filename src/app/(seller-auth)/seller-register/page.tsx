@@ -42,7 +42,7 @@ export default function SellerRegisterPage() {
         if (!form.tcKimlik || form.tcKimlik.length !== 11) { showToast("error", "Hata", "TC Kimlik 11 haneli olmalıdır."); return false }
         if (!form.phone) { showToast("error", "Hata", "Telefon numarası zorunludur."); return false }
         if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { showToast("error", "Hata", "Geçerli bir e-posta giriniz."); return false }
-        if (!form.password || form.password.length < 6) { showToast("error", "Hata", "Şifre en az 6 karakter olmalıdır."); return false }
+        if (!form.password || form.password.length < 8 || !/[A-Z]/.test(form.password) || !/[a-z]/.test(form.password) || !/\d/.test(form.password)) { showToast("error", "Hata", "Şifre en az 8 karakter, 1 büyük harf, 1 küçük harf ve 1 rakam içermelidir."); return false }
         return true
       case 2:
         if (!form.storeName) { showToast("error", "Hata", "Mağaza adı zorunludur."); return false }

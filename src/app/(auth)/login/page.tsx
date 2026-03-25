@@ -45,6 +45,11 @@ export default function LoginPage() {
       showToast('Lütfen e-posta ve şifre giriniz.', 'error')
       return
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      showToast('Geçerli bir e-posta adresi giriniz.', 'error')
+      return
+    }
 
     setLoading(true)
 
@@ -57,7 +62,7 @@ export default function LoginPage() {
 
       if (error) {
         showToast(
-          error.message === 'Invalid login credentials' ? 'E-posta veya şifre hatalı!' : error.message,
+          error.message === 'Invalid login credentials' ? 'E-posta veya şifre hatalı!' : 'Bir hata oluştu. Lütfen tekrar deneyin.',
           'error'
         )
         setLoading(false)

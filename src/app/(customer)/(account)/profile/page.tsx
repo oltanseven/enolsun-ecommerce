@@ -129,8 +129,8 @@ export default function ProfilePage() {
       showToast("Yeni şifreler eşleşmiyor.", "error");
       return;
     }
-    if (newPassword.length < 8) {
-      showToast("Yeni şifre en az 8 karakter olmalıdır.", "error");
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+      showToast("Şifre en az 8 karakter, 1 büyük harf, 1 küçük harf ve 1 rakam içermelidir.", "error");
       return;
     }
 

@@ -62,7 +62,7 @@ export default function RegisterPage() {
 
   // Step progress
   const step1Done = !!(fullName && email && phone)
-  const step2Done = !!(password.length >= 6 && confirmPassword === password && confirmPassword)
+  const step2Done = !!(password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && confirmPassword === password && confirmPassword)
   const step3Done = terms
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -72,8 +72,14 @@ export default function RegisterPage() {
       showToast('Lütfen tüm zorunlu alanları doldurun.', 'error')
       return
     }
-    if (password.length < 6) {
-      showToast('Şifre en az 6 karakter olmalıdır.', 'error')
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      showToast('Geçerli bir e-posta adresi giriniz.', 'error')
+      return
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+    if (!passwordRegex.test(password)) {
+      showToast('Şifre en az 8 karakter, 1 büyük harf, 1 küçük harf ve 1 rakam içermelidir.', 'error')
       return
     }
     if (password !== confirmPassword) {
@@ -101,7 +107,11 @@ export default function RegisterPage() {
       })
 
       if (error) {
-        showToast(error.message, 'error')
+        if (error.message === 'User already registered') {
+          showToast('Bu e-posta adresi zaten kayıtlı.', 'error')
+        } else {
+          showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error')
+        }
         setLoading(false)
         return
       }

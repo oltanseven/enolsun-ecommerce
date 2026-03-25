@@ -40,6 +40,7 @@ export default function ContactClient() {
       try {
         const prev = JSON.parse(localStorage.getItem("contact_submissions") || "[]");
         prev.push({ ...payload, created_at: new Date().toISOString() });
+        while (prev.length > 10) prev.shift();
         localStorage.setItem("contact_submissions", JSON.stringify(prev));
       } catch { /* ignore */ }
     }
