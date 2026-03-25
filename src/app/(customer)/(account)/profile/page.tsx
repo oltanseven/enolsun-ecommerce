@@ -29,7 +29,15 @@ const emptyAddressForm = {
 };
 
 export default function ProfilePage() {
-  const [notifications, setNotifications] = useState({ email: true, sms: false, push: true });
+  const [notifications, setNotifications] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("enolsun_notification_prefs");
+        if (stored) return JSON.parse(stored) as { email: boolean; sms: boolean; push: boolean };
+      } catch { /* ignore */ }
+    }
+    return { email: true, sms: false, push: true };
+  });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -472,7 +480,14 @@ export default function ProfilePage() {
                 <p className="text-sm font-medium text-neutral-800">{n.label}</p>
                 <p className="text-xs text-neutral-400">{n.desc}</p>
               </div>
-              <button onClick={() => setNotifications((prev) => ({ ...prev, [n.key]: !prev[n.key] }))} className={`relative w-11 h-6 rounded-full transition-colors ${notifications[n.key] ? "bg-primary-500" : "bg-neutral-200"}`}>
+              <button onClick={() => {
+                setNotifications((prev) => {
+                  const updated = { ...prev, [n.key]: !prev[n.key] };
+                  try { localStorage.setItem("enolsun_notification_prefs", JSON.stringify(updated)); } catch { /* ignore */ }
+                  return updated;
+                });
+                showToast("Kaydedildi", "success");
+              }} className={`relative w-11 h-6 rounded-full transition-colors ${notifications[n.key] ? "bg-primary-500" : "bg-neutral-200"}`}>
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${notifications[n.key] ? "translate-x-5" : "translate-x-0"}`}></span>
               </button>
             </div>

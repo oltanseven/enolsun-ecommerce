@@ -1,9 +1,52 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+
+interface ChatMessage {
+  id: number
+  text: string
+  sender: 'user' | 'bot'
+  timestamp: Date
+}
+
+const INITIAL_MESSAGES: ChatMessage[] = [
+  { id: 1, text: 'Merhaba! Size nasil yardimci olabilirim?', sender: 'bot', timestamp: new Date() },
+  { id: 2, text: 'Siparis takibi, urun onerileri veya kampanya bilgileri icin bana yazabilirsiniz.', sender: 'bot', timestamp: new Date() },
+]
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
+  const [inputText, setInputText] = useState('')
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  function handleSend() {
+    const text = inputText.trim()
+    if (!text) return
+
+    const userMsg: ChatMessage = {
+      id: Date.now(),
+      text,
+      sender: 'user',
+      timestamp: new Date(),
+    }
+    setMessages((prev) => [...prev, userMsg])
+    setInputText('')
+
+    setTimeout(() => {
+      const botMsg: ChatMessage = {
+        id: Date.now() + 1,
+        text: 'Teşekkürler! Ekibimiz en kısa sürede size dönüş yapacak.',
+        sender: 'bot',
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, botMsg])
+    }, 800)
+  }
 
   return (
     <>
@@ -33,22 +76,25 @@ export default function ChatWidget() {
 
         {/* Chat Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          <div className="flex items-start gap-2.5">
-            <div className="w-7 h-7 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-              <svg className="w-3.5 h-3.5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-            </div>
-            <div className="bg-neutral-50 rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%]">
-              <p className="text-sm text-neutral-700">Merhaba! Size nasil yardimci olabilirim?</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-2.5">
-            <div className="w-7 h-7 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-              <svg className="w-3.5 h-3.5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-            </div>
-            <div className="bg-neutral-50 rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%]">
-              <p className="text-sm text-neutral-700">Siparis takibi, urun onerileri veya kampanya bilgileri icin bana yazabilirsiniz.</p>
-            </div>
-          </div>
+          {messages.map((msg) =>
+            msg.sender === 'bot' ? (
+              <div key={msg.id} className="flex items-start gap-2.5">
+                <div className="w-7 h-7 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
+                  <svg className="w-3.5 h-3.5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+                </div>
+                <div className="bg-neutral-50 rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%]">
+                  <p className="text-sm text-neutral-700">{msg.text}</p>
+                </div>
+              </div>
+            ) : (
+              <div key={msg.id} className="flex items-start gap-2.5 justify-end">
+                <div className="bg-primary-500 text-white rounded-2xl rounded-tr-md px-4 py-2.5 max-w-[85%]">
+                  <p className="text-sm">{msg.text}</p>
+                </div>
+              </div>
+            )
+          )}
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Area */}
@@ -57,9 +103,12 @@ export default function ChatWidget() {
             <input
               type="text"
               placeholder="Mesajinizi yazin..."
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               className="flex-1 px-3.5 py-2.5 bg-neutral-50 border border-neutral-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all min-h-[44px]"
             />
-            <button aria-label="Canli destek" className="p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-colors shrink-0 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center">
+            <button aria-label="Canli destek" onClick={handleSend} className="p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-colors shrink-0 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
             </button>
           </div>

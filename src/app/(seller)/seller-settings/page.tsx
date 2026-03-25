@@ -1,12 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { showToast } from "@/components/ui/Toast"
 
 const _sb = createClient()
 
 export default function SellerSettingsPage() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("store")
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -42,6 +44,28 @@ export default function SellerSettingsPage() {
   useEffect(() => {
     document.title = "Magaza Ayarlari | enolsun.com Satici Merkezi"
     loadStore()
+    // Load notification prefs from localStorage
+    try {
+      const notifPrefs = localStorage.getItem("seller_notif_prefs")
+      if (notifPrefs) {
+        const p = JSON.parse(notifPrefs)
+        if (p.newOrder !== undefined) setNotifNewOrder(p.newOrder)
+        if (p.message !== undefined) setNotifMessage(p.message)
+        if (p.review !== undefined) setNotifReview(p.review)
+        if (p.stock !== undefined) setNotifStock(p.stock)
+        if (p.email !== undefined) setNotifEmail(p.email)
+        if (p.sms !== undefined) setNotifSms(p.sms)
+      }
+      const tfa = localStorage.getItem("seller_2fa")
+      if (tfa !== null) setTwoFactor(tfa === "true")
+      const shipPrefs = localStorage.getItem("seller_shipping_prefs")
+      if (shipPrefs) {
+        const s = JSON.parse(shipPrefs)
+        if (s.freeShipMin) setFreeShipMin(s.freeShipMin)
+        if (s.defaultCargo) setDefaultCargo(s.defaultCargo)
+        if (s.processTime) setProcessTime(s.processTime)
+      }
+    } catch {}
   }, [])
 
   async function loadStore() {
@@ -88,6 +112,77 @@ export default function SellerSettingsPage() {
       showToast("Magaza ayarlari basariyla kaydedildi.", "success")
     }
     setSaving(false)
+  }
+
+  function saveShippingSettings() {
+    setSaving(true)
+    try {
+      localStorage.setItem("seller_shipping_prefs", JSON.stringify({
+        freeShipMin,
+        defaultCargo,
+        processTime,
+      }))
+      showToast("Kargo ayarlari kaydedildi.", "success")
+    } catch {
+      showToast("Kargo ayarlari kaydedilemedi.", "error")
+    }
+    setSaving(false)
+  }
+
+  function saveNotificationSettings() {
+    setSaving(true)
+    try {
+      localStorage.setItem("seller_notif_prefs", JSON.stringify({
+        newOrder: notifNewOrder,
+        message: notifMessage,
+        review: notifReview,
+        stock: notifStock,
+        email: notifEmail,
+        sms: notifSms,
+      }))
+      showToast("Bildirim tercihleri kaydedildi.", "success")
+    } catch {
+      showToast("Bildirim tercihleri kaydedilemedi.", "error")
+    }
+    setSaving(false)
+  }
+
+  async function handlePasswordChange() {
+    if (!newPassword || !confirmPassword) {
+      showToast("Lutfen tum alanlari doldurun.", "error")
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      showToast("Yeni sifreler eslesmiyor.", "error")
+      return
+    }
+    if (newPassword.length < 8) {
+      showToast("Sifre en az 8 karakter olmalidir.", "error")
+      return
+    }
+    setSaving(true)
+    const { error } = await _sb.auth.updateUser({ password: newPassword })
+    if (error) {
+      showToast("Sifre guncellenemedi: " + error.message, "error")
+    } else {
+      showToast("Sifreniz basariyla guncellendi.", "success")
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+    }
+    setSaving(false)
+  }
+
+  function handleTwoFactorToggle(val: boolean) {
+    setTwoFactor(val)
+    localStorage.setItem("seller_2fa", String(val))
+    showToast(val ? "Iki faktorlu dogrulama etkinlestirildi." : "Iki faktorlu dogrulama devre disi birakildi.", "success")
+  }
+
+  async function handleSignOutSession() {
+    showToast("Oturum sonlandiriliyor...", "info")
+    await _sb.auth.signOut()
+    router.push("/seller-login")
   }
 
   const tabs = [
@@ -224,7 +319,9 @@ export default function SellerSettingsPage() {
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all">Kaydet</button>
+            <button onClick={saveShippingSettings} disabled={saving} className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all disabled:opacity-50">
+              {saving ? "Kaydediliyor..." : "Kaydet"}
+            </button>
           </div>
         </div>
       )}
@@ -265,7 +362,9 @@ export default function SellerSettingsPage() {
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all">Kaydet</button>
+            <button onClick={saveNotificationSettings} disabled={saving} className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all disabled:opacity-50">
+              {saving ? "Kaydediliyor..." : "Kaydet"}
+            </button>
           </div>
         </div>
       )}
@@ -288,7 +387,9 @@ export default function SellerSettingsPage() {
                 <label className="block text-sm font-medium text-neutral-700">Yeni Sifre (Tekrar)</label>
                 <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Yeni sifrenizi tekrarlayin" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
               </div>
-              <button className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all">Sifreyi Guncelle</button>
+              <button onClick={handlePasswordChange} disabled={saving} className="px-6 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all disabled:opacity-50">
+                {saving ? "Guncelleniyor..." : "Sifreyi Guncelle"}
+              </button>
             </div>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-align-xs border border-neutral-100">
@@ -297,7 +398,7 @@ export default function SellerSettingsPage() {
                 <h2 className="text-base font-semibold text-neutral-900">Iki Faktorlu Dogrulama</h2>
                 <p className="text-sm text-neutral-500 mt-0.5">Hesabinizi ek bir guvenlik katmani ile koruyun</p>
               </div>
-              <ToggleSwitch checked={twoFactor} onChange={setTwoFactor} />
+              <ToggleSwitch checked={twoFactor} onChange={handleTwoFactorToggle} />
             </div>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-align-xs border border-neutral-100">
@@ -325,7 +426,7 @@ export default function SellerSettingsPage() {
                     <p className="text-xs text-neutral-500">Istanbul, TR - 2 saat once</p>
                   </div>
                 </div>
-                <button className="text-xs text-error-base font-medium hover:text-error-dark transition-colors">Sonlandir</button>
+                <button onClick={handleSignOutSession} className="text-xs text-error-base font-medium hover:text-error-dark transition-colors">Sonlandir</button>
               </div>
             </div>
           </div>
