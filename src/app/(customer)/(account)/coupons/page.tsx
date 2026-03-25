@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 
-const tabs = ["Aktif", "Kullanilmis", "Suresi Dolmus"];
+const tabs = ["Aktif", "Kullanılmış", "Süresi Dolmuş"];
 
 const coupons = [
-  { code: "HOSGELDIN", discount: "%10 Indirim", minOrder: "100 TL", expires: "31 Mart 2024", status: "Aktif", description: "Ilk siparise ozel" },
-  { code: "BAHAR2024", discount: "50 TL Indirim", minOrder: "300 TL", expires: "15 Nisan 2024", status: "Aktif", description: "Bahar kampanyasi" },
-  { code: "UCRETSIZ", discount: "Ucretsiz Kargo", minOrder: "0 TL", expires: "30 Mart 2024", status: "Aktif", description: "Tum siparislerde" },
-  { code: "YAZ2024", discount: "%15 Indirim", minOrder: "200 TL", expires: "1 Mart 2024", status: "Kullanilmis", description: "Yaz indirimi" },
-  { code: "KIS2023", discount: "75 TL Indirim", minOrder: "500 TL", expires: "31 Aralik 2023", status: "Suresi Dolmus", description: "Kis kampanyasi" },
+  { code: "HOSGELDIN", discount: "%10 İndirim", minOrder: "100 TL", expires: "31 Mart 2024", status: "Aktif", description: "EN özel hoş geldin fırsatı" },
+  { code: "BAHAR2024", discount: "50 TL İndirim", minOrder: "300 TL", expires: "15 Nisan 2024", status: "Aktif", description: "EN güzel bahar kampanyası" },
+  { code: "UCRETSIZ", discount: "Ücretsiz Kargo", minOrder: "0 TL", expires: "30 Mart 2024", status: "Aktif", description: "Tüm siparişlerde EN hızlı teslimat" },
+  { code: "YAZ2024", discount: "%15 İndirim", minOrder: "200 TL", expires: "1 Mart 2024", status: "Kullanılmış", description: "EN iyi yaz indirimi" },
+  { code: "KIS2023", discount: "75 TL İndirim", minOrder: "500 TL", expires: "31 Aralık 2023", status: "Süresi Dolmuş", description: "EN sıcak kış kampanyası" },
 ];
 
 export default function CouponsPage() {
@@ -26,8 +26,11 @@ export default function CouponsPage() {
   };
 
   return (
+    <>
+    <title>Kuponlarım | enolsun.com — EN İyi Fırsatlar</title>
+    <meta name="description" content="enolsun.com kuponlarınız. EN iyi fırsatları ve EN özel indirim kodlarını kullanarak alışverişte EN çok tasarruf edin." />
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Kuponlarim</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Kuponlarım</h1>
 
       {/* Coupon Input */}
       <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-4 sm:p-5">
@@ -49,7 +52,7 @@ export default function CouponsPage() {
       <div className="space-y-3">
         {filtered.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-sm text-neutral-400">Bu kategoride kupon bulunmuyor.</p>
+            <p className="text-sm text-neutral-400">Bu kategoride kupon bulunmuyor. EN iyi fırsatlar için takipte kalın!</p>
           </div>
         ) : (
           filtered.map((coupon, i) => (
@@ -71,7 +74,7 @@ export default function CouponsPage() {
                 <div className="px-4 py-2 bg-neutral-50 border border-dashed border-neutral-300 rounded-lg text-sm font-mono font-bold text-neutral-700 tracking-wider">{coupon.code}</div>
                 {coupon.status === "Aktif" && (
                   <button onClick={() => copyCode(coupon.code)} className="px-3 py-2 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors min-h-[40px]">
-                    {copiedCode === coupon.code ? "Kopyalandi!" : "Kopyala"}
+                    {copiedCode === coupon.code ? "Kopyalandı!" : "Kopyala"}
                   </button>
                 )}
               </div>
@@ -80,5 +83,6 @@ export default function CouponsPage() {
         )}
       </div>
     </div>
+    </>
   );
 }

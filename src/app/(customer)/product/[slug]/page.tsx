@@ -12,8 +12,8 @@ const SmallStar = ({ filled = true }: { filled?: boolean }) => (
 )
 
 const productColors = [
-  { name: 'Dogal', bg: 'bg-amber-600', selected: true },
-  { name: 'Koyu Yesil', bg: 'bg-primary-700' },
+  { name: 'Doğal', bg: 'bg-amber-600', selected: true },
+  { name: 'Koyu Yeşil', bg: 'bg-primary-700' },
   { name: 'Beyaz', bg: 'bg-white border-neutral-200' },
   { name: 'Siyah', bg: 'bg-neutral-900' },
 ]
@@ -35,18 +35,18 @@ const similarProducts = [
 ]
 
 const reviews = [
-  { name: 'Ayse Y.', initials: 'AY', rating: 5, date: '2 hafta once', text: 'Muhtesem bir urun! Kalitesi cok iyi ve eve cok yakisti. Kesinlikle tavsiye ederim.', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
-  { name: 'Mehmet K.', initials: 'MK', rating: 5, date: '1 ay once', text: 'Bekledigimden cok daha guzel cikti. Paketleme de cok ozenli yapilmis. Tesekkurler!', bgColor: 'bg-primary-200', textColor: 'text-primary-800' },
-  { name: 'Zeynep D.', initials: 'ZD', rating: 4, date: '1 ay once', text: 'Guzel urun, sadece rengi fotograftan biraz farkli. Ama yine de cok begendim.', bgColor: 'bg-primary-300', textColor: 'text-white' },
+  { name: 'Ayşe Y.', initials: 'AY', rating: 5, date: '2 hafta önce', text: 'EN iyi kalitede bir ürün! Tasarımı muhteşem ve eve çok yakıştı. Kesinlikle tavsiye ederim.', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
+  { name: 'Mehmet K.', initials: 'MK', rating: 5, date: '1 ay önce', text: 'Beklediğimden çok daha güzel çıktı. EN özenli paketleme, EN hızlı kargo. Teşekkürler!', bgColor: 'bg-primary-200', textColor: 'text-primary-800' },
+  { name: 'Zeynep D.', initials: 'ZD', rating: 4, date: '1 ay önce', text: 'Güzel ürün, EN doğal malzeme hissiyatı. Rengi fotoğraftan biraz farklı ama yine de çok beğendim.', bgColor: 'bg-primary-300', textColor: 'text-white' },
 ]
 
 const specs = [
   { label: 'Malzeme', value: '%100 Organik Bambu' },
   { label: 'Boyutlar', value: '25cm x 15cm x 15cm' },
-  { label: 'Agirlik', value: '850g' },
-  { label: 'Renk Secenekleri', value: 'Dogal, Koyu Yesil, Beyaz, Siyah' },
-  { label: 'Mensei', value: 'Turkiye' },
-  { label: 'Garanti', value: '2 Yil' },
+  { label: 'Ağırlık', value: '850g' },
+  { label: 'Renk Seçenekleri', value: 'Doğal, Koyu Yeşil, Beyaz, Siyah' },
+  { label: 'Menşei', value: 'Türkiye' },
+  { label: 'Garanti', value: '2 Yıl' },
 ]
 
 export default function ProductDetailPage() {
@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
           <nav aria-label="Sayfa yolu" className="flex items-center gap-2 text-sm text-neutral-400 overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
             <Link href="/" className="hover:text-primary-500 transition-colors flex-shrink-0">Ana Sayfa</Link>
             <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-            <Link href="/products" className="hover:text-primary-500 transition-colors flex-shrink-0">Urunler</Link>
+            <Link href="/products" className="hover:text-primary-500 transition-colors flex-shrink-0">Ürünler</Link>
             <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
             <span className="text-neutral-700 font-medium flex-shrink-0">{productName}</span>
           </nav>
@@ -99,15 +99,15 @@ export default function ProductDetailPage() {
             <div className="space-y-6">
               {/* Title & Rating */}
               <div>
-                <p className="text-sm text-primary-600 font-medium mb-1">Ev & Yasam</p>
+                <p className="text-sm text-primary-600 font-medium mb-1">Ev & Yaşam</p>
                 <h1 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-3">{productName}</h1>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <div className="flex">{[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < 5} size="md" />)}</div>
                     <span className="text-sm font-medium text-neutral-700 ml-1">4.9</span>
                   </div>
-                  <span className="text-sm text-neutral-400">(128 degerlendirme)</span>
-                  <span className="text-sm text-primary-600 font-medium">2.4k satis</span>
+                  <span className="text-sm text-neutral-400">(128 değerlendirme)</span>
+                  <span className="text-sm text-primary-600 font-medium">2.4k satış</span>
                 </div>
               </div>
 
@@ -115,12 +115,12 @@ export default function ProductDetailPage() {
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl md:text-4xl font-bold text-primary-600">&#8378;249</span>
                 <span className="text-lg text-neutral-300 line-through">&#8378;329</span>
-                <span className="px-2 py-0.5 bg-error-light text-error-dark text-xs font-semibold rounded-lg">%24 Indirim</span>
+                <span className="px-2 py-0.5 bg-error-light text-error-dark text-xs font-semibold rounded-lg">%24 İndirim</span>
               </div>
 
               {/* Description */}
               <p className="text-sm text-neutral-500 leading-relaxed">
-                El yapimi, %100 surdurulebilir bambudan uretilmis organik saksi seti. Evinize dogal bir dokunush katar. 3 farkli boyutta saksi iceren set, her ortama uyum saglar.
+                El yapımı, %100 sürdürülebilir bambudan üretilmiş EN doğal saksı seti. Evinize EN şık dokunuşu katar. 3 farklı boyutta saksı içeren set, her ortama EN iyi uyumu sağlar.
               </p>
 
               {/* Color Selection */}
@@ -171,9 +171,9 @@ export default function ProductDetailPage() {
               {/* Trust Badges */}
               <div className="grid grid-cols-3 gap-3 pt-2">
                 {[
-                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008v.008h-.008v-.008zm0 0L5.25 6.75h13.5l1.875 7.5"/></svg>, text: 'Ucretsiz Kargo' },
-                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>, text: 'Guvenli Odeme' },
-                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>, text: '14 Gun Iade' },
+                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008v.008h-.008v-.008zm0 0L5.25 6.75h13.5l1.875 7.5"/></svg>, text: 'EN Hızlı Kargo' },
+                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>, text: 'EN Güvenli Ödeme' },
+                  { icon: <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>, text: 'EN Kolay İade' },
                 ].map((badge) => (
                   <div key={badge.text} className="flex flex-col items-center gap-1.5 p-3 bg-neutral-50 rounded-xl text-center">
                     {badge.icon}
@@ -188,9 +188,9 @@ export default function ProductDetailPage() {
           <div className="mt-12 md:mt-16">
             <div className="flex items-center gap-1 bg-neutral-50 rounded-xl p-1 mb-8 max-w-md">
               {[
-                { key: 'description' as const, label: 'Aciklama' },
-                { key: 'specs' as const, label: 'Ozellikler' },
-                { key: 'reviews' as const, label: 'Yorumlar' },
+                { key: 'description' as const, label: 'Açıklama' },
+                { key: 'specs' as const, label: 'Özellikler' },
+                { key: 'reviews' as const, label: 'Değerlendirmeler' },
               ].map((tab) => (
                 <button key={tab.key} onClick={() => setActiveTab(tab.key)} className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${activeTab === tab.key ? 'bg-white text-neutral-800 shadow-align-xs' : 'text-neutral-400 hover:text-neutral-600'}`}>{tab.label}</button>
               ))}
@@ -199,14 +199,14 @@ export default function ProductDetailPage() {
             {/* Tab Content */}
             {activeTab === 'description' && (
               <div className="prose prose-sm max-w-none text-neutral-600 leading-relaxed space-y-4">
-                <p>Organik Bambu Saksi Seti, %100 surdurulebilir bambudan el yapimi olarak uretilmistir. Her set, uc farkli boyutta saksiden olusmaktadir ve evinizin her kosesine dogal bir dokunush katmak icin tasarlanmistir.</p>
-                <p>Bambu, dogada en hizli buyuyen bitkilerden biridir ve hasat edildikten sonra yeniden yetisir. Bu sayede cevre uzerinde minimum etki birakir. Urunlerimiz hicbir kimyasal islem gormeden, dogal haliyle islenerek sizlere sunulmaktadir.</p>
+                <p>Organik Bambu Saksı Seti, %100 sürdürülebilir bambudan el yapımı olarak üretilmiştir. Her set, üç farklı boyutta saksıden oluşmaktadır ve evinizin her köşesine EN doğal dokunuşu katmak için tasarlanmıştır.</p>
+                <p>Bambu, doğada EN hızlı büyüyen bitkilerden biridir ve hasat edildikten sonra yeniden yetişir. Bu sayede çevre üzerinde EN düşük etkiyi bırakır. Ürünlerimiz hiçbir kimyasal işlem görmeden, doğal haliyle işlenerek sizlere sunulmaktadır.</p>
                 <ul className="list-disc pl-5 space-y-2">
-                  <li>%100 organik ve surdurulebilir bambu</li>
-                  <li>El yapimi, her biri benzersiz</li>
-                  <li>3 farkli boyut (kucuk, orta, buyuk)</li>
-                  <li>Ic mekan ve dis mekan kullanima uygun</li>
-                  <li>Kolay bakim ve temizlik</li>
+                  <li>%100 organik ve sürdürülebilir bambu</li>
+                  <li>El yapımı, her biri benzersiz</li>
+                  <li>3 farklı boyut (küçük, orta, büyük)</li>
+                  <li>İç mekân ve dış mekân kullanıma uygun</li>
+                  <li>EN kolay bakım ve temizlik</li>
                 </ul>
               </div>
             )}
@@ -231,7 +231,7 @@ export default function ProductDetailPage() {
                   <div className="text-center">
                     <div className="text-4xl font-bold text-neutral-900">4.9</div>
                     <div className="flex mt-1">{[...Array(5)].map((_, i) => <StarIcon key={i} />)}</div>
-                    <p className="text-xs text-neutral-400 mt-1">128 degerlendirme</p>
+                    <p className="text-xs text-neutral-400 mt-1">128 değerlendirme</p>
                   </div>
                   <div className="flex-1 space-y-1.5">
                     {[5, 4, 3, 2, 1].map((star) => (
@@ -271,8 +271,8 @@ export default function ProductDetailPage() {
           {/* SIMILAR PRODUCTS */}
           <section className="mt-12 md:mt-16">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl md:text-2xl font-bold text-neutral-900">Benzer Urunler</h2>
-              <Link href="/products" className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Tumunu Gor</Link>
+              <h2 className="text-xl md:text-2xl font-bold text-neutral-900">Benzer Ürünler</h2>
+              <Link href="/products" className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Tümünü Gör</Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {similarProducts.map((product) => (

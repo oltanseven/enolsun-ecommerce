@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Kargo Bilgileri - enolsun.com | En Hizli Teslimat",
+  title: "Kargo Bilgileri | enolsun.com — EN Hızlı Teslimat",
   description:
-    "enolsun.com kargo ve teslimat bilgileri. Kargo ucretleri, teslimat sureleri ve siparis takibi hakkinda detayli bilgi.",
-  keywords: "kargo bilgileri, teslimat, kargo takip, ucretsiz kargo, enolsun",
+    "enolsun.com kargo ve teslimat bilgileri. EN hızlı kargo, EN güvenli teslimat. Kargo ücretleri ve sipariş takibi.",
+  keywords: "kargo bilgileri, teslimat, kargo takip, ücretsiz kargo, enolsun, hızlı teslimat",
   openGraph: {
-    title: "Kargo Bilgileri - enolsun.com",
-    description: "enolsun.com kargo ve teslimat bilgileri.",
+    title: "Kargo Bilgileri | enolsun.com — EN Hızlı Teslimat",
+    description: "EN hızlı kargo, EN güvenli teslimat. enolsun.com kargo bilgileri.",
     type: "website",
   },
 };
@@ -16,57 +16,57 @@ export const metadata: Metadata = {
 const shippingMethods = [
   {
     name: "Standart Kargo",
-    duration: "3-5 Is Gunu",
-    price: "Ucretsiz (150 TL+)",
-    priceBelow: "19.90 TL",
-    description: "150 TL ve uzeri siparislerde ucretsiz. En ekonomik seceneg.",
+    duration: "3-5 İş Günü",
+    price: "Ücretsiz (150 TL+)",
+    priceBelow: "19,90 TL",
+    description: "150 TL ve üzeri siparişlerde ücretsiz. EN ekonomik seçenek.",
     highlight: true,
   },
   {
-    name: "Hizli Kargo",
-    duration: "1-2 Is Gunu",
-    price: "29.90 TL",
+    name: "Hızlı Kargo",
+    duration: "1-2 İş Günü",
+    price: "29,90 TL",
     priceBelow: null,
-    description: "Acil ihtiyaclariniz icin en hizli teslimat.",
+    description: "Acil ihtiyaçlarınız için EN hızlı teslimat seçeneği.",
     highlight: false,
   },
   {
-    name: "Ayni Gun Teslimat",
-    duration: "Ayni Gun",
-    price: "49.90 TL",
+    name: "Aynı Gün Teslimat",
+    duration: "Aynı Gün",
+    price: "49,90 TL",
     priceBelow: null,
-    description: "Istanbul ici siparisler icin ayni gun teslimat. 14:00'a kadar verilen siparisler gecerlidir.",
+    description: "İstanbul içi siparişler için aynı gün teslimat. 14:00'a kadar verilen siparişler geçerlidir.",
     highlight: false,
   },
 ];
 
 const carriers = [
-  { name: "Yurtici Kargo", coverage: "Turkiye Geneli" },
-  { name: "Aras Kargo", coverage: "Turkiye Geneli" },
-  { name: "MNG Kargo", coverage: "Turkiye Geneli" },
-  { name: "Surat Kargo", coverage: "Istanbul & Buyuksehirler" },
+  { name: "Yurtiçi Kargo", coverage: "Türkiye Geneli" },
+  { name: "Aras Kargo", coverage: "Türkiye Geneli" },
+  { name: "MNG Kargo", coverage: "Türkiye Geneli" },
+  { name: "Sürat Kargo", coverage: "İstanbul & Büyükşehirler" },
 ];
 
 const trackingSteps = [
   {
     step: "1",
-    title: "Siparis Onaylandi",
-    description: "Siparisiniz alindi ve hazirlaniyor.",
+    title: "Sipariş Onaylandı",
+    description: "Siparişiniz alındı ve EN özenli şekilde hazırlanıyor.",
   },
   {
     step: "2",
     title: "Kargoya Verildi",
-    description: "Paketiniz kargo firmasina teslim edildi. Takip numaraniz SMS ve e-posta ile gonderildi.",
+    description: "Paketiniz kargo firmasına teslim edildi. Takip numaranız SMS ve e-posta ile gönderildi.",
   },
   {
     step: "3",
-    title: "Dagitimda",
-    description: "Paketiniz dagitim surecinde. Kurye yolda!",
+    title: "Dağıtımda",
+    description: "Paketiniz dağıtım sürecinde. Kurye yolda!",
   },
   {
     step: "4",
     title: "Teslim Edildi",
-    description: "Paketiniz basariyla teslim edildi.",
+    description: "Paketiniz başarıyla teslim edildi. İyi alışverişler!",
   },
 ];
 
@@ -80,7 +80,7 @@ export default function ShippingInfoPage() {
             Kargo <span className="text-primary-500">Bilgileri</span>
           </h1>
           <p className="text-lg text-neutral-500 max-w-2xl mx-auto">
-            En hizli ve en guvenli sekilde kapiiniza kadar. Kargo secenekleri ve teslimat detaylari.
+            EN hızlı kargo, EN güvenli teslimat. Siparişiniz EN kısa sürede kapınızda.
           </p>
         </div>
       </section>
@@ -89,7 +89,7 @@ export default function ShippingInfoPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">
-            Kargo Secenekleri
+            Kargo Seçenekleri
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {shippingMethods.map((method) => (
@@ -103,7 +103,7 @@ export default function ShippingInfoPage() {
               >
                 {method.highlight && (
                   <span className="inline-block px-3 py-1 bg-white/20 text-white text-xs font-medium rounded-full mb-4">
-                    En Populer
+                    EN Popüler
                   </span>
                 )}
                 <h3
@@ -122,7 +122,7 @@ export default function ShippingInfoPage() {
                 </div>
                 {method.priceBelow && (
                   <div className={`text-sm mb-3 ${method.highlight ? "text-primary-100" : "text-neutral-400"}`}>
-                    150 TL alti: {method.priceBelow}
+                    150 TL altı: {method.priceBelow}
                   </div>
                 )}
                 <div
@@ -150,13 +150,13 @@ export default function ShippingInfoPage() {
             <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
             </svg>
-            <h2 className="text-2xl font-bold text-primary-700">Ucretsiz Kargo</h2>
+            <h2 className="text-2xl font-bold text-primary-700">Ücretsiz Kargo</h2>
           </div>
           <p className="text-primary-600 text-lg mb-2">
-            <span className="font-bold">150 TL</span> ve uzeri tum siparislerinizde kargo ucretsiz!
+            <span className="font-bold">150 TL</span> ve üzeri tüm siparişlerinizde kargo ücretsiz!
           </p>
           <p className="text-primary-500 text-sm">
-            Turkiye&apos;nin her yerine, en hizli sekilde.
+            Türkiye&apos;nin her yerine, EN hızlı şekilde.
           </p>
         </div>
       </section>
@@ -165,7 +165,7 @@ export default function ShippingInfoPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">
-            Siparis Takibi
+            Sipariş Takibi
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {trackingSteps.map((step, i) => (
@@ -183,14 +183,14 @@ export default function ShippingInfoPage() {
           </div>
           <div className="mt-10 bg-neutral-25 rounded-2xl p-6 text-center">
             <p className="text-neutral-600 mb-2">
-              Kargo takip numaranizi siparisleriniz sayfasindan veya e-posta bildiriminden bulabilirsiniz.
+              Kargo takip numaranızı siparişleriniz sayfasından veya e-posta bildiriminden bulabilirsiniz.
             </p>
             <p className="text-neutral-500 text-sm">
-              Herhangi bir sorun icin{" "}
+              Herhangi bir sorun için{" "}
               <Link href="/contact" className="text-primary-500 font-medium hover:text-primary-600">
-                musteri hizmetlerimizle
+                müşteri hizmetlerimizle
               </Link>{" "}
-              iletisime gecebilirsiniz.
+              iletişime geçebilirsiniz.
             </p>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function ShippingInfoPage() {
       <section className="py-16 bg-neutral-25">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">
-            Kargo Is Ortaklarimiz
+            Kargo İş Ortaklarımız
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {carriers.map((carrier) => (
@@ -225,18 +225,18 @@ export default function ShippingInfoPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-4">
-            Teslimat Bolgeleri
+            Teslimat Bölgeleri
           </h2>
           <p className="text-neutral-500 mb-8">
-            Turkiye&apos;nin 81 iline teslimat yapiyoruz. Ayni gun teslimat su an Istanbul icin gecerlidir.
+            Türkiye&apos;nin 81 iline teslimat yapıyoruz. Aynı gün teslimat şu an İstanbul için geçerlidir.
           </p>
           <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-12 flex items-center justify-center min-h-[200px]">
             <div>
               <svg className="w-16 h-16 text-primary-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
               </svg>
-              <p className="text-primary-600 font-medium">Turkiye Geneli Teslimat Haritasi</p>
-              <p className="text-primary-500 text-sm mt-1">81 il, 957 ilce</p>
+              <p className="text-primary-600 font-medium">Türkiye Geneli Teslimat Haritası</p>
+              <p className="text-primary-500 text-sm mt-1">81 il, 957 ilçe</p>
             </div>
           </div>
         </div>

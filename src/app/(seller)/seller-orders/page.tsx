@@ -1,29 +1,31 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
 
 const ordersData = [
-  { id: "#ENS-20261201", customer: "Ayse Yilmaz", initials: "AY", color: "bg-blue-100 text-blue-700", products: ["🌿","🍃"], extra: "+1", amount: "1.249,90", status: "Yeni", statusClass: "bg-yellow-50 text-yellow-700 border-yellow-200", cargo: "—", date: "23 Mar 2026" },
+  { id: "#ENS-20261201", customer: "Ayşe Yılmaz", initials: "AY", color: "bg-blue-100 text-blue-700", products: ["🌿","🍃"], extra: "+1", amount: "1.249,90", status: "Yeni", statusClass: "bg-yellow-50 text-yellow-700 border-yellow-200", cargo: "—", date: "23 Mar 2026" },
   { id: "#ENS-20261200", customer: "Mehmet Kaya", initials: "MK", color: "bg-green-100 text-green-700", products: ["🪴"], extra: "", amount: "349,00", status: "Yeni", statusClass: "bg-yellow-50 text-yellow-700 border-yellow-200", cargo: "—", date: "23 Mar 2026" },
-  { id: "#ENS-20261198", customer: "Zeynep Demir", initials: "ZD", color: "bg-purple-100 text-purple-700", products: ["🕯️","🧴"], extra: "", amount: "589,50", status: "Hazirlaniyor", statusClass: "bg-blue-50 text-blue-700 border-blue-200", cargo: "—", date: "22 Mar 2026" },
-  { id: "#ENS-20261195", customer: "Emre Can", initials: "EC", color: "bg-orange-100 text-orange-700", products: ["🎋","🌱","🪻"], extra: "", amount: "2.150,00", status: "Kargoda", statusClass: "bg-indigo-50 text-indigo-700 border-indigo-200", cargo: "Yurtici Kargo", date: "21 Mar 2026" },
+  { id: "#ENS-20261198", customer: "Zeynep Demir", initials: "ZD", color: "bg-purple-100 text-purple-700", products: ["🕯️","🧴"], extra: "", amount: "589,50", status: "Hazırlanıyor", statusClass: "bg-blue-50 text-blue-700 border-blue-200", cargo: "—", date: "22 Mar 2026" },
+  { id: "#ENS-20261195", customer: "Emre Can", initials: "EC", color: "bg-orange-100 text-orange-700", products: ["🎋","🌱","🪻"], extra: "", amount: "2.150,00", status: "Kargoda", statusClass: "bg-indigo-50 text-indigo-700 border-indigo-200", cargo: "Yurtiçi Kargo", date: "21 Mar 2026" },
   { id: "#ENS-20261190", customer: "Selin Aksoy", initials: "SA", color: "bg-pink-100 text-pink-700", products: ["🧺"], extra: "", amount: "199,90", status: "Teslim Edildi", statusClass: "bg-green-50 text-green-700 border-green-200", cargo: "Aras Kargo", date: "19 Mar 2026" },
 ]
 
 const tabs = [
-  { key: "all", label: "Tumu", count: 156 },
+  { key: "all", label: "Tümü", count: 156 },
   { key: "new", label: "Yeni", count: 12 },
-  { key: "preparing", label: "Hazirlaniyor", count: 8 },
+  { key: "preparing", label: "Hazırlanıyor", count: 8 },
   { key: "shipped", label: "Kargoda", count: 23 },
   { key: "delivered", label: "Teslim Edildi", count: 108 },
-  { key: "cancelled", label: "Iptal/Iade", count: 5 },
+  { key: "cancelled", label: "İptal/İade", count: 5 },
 ]
 
 export default function SellerOrdersPage() {
   const [activeTab, setActiveTab] = useState("all")
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+
+  useEffect(() => { document.title = "Siparişler | enolsun.com Satıcı Merkezi" }, [])
 
   function toggleSelectAll(checked: boolean) {
     setSelectedOrders(checked ? ordersData.map(o => o.id) : [])
@@ -40,10 +42,10 @@ export default function SellerOrdersPage() {
       {/* Bulk Action Bar */}
       {selectedOrders.length > 0 && (
         <div className="bg-primary-600 text-white px-4 sm:px-6 py-3 flex items-center justify-between rounded-xl mb-4">
-          <span className="text-sm font-medium">{selectedOrders.length} siparis secildi</span>
+          <span className="text-sm font-medium">{selectedOrders.length} sipariş seçildi</span>
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">Secilileri Onayla</button>
-            <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">Secilileri Kargola</button>
+            <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">Seçilileri Onayla</button>
+            <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">Seçilileri Kargola</button>
             <button onClick={clearSelection} className="p-1.5 hover:bg-white/20 rounded-lg transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
@@ -54,12 +56,12 @@ export default function SellerOrdersPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-neutral-800">Siparisler</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">Siparişler</h1>
           <span className="bg-primary-100 text-primary-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">156</span>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm font-medium text-neutral-700 hover:bg-neutral-50 shadow-align-xs transition-colors">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Disa Aktar
+          Dışa Aktar
         </button>
       </div>
 
@@ -81,16 +83,16 @@ export default function SellerOrdersPage() {
             <input type="date" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all w-full sm:w-auto" />
           </div>
           <select className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all bg-white">
-            <option value="">Durum Secin</option>
+            <option value="">Durum Seçin</option>
             <option>Yeni</option>
-            <option>Hazirlaniyor</option>
+            <option>Hazırlanıyor</option>
             <option>Kargoda</option>
             <option>Teslim Edildi</option>
-            <option>Iptal/Iade</option>
+            <option>İptal/İade</option>
           </select>
           <div className="relative flex-1 sm:max-w-xs">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" placeholder="Siparis no ile ara..." className="w-full pl-9 pr-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all" />
+            <input type="text" placeholder="Sipariş no ile ara..." className="w-full pl-9 pr-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all" />
           </div>
         </div>
       </div>
@@ -102,14 +104,14 @@ export default function SellerOrdersPage() {
             <thead>
               <tr className="bg-neutral-25 border-b border-neutral-100">
                 <th className="px-4 py-3 text-left"><input type="checkbox" checked={selectedOrders.length === ordersData.length} onChange={(e) => toggleSelectAll(e.target.checked)} className="rounded border-neutral-300 text-primary-500 focus:ring-primary-300 cursor-pointer" /></th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Siparis No</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Musteri</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Urunler</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Sipariş No</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Müşteri</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Ürünler</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tutar</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Durum</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Kargo</th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Tarih</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Islemler</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">İşlemler</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-50">
@@ -144,7 +146,7 @@ export default function SellerOrdersPage() {
                         <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-neutral-100 rounded-xl shadow-align-md z-10 py-1">
                           <Link href={`/seller-orders?order=${order.id}`} className="block px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Detay</Link>
                           <button onClick={() => setOpenDropdown(null)} className="w-full text-left block px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Kargola</button>
-                          <button onClick={() => setOpenDropdown(null)} className="w-full text-left block px-3 py-2 text-sm text-red-600 hover:bg-red-50">Iptal Et</button>
+                          <button onClick={() => setOpenDropdown(null)} className="w-full text-left block px-3 py-2 text-sm text-red-600 hover:bg-red-50">İptal Et</button>
                         </div>
                       )}
                     </div>

@@ -8,8 +8,8 @@ const pendingReviews = [
 ];
 
 const completedReviews = [
-  { id: 3, name: "El Yapimi Bambu Lamba", rating: 5, comment: "Harika kalitede, cok memnun kaldim. Tasarimi gorseldeki gibi, hatta daha guzel.", date: "18 Mart 2024", gradient: "from-yellow-200 to-amber-300" },
-  { id: 4, name: "Dogal Tas Difuzor", rating: 4, comment: "Guzel urun, kokusu cok hos. Sadece ambalajlama biraz daha ozenli olabilirdi.", date: "12 Mart 2024", gradient: "from-teal-200 to-cyan-300" },
+  { id: 3, name: "El Yapımı Bambu Lamba", rating: 5, comment: "Harika kalitede, çok memnun kaldım. Tasarımı görseldeki gibi, hatta daha güzel.", date: "18 Mart 2024", gradient: "from-yellow-200 to-amber-300" },
+  { id: 4, name: "Doğal Taş Difüzör", rating: 4, comment: "Güzel ürün, kokusu çok hoş. Sadece ambalajlama biraz daha özenli olabilirdi.", date: "12 Mart 2024", gradient: "from-teal-200 to-cyan-300" },
 ];
 
 function StarRating({ rating, onRate, interactive = false }: { rating: number; onRate?: (r: number) => void; interactive?: boolean }) {
@@ -32,16 +32,19 @@ export default function ReviewsPage() {
   const [comments, setComments] = useState<Record<number, string>>({});
 
   return (
+    <>
+    <title>Değerlendirmelerim | enolsun.com</title>
+    <meta name="description" content="enolsun.com ürün değerlendirmeleriniz. Aldığınız ürünleri puanlayın, yorumlarınızla diğer müşterilere yol gösterin." />
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Degerlendirmelerim</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Değerlendirmelerim</h1>
 
       {/* Tab Pills */}
       <div className="flex gap-2">
         <button onClick={() => setActiveTab("pending")} className={`px-4 py-2 rounded-full text-sm font-medium transition-colors min-h-[40px] ${activeTab === "pending" ? "bg-primary-600 text-white" : "bg-neutral-50 text-neutral-500 hover:bg-neutral-100"}`}>
-          Bekleyen ({pendingReviews.length})
+          Bekleyenler ({pendingReviews.length})
         </button>
         <button onClick={() => setActiveTab("completed")} className={`px-4 py-2 rounded-full text-sm font-medium transition-colors min-h-[40px] ${activeTab === "completed" ? "bg-primary-600 text-white" : "bg-neutral-50 text-neutral-500 hover:bg-neutral-100"}`}>
-          Yapilan ({completedReviews.length})
+          Yapılanlar ({completedReviews.length})
         </button>
       </div>
 
@@ -60,16 +63,16 @@ export default function ReviewsPage() {
               </div>
 
               <div className="mb-3">
-                <label className="text-xs font-medium text-neutral-500 mb-1.5 block">Puaniniz</label>
+                <label className="text-xs font-medium text-neutral-500 mb-1.5 block">Puanınız</label>
                 <StarRating rating={ratings[item.id] || 0} onRate={(r) => setRatings((prev) => ({ ...prev, [item.id]: r }))} interactive />
               </div>
 
               <div className="mb-3">
                 <label className="text-xs font-medium text-neutral-500 mb-1.5 block">Yorumunuz</label>
-                <textarea rows={3} value={comments[item.id] || ""} onChange={(e) => setComments((prev) => ({ ...prev, [item.id]: e.target.value }))} placeholder="Urun hakkindaki dusuncelerinizi paylacin..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none" />
+                <textarea rows={3} value={comments[item.id] || ""} onChange={(e) => setComments((prev) => ({ ...prev, [item.id]: e.target.value }))} placeholder="Ürün hakkındaki düşüncelerinizi paylaşın..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none" />
               </div>
 
-              <button className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Degerlendirmeyi Gonder</button>
+              <button className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Değerlendirmeyi Gönder</button>
             </div>
           ))}
         </div>
@@ -95,5 +98,6 @@ export default function ReviewsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -4,18 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 
 const storeProducts = [
-  { name: "El Yapimi Bambu Lamba", price: 899, rating: 4.9, reviews: 487, gradient: "from-yellow-200 to-amber-300" },
-  { name: "Dogal Tas Difuzor", price: 349, rating: 4.6, reviews: 156, gradient: "from-teal-200 to-cyan-300" },
+  { name: "El Yapımı Bambu Lamba", price: 899, rating: 4.9, reviews: 487, gradient: "from-yellow-200 to-amber-300" },
+  { name: "Doğal Taş Difüzör", price: 349, rating: 4.6, reviews: 156, gradient: "from-teal-200 to-cyan-300" },
   { name: "Seramik Vazo Seti", price: 599, rating: 4.7, reviews: 203, gradient: "from-rose-200 to-pink-300" },
-  { name: "Pamuk Orgu Battaniye", price: 1199, rating: 4.8, reviews: 312, gradient: "from-violet-200 to-purple-300" },
-  { name: "Ahsap Kesme Tahtasi", price: 279, rating: 4.5, reviews: 89, gradient: "from-amber-200 to-yellow-300" },
+  { name: "Pamuk Örgü Battaniye", price: 1199, rating: 4.8, reviews: 312, gradient: "from-violet-200 to-purple-300" },
+  { name: "Ahşap Kesme Tahtası", price: 279, rating: 4.5, reviews: 89, gradient: "from-amber-200 to-yellow-300" },
   { name: "Aromatik Mum Seti", price: 209, rating: 4.4, reviews: 167, gradient: "from-orange-200 to-red-200" },
 ];
 
 const policies = [
-  { title: "Iade Politikasi", content: "Urunu teslim aldiginiz tarihten itibaren 14 gun icinde iade edebilirsiniz. Urunun kullanilmamis ve orijinal ambalajinda olmasi gerekmektedir." },
-  { title: "Kargo Politikasi", content: "200 TL ve uzeri siparislerde ucretsiz kargo. Standart kargo 3-5 is gunu, hizli kargo 1-2 is gunu icinde teslim edilir." },
-  { title: "Garanti Politikasi", content: "Tum urunlerimiz 2 yil garanti kapsamindadir. Uretim hatasi durumunda ucretsiz degisim yapilir." },
+  { title: "İade Politikası", content: "Ürünü teslim aldığınız tarihten itibaren 14 gün içinde iade edebilirsiniz. Ürünün kullanılmamış ve orijinal ambalajında olması gerekmektedir." },
+  { title: "Kargo Politikası", content: "200 TL ve üzeri siparişlerde ücretsiz kargo. Standart kargo 3-5 iş günü, hızlı kargo 1-2 iş günü içinde teslim edilir." },
+  { title: "Garanti Politikası", content: "Tüm ürünlerimiz 2 yıl garanti kapsamındadır. Üretim hatası durumunda ücretsiz değişim yapılır." },
 ];
 
 function Stars({ rating }: { rating: number }) {
@@ -36,9 +36,9 @@ export default function StorePage() {
   const [openPolicy, setOpenPolicy] = useState<number | null>(null);
 
   const tabs = [
-    { id: "products", label: "Urunler" },
-    { id: "about", label: "Hakkinda" },
-    { id: "reviews", label: "Degerlendirmeler" },
+    { id: "products", label: "Ürünler" },
+    { id: "about", label: "Hakkında" },
+    { id: "reviews", label: "Değerlendirmeler" },
     { id: "policies", label: "Politikalar" },
   ];
 
@@ -63,19 +63,19 @@ export default function StorePage() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 truncate">Yesil Yaprak Atolye</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 truncate">Yeşil Yaprak Atölye</h1>
                 <svg className="w-5 h-5 text-primary-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
               </div>
-              <p className="text-sm text-neutral-400 mb-3">Dogadan ilham alan el yapimi urunler ve atolye calismalari</p>
+              <p className="text-sm text-neutral-400 mb-3">Doğadan ilham alan el yapımı ürünler ve atölye çalışmaları</p>
               <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-xs sm:text-sm text-neutral-500">
                 <div className="flex items-center gap-1">
                   <Stars rating={4.8} />
                   <span className="font-medium text-neutral-700 ml-1">4.8</span>
                   <span>(1.247)</span>
                 </div>
-                <span>248 urun</span>
-                <span>12.4K takipci</span>
-                <span className="text-primary-600 font-medium">Istanbul</span>
+                <span>248 ürün</span>
+                <span>12.4K takipçi</span>
+                <span className="text-primary-600 font-medium">İstanbul</span>
               </div>
             </div>
             <div className="flex gap-2 sm:flex-shrink-0 w-full sm:w-auto">
@@ -132,17 +132,17 @@ export default function StorePage() {
         {activeTab === "about" && (
           <div className="max-w-2xl">
             <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-6">
-              <h2 className="text-lg font-bold text-neutral-900 mb-4">Magaza Hakkinda</h2>
-              <p className="text-sm text-neutral-500 leading-relaxed mb-4">Yesil Yaprak Atolye, 2018 yilinda Istanbul&apos;da kurulmus bir el yapimi urun atoryesidir. Dogadan ilham alarak, surdurulebilir malzemelerle benzersiz ev dekorasyon urunleri, aydinlatma ve yasam aksesuarlari tasarliyoruz.</p>
-              <p className="text-sm text-neutral-500 leading-relaxed mb-6">Her urunumuz, usta zanaatkarlarimiz tarafindan ozenle el yapimi olarak uretilmektedir. Kullandigimiz tum malzemeler organik ve cevre dostu kaynaklardan temin edilmektedir.</p>
+              <h2 className="text-lg font-bold text-neutral-900 mb-4">Mağaza Hakkında</h2>
+              <p className="text-sm text-neutral-500 leading-relaxed mb-4">Yeşil Yaprak Atölye, 2018 yılında İstanbul&apos;da kurulmuş bir el yapımı ürün atölyesidir. Doğadan ilham alarak, sürdürülebilir malzemelerle benzersiz ev dekorasyon ürünleri, aydınlatma ve yaşam aksesuarları tasarlıyoruz.</p>
+              <p className="text-sm text-neutral-500 leading-relaxed mb-6">Her ürünümüz, usta zanaatkârlarımız tarafından özenle el yapımı olarak üretilmektedir. Kullandığımız tüm malzemeler organik ve çevre dostu kaynaklardan temin edilmektedir.</p>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-primary-25 rounded-xl">
                   <p className="text-2xl font-bold text-primary-600">248</p>
-                  <p className="text-xs text-neutral-500">Urun</p>
+                  <p className="text-xs text-neutral-500">Ürün</p>
                 </div>
                 <div className="text-center p-4 bg-primary-25 rounded-xl">
                   <p className="text-2xl font-bold text-primary-600">12.4K</p>
-                  <p className="text-xs text-neutral-500">Takipci</p>
+                  <p className="text-xs text-neutral-500">Takipçi</p>
                 </div>
                 <div className="text-center p-4 bg-primary-25 rounded-xl">
                   <p className="text-2xl font-bold text-primary-600">4.8</p>
@@ -163,7 +163,7 @@ export default function StorePage() {
                     <Stars rating={4.8} />
                   </div>
                 </div>
-                <span className="text-sm text-neutral-400">1.247 degerlendirme</span>
+                <span className="text-sm text-neutral-400">1.247 değerlendirme</span>
               </div>
               <div className="space-y-2">
                 {[
@@ -185,8 +185,8 @@ export default function StorePage() {
               </div>
             </div>
             {[
-              { name: "Ayse K.", rating: 5, date: "2 gun once", text: "Harika kalitede urunler, cok memnun kaldim. Paketleme de cok ozenli." },
-              { name: "Mehmet D.", rating: 4, date: "1 hafta once", text: "Urun gorseldeki gibi, guzel tasarim. Kargo biraz gec geldi ama genel olarak memnunum." },
+              { name: "Ayşe K.", rating: 5, date: "2 gün önce", text: "Harika kalitede ürünler, çok memnun kaldım. Paketleme de çok özenli." },
+              { name: "Mehmet D.", rating: 4, date: "1 hafta önce", text: "Ürün görseldeki gibi, güzel tasarım. Kargo biraz geç geldi ama genel olarak memnunum." },
             ].map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-5">
                 <div className="flex items-center justify-between mb-2">

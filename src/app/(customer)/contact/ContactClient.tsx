@@ -4,11 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 
 const faqs = [
-  { q: "Siparis takibi nasil yapilir?", a: "Hesabim > Siparislerim bolumunden siparisinizin durumunu ve kargo takip numarasini gorebilirsiniz." },
-  { q: "Iade ve degisim sureci nasil isliyor?", a: "Urunu teslim aldiginiz tarihten itibaren 14 gun icinde iade edebilirsiniz. Iade talebi olusturmak icin Hesabim > Siparislerim bolumune gidin." },
-  { q: "Odeme secenekleri nelerdir?", a: "Kredi karti, banka karti, havale/EFT ve kapida odeme secenekleriyle odeme yapabilirsiniz. Kredi kartina taksit imkani sunuyoruz." },
-  { q: "Kargo ucreti ne kadar?", a: "200 TL ve uzerindeki siparislerinizde kargo ucretsizdir. 200 TL altindaki siparisler icin 29,90 TL kargo ucreti uygulanir." },
-  { q: "Urunler organik mi?", a: "Evet, tum urunlerimiz organik ve dogal iceriklerden uretilmektedir. Urun detay sayfalarinda icerik bilgilerine ulasabilirsiniz." },
+  { q: "Sipariş takibi nasıl yapılır?", a: "Hesabım > Siparişlerim bölümünden siparişinizin durumunu ve kargo takip numarasını görebilirsiniz. enolsun.com ile EN kolay sipariş takibi." },
+  { q: "İade ve değişim süreci nasıl işliyor?", a: "Ürünü teslim aldığınız tarihten itibaren 14 gün içinde iade edebilirsiniz. İade talebi oluşturmak için Hesabım > Siparişlerim bölümüne gidin. EN kolay iade süreci enolsun.com'da." },
+  { q: "Ödeme seçenekleri nelerdir?", a: "Kredi kartı, banka kartı, havale/EFT ve kapıda ödeme seçenekleriyle ödeme yapabilirsiniz. Kredi kartına taksit imkânı sunuyoruz. EN güvenli ödeme altyapısı." },
+  { q: "Kargo ücreti ne kadar?", a: "150 TL ve üzerindeki siparişlerinizde kargo ücretsizdir. 150 TL altındaki siparişler için 19,90 TL kargo ücreti uygulanır. EN uygun kargo fiyatları." },
+  { q: "Ürünler organik mi?", a: "Evet, platformumuzdaki doğal ürünler organik ve doğal içeriklerden üretilmektedir. Ürün detay sayfalarında içerik bilgilerine ulaşabilirsiniz. EN doğal ürünler enolsun.com'da." },
 ];
 
 export default function ContactClient() {
@@ -24,8 +24,8 @@ export default function ContactClient() {
             <span className="w-2 h-2 bg-primary-400 rounded-full"></span>
             <span className="text-xs font-medium text-primary-700">7/24 Destek</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-neutral-900 mb-4">Bize Ulasin</h1>
-          <p className="text-sm sm:text-lg text-neutral-400 max-w-lg mx-auto">Size yardimci olmaktan mutluluk duyariz. Sorulariniz icin bizimle iletisime gecebilirsiniz.</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-neutral-900 mb-4">Bize Ulaşın</h1>
+          <p className="text-sm sm:text-lg text-neutral-400 max-w-lg mx-auto">EN hızlı müşteri desteği ile size yardımcı olmaktan mutluluk duyarız. Sorularınız için bizimle iletişime geçin.</p>
         </div>
       </section>
 
@@ -38,7 +38,7 @@ export default function ContactClient() {
                 <svg className="w-7 h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
               </div>
               <h3 className="text-base font-semibold text-neutral-800 mb-2">Adres</h3>
-              <p className="text-sm text-neutral-400 leading-relaxed">Levent Mah. Buyukdere Cad.<br />No:185 K:12, Sisli<br />Istanbul 34394, Turkiye</p>
+              <p className="text-sm text-neutral-400 leading-relaxed">Levent Mah. Büyükdere Cad.<br />No:185 K:12, Şişli<br />İstanbul 34394, Türkiye</p>
             </div>
             <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-6 text-center hover:-translate-y-1 hover:shadow-align-lg transition-all duration-300">
               <div className="w-14 h-14 mx-auto mb-4 bg-primary-50 rounded-2xl flex items-center justify-center">
@@ -52,7 +52,7 @@ export default function ContactClient() {
                 <svg className="w-7 h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
               </div>
               <h3 className="text-base font-semibold text-neutral-800 mb-2">E-posta</h3>
-              <p className="text-sm text-neutral-400 leading-relaxed">info@enolsun.com<br />destek@enolsun.com<br />7/24 cevaplanir</p>
+              <p className="text-sm text-neutral-400 leading-relaxed">info@enolsun.com<br />destek@enolsun.com<br />7/24 cevaplanır</p>
             </div>
           </div>
         </div>
@@ -64,25 +64,25 @@ export default function ContactClient() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Form */}
             <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-neutral-900 mb-6">Bize Yazin</h2>
+              <h2 className="text-xl font-bold text-neutral-900 mb-6">Bize Yazın</h2>
               {formSubmitted ? (
                 <div className="text-center py-10">
                   <div className="w-16 h-16 mx-auto mb-4 bg-success-light rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8 text-success-base" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">Mesajiniz Gonderildi!</h3>
-                  <p className="text-sm text-neutral-400">En kisa surede size donus yapacagiz.</p>
+                  <h3 className="text-lg font-bold text-neutral-900 mb-2">Mesajınız Gönderildi!</h3>
+                  <p className="text-sm text-neutral-400">EN kısa sürede size dönüş yapacağız.</p>
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setFormSubmitted(true); }} className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adiniz</label>
+                      <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adınız</label>
                       <input type="text" required placeholder="Emre" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyadiniz</label>
-                      <input type="text" required placeholder="Yilmaz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                      <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyadınız</label>
+                      <input type="text" required placeholder="Yılmaz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                     </div>
                   </div>
                   <div>
@@ -93,24 +93,24 @@ export default function ContactClient() {
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Konu</label>
                     <select className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
                       <option>Genel Bilgi</option>
-                      <option>Siparis Hakkinda</option>
-                      <option>Iade/Degisim</option>
-                      <option>Isbirligi</option>
-                      <option>Diger</option>
+                      <option>Sipariş Hakkında</option>
+                      <option>İade/Değişim</option>
+                      <option>İş Birliği</option>
+                      <option>Diğer</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-neutral-500 mb-1.5">Mesajiniz</label>
-                    <textarea rows={5} required placeholder="Mesajinizi buraya yazin..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none"></textarea>
+                    <label className="block text-xs font-medium text-neutral-500 mb-1.5">Mesajınız</label>
+                    <textarea rows={5} required placeholder="Mesajınızı buraya yazın..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none"></textarea>
                   </div>
-                  <button type="submit" className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors min-h-[48px]">Gonder</button>
+                  <button type="submit" className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors min-h-[48px]">Gönder</button>
                 </form>
               )}
             </div>
 
             {/* FAQ */}
             <div>
-              <h2 className="text-xl font-bold text-neutral-900 mb-6">Sik Sorulan Sorular</h2>
+              <h2 className="text-xl font-bold text-neutral-900 mb-6">Sık Sorulan Sorular</h2>
               <div className="space-y-3">
                 {faqs.map((faq, i) => (
                   <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs overflow-hidden">

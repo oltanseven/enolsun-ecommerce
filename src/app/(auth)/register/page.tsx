@@ -54,7 +54,7 @@ export default function RegisterPage() {
     if (/[^A-Za-z0-9]/.test(pw)) s++
     const level = Math.min(s, 4)
     setStrength(level)
-    const texts = ['', 'Zayif', 'Orta', 'Iyi', 'Guclu']
+    const texts = ['', 'Zayıf', 'Orta', 'İyi', 'Güçlü']
     setStrengthText(pw ? texts[level] : '')
   }
 
@@ -69,19 +69,19 @@ export default function RegisterPage() {
     e.preventDefault()
 
     if (!fullName.trim() || !email.trim() || !password) {
-      showToast('Lutfen tum zorunlu alanlari doldurun.', 'error')
+      showToast('Lütfen tüm zorunlu alanları doldurun.', 'error')
       return
     }
     if (password.length < 6) {
-      showToast('Sifre en az 6 karakter olmalidir.', 'error')
+      showToast('Şifre en az 6 karakter olmalıdır.', 'error')
       return
     }
     if (password !== confirmPassword) {
-      showToast('Sifreler eslesmiyoyor!', 'error')
+      showToast('Şifreler eşleşmiyor!', 'error')
       return
     }
     if (!terms) {
-      showToast('Kullanim kosullarini kabul etmeniz gerekiyor.', 'error')
+      showToast('Kullanım koşullarını kabul etmeniz gerekiyor.', 'error')
       return
     }
 
@@ -106,20 +106,22 @@ export default function RegisterPage() {
         return
       }
 
-      showToast('Kayit basarili! Giris sayfasina yonlendiriliyorsunuz...')
+      showToast('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...')
       setTimeout(() => router.push('/login'), 1500)
     } catch {
-      showToast('Bir hata olustu. Lutfen tekrar deneyin.', 'error')
+      showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error')
       setLoading(false)
     }
   }
 
   const handleSocialRegister = (provider: string) => {
-    showToast(`${provider} ile kayit yakinda aktif olacak.`, 'error')
+    showToast(`${provider} ile kayıt yakında aktif olacak.`, 'error')
   }
 
   return (
     <>
+      <title>Kayıt Ol | enolsun.com — EN Kolay Üyelik</title>
+      <meta name="description" content="enolsun.com'a ücretsiz kayıt olun. EN kolay üyelik ile EN iyi ürünlere, EN özel kampanyalara hemen ulaşın." />
       {/* Toast */}
       <div className={`fixed top-4 right-4 z-[100] transform transition-transform duration-300 ease-in-out ${toast.visible ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className={`flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-align-lg text-sm font-medium max-w-sm ${
@@ -155,7 +157,7 @@ export default function RegisterPage() {
                   <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-semibold transition-all duration-300 ${step1Done ? 'bg-primary-500 text-white shadow-sm shadow-primary-500/20' : 'bg-primary-500 text-white shadow-sm shadow-primary-500/20'}`}>
                     {step1Done ? <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> : '1'}
                   </div>
-                  <span className="text-[10px] sm:text-xs font-medium text-primary-600 hidden sm:inline">Bilgiler</span>
+                  <span className="text-[10px] sm:text-xs font-medium text-primary-600 hidden sm:inline">Bilgileriniz</span>
                 </div>
                 <div className="flex-1 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
                   <div className="h-full bg-primary-400 rounded-full transition-all duration-500" style={{ width: step1Done ? '100%' : '0%' }} />
@@ -164,7 +166,7 @@ export default function RegisterPage() {
                   <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-semibold transition-all duration-300 ${step2Done ? 'bg-primary-500 text-white shadow-sm shadow-primary-500/20' : step1Done ? 'bg-primary-500 text-white shadow-sm shadow-primary-500/20' : 'bg-neutral-100 text-neutral-400'}`}>
                     {step2Done ? <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> : '2'}
                   </div>
-                  <span className={`text-[10px] sm:text-xs font-medium hidden sm:inline ${step1Done ? 'text-primary-600' : 'text-neutral-400'}`}>Guvenlik</span>
+                  <span className={`text-[10px] sm:text-xs font-medium hidden sm:inline ${step1Done ? 'text-primary-600' : 'text-neutral-400'}`}>Güvenlik</span>
                 </div>
                 <div className="flex-1 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
                   <div className="h-full bg-primary-400 rounded-full transition-all duration-500" style={{ width: step2Done ? '100%' : '0%' }} />
@@ -180,20 +182,20 @@ export default function RegisterPage() {
 
             {/* Header */}
             <div className="space-y-2 opacity-0 animate-fade-in-up [animation-delay:0.2s]">
-              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">Hesap olusturun</h1>
-              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">Hemen kayit olun ve alisverise baslayin.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">EN&apos;lerin Dünyasına Katıl!</h1>
+              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">Hemen kayıt ol, EN kolay alışveriş deneyimine başla.</p>
             </div>
 
             {/* Form */}
             <form className="space-y-4" onSubmit={handleRegister}>
               {/* Full Name */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.2s]">
-                <label htmlFor="fullname" className="block text-sm font-medium text-neutral-700">Ad Soyad</label>
+                <label htmlFor="fullname" className="block text-sm font-medium text-neutral-700">Adınız Soyadınız</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                   </div>
-                  <input type="text" id="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Adiniz ve soyadiniz" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-4 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" style={{ paddingLeft: '2.75rem' }} />
+                  <input type="text" id="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Adınız ve soyadınız" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-4 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" style={{ paddingLeft: '2.75rem' }} />
                 </div>
               </div>
 
@@ -210,7 +212,7 @@ export default function RegisterPage() {
 
               {/* Phone */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.3s]">
-                <label htmlFor="phone" className="block text-sm font-medium text-neutral-700">Telefon Numarasi</label>
+                <label htmlFor="phone" className="block text-sm font-medium text-neutral-700">Telefon Numaranız</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>
@@ -221,7 +223,7 @@ export default function RegisterPage() {
 
               {/* Password */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.4s]">
-                <label htmlFor="password" className="block text-sm font-medium text-neutral-700">Sifre</label>
+                <label htmlFor="password" className="block text-sm font-medium text-neutral-700">Şifre</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
@@ -250,12 +252,12 @@ export default function RegisterPage() {
 
               {/* Confirm Password */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.5s]">
-                <label htmlFor="confirm-password" className="block text-sm font-medium text-neutral-700">Sifre Tekrar</label>
+                <label htmlFor="confirm-password" className="block text-sm font-medium text-neutral-700">Şifre Tekrar</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
                   </div>
-                  <input type={showConfirmPassword ? 'text' : 'password'} id="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Sifrenizi tekrar girin" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-11 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" style={{ paddingLeft: '2.75rem' }} />
+                  <input type={showConfirmPassword ? 'text' : 'password'} id="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Şifrenizi tekrar girin" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-11 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" style={{ paddingLeft: '2.75rem' }} />
                   <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-neutral-300 hover:text-neutral-500 transition-colors" tabIndex={-1}>
                     {showConfirmPassword ? (
                       <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
@@ -287,11 +289,11 @@ export default function RegisterPage() {
                   {loading ? (
                     <>
                       <svg className="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
-                      Kayit yapiliyor...
+                      Kayıt yapılıyor...
                     </>
                   ) : (
                     <>
-                      Kayit Ol
+                      Kayıt Ol
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                     </>
                   )}
@@ -319,8 +321,8 @@ export default function RegisterPage() {
 
             {/* Login Link */}
             <p className="text-center text-sm text-neutral-400 opacity-0 animate-fade-in-up [animation-delay:0.7s]">
-              Zaten hesabiniz var mi?{' '}
-              <Link href="/login" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Giris Yap</Link>
+              Zaten hesabınız var mı?{' '}
+              <Link href="/login" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Giriş Yap</Link>
             </p>
           </div>
         </div>
@@ -337,16 +339,16 @@ export default function RegisterPage() {
                 <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
               </div>
               <div className="space-y-3">
-                <h2 className="text-2xl font-bold text-white tracking-tight">Toplulugumuza Katilin</h2>
-                <p className="text-white/70 text-sm leading-relaxed">Binlerce memnun musterimize katilin. Kayit olun, ilk siparisinde %15 indirim kazanin.</p>
+                <h2 className="text-2xl font-bold text-white tracking-tight">EN&apos;lerin Dünyasına Katılın!</h2>
+                <p className="text-white/70 text-sm leading-relaxed">EN mutlu müşterilerimize katılın. Kayıt olun, ilk siparişinizde %15 indirim kazanın!</p>
               </div>
             </div>
 
             <div className="space-y-3 opacity-0 animate-fade-in [animation-delay:0.5s]">
               {[
-                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>, title: 'Ucretsiz Kargo', sub: '150 TL uzeri siparislerde' },
-                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>, title: 'Guvenli Odeme', sub: '256-bit SSL sifreleme' },
-                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>, title: 'Kolay Iade', sub: '14 gun icinde ucretsiz iade' },
+                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>, title: 'EN Hızlı Kargo', sub: '150 TL üzeri siparişlerde ücretsiz' },
+                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>, title: 'EN Güvenli Ödeme', sub: '256-bit SSL şifreleme' },
+                { icon: <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>, title: 'EN Kolay İade', sub: '14 gün içinde ücretsiz iade' },
               ].map((item) => (
                 <div key={item.title} className="glass-card rounded-2xl px-5 py-3.5 flex items-center gap-3 text-left">
                   <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0">{item.icon}</div>

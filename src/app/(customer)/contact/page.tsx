@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
-  title: "Iletisim - enolsun.com | Doganin Ilhamiyla Tasarlanan Yasam",
-  description: "enolsun.com iletisim sayfasi. Sorulariniz, onerileriniz veya isbirlikleriniz icin bizimle iletisime gecin. 7/24 musteri destegi.",
-  keywords: "iletisim, enolsun iletisim, musteri hizmetleri, destek",
+  title: "İletişim | enolsun.com — EN Hızlı Destek",
+  description: "enolsun.com iletişim sayfası. EN hızlı müşteri desteği ile sorularınıza anında yanıt. 7/24 destek hattı.",
+  keywords: "iletişim, enolsun iletişim, müşteri hizmetleri, destek, 7/24 destek",
   openGraph: {
-    title: "Iletisim - enolsun.com",
-    description: "enolsun.com iletisim sayfasi. Sorulariniz icin bizimle iletisime gecin.",
+    title: "İletişim | enolsun.com — EN Hızlı Destek",
+    description: "EN hızlı müşteri desteği. Sorularınız için bizimle iletişime geçin.",
     type: "website",
   },
 };

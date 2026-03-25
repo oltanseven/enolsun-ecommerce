@@ -1,34 +1,36 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 
 const products = [
-  { id: 1, name: "Makrome Duvar Susu", category: "Ev & Yasam", price: "485,00", stock: 24, sold: 128, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.8 },
-  { id: 2, name: "Bambu Masa Lambasi", category: "Aydinlatma", price: "1.250,00", stock: 8, sold: 94, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.6 },
-  { id: 3, name: "Seramik Vazo Seti (3'lu)", category: "Dekorasyon", price: "890,00", stock: 15, sold: 76, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.9 },
-  { id: 4, name: "Dogal Tas Mumluk", category: "Dekorasyon", price: "340,00", stock: 3, sold: 63, status: "Aktif", statusClass: "bg-warning-light text-warning-dark", rating: 4.5 },
-  { id: 5, name: "Ahsap Saat", category: "Ev & Yasam", price: "720,00", stock: 0, sold: 51, status: "Tukendi", statusClass: "bg-error-light text-error-dark", rating: 4.7 },
-  { id: 6, name: "Keten Yastik Kilifi", category: "Ev & Yasam", price: "195,00", stock: 42, sold: 38, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.4 },
+  { id: 1, name: "Makrome Duvar Süsü", category: "Ev & Yaşam", price: "485,00", stock: 24, sold: 128, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.8 },
+  { id: 2, name: "Bambu Masa Lambası", category: "Aydınlatma", price: "1.250,00", stock: 8, sold: 94, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.6 },
+  { id: 3, name: "Seramik Vazo Seti (3'lü)", category: "Dekorasyon", price: "890,00", stock: 15, sold: 76, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.9 },
+  { id: 4, name: "Doğal Taş Mumluk", category: "Dekorasyon", price: "340,00", stock: 3, sold: 63, status: "Aktif", statusClass: "bg-warning-light text-warning-dark", rating: 4.5 },
+  { id: 5, name: "Ahşap Saat", category: "Ev & Yaşam", price: "720,00", stock: 0, sold: 51, status: "Tükendi", statusClass: "bg-error-light text-error-dark", rating: 4.7 },
+  { id: 6, name: "Keten Yastık Kılıfı", category: "Ev & Yaşam", price: "195,00", stock: 42, sold: 38, status: "Aktif", statusClass: "bg-success-light text-success-dark", rating: 4.4 },
 ]
 
 const tabs = [
-  { key: "all", label: "Tum Urunler", count: 48 },
+  { key: "all", label: "Tüm Ürünler", count: 48 },
   { key: "active", label: "Aktif", count: 42 },
   { key: "draft", label: "Taslak", count: 3 },
-  { key: "outofstock", label: "Tukenmis", count: 3 },
+  { key: "outofstock", label: "Tükenmiş", count: 3 },
 ]
 
 export default function SellerProductsPage() {
   const [activeTab, setActiveTab] = useState("all")
   const [viewMode, setViewMode] = useState<"table" | "grid">("table")
 
+  useEffect(() => { document.title = "Ürünlerim | enolsun.com Satıcı Merkezi" }, [])
+
   return (
     <>
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-neutral-800">Urunlerim</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">EN Çok Satan Ürünlerinizi Yönetin</h1>
           <span className="bg-primary-100 text-primary-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">48</span>
         </div>
         <div className="flex items-center gap-3">
@@ -43,7 +45,7 @@ export default function SellerProductsPage() {
           </div>
           <Link href="/seller-add-product" className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-500 text-white rounded-xl text-sm font-semibold hover:bg-primary-600 shadow-md shadow-primary-500/20 transition-all">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-            Yeni Urun Ekle
+            Yeni Ürün Ekle
           </Link>
         </div>
       </div>
@@ -64,14 +66,14 @@ export default function SellerProductsPage() {
             <table className="w-full">
               <thead>
                 <tr className="bg-neutral-25 border-b border-neutral-100">
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Urun</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Ürün</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Kategori</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Fiyat</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Stok</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Satilan</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Satılan</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Durum</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Puan</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">Islemler</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-50">
@@ -89,7 +91,7 @@ export default function SellerProductsPage() {
                     <td className="px-4 py-3 text-sm font-semibold text-neutral-800">&#8378;{p.price}</td>
                     <td className="px-4 py-3">
                       <span className={`text-sm font-medium ${p.stock <= 5 ? (p.stock === 0 ? "text-error-base" : "text-warning-dark") : "text-neutral-800"}`}>{p.stock}</span>
-                      {p.stock > 0 && p.stock <= 5 && <span className="ml-1 text-xs text-warning-dark">Dusuk!</span>}
+                      {p.stock > 0 && p.stock <= 5 && <span className="ml-1 text-xs text-warning-dark">Düşük!</span>}
                     </td>
                     <td className="px-4 py-3 text-sm text-neutral-600">{p.sold}</td>
                     <td className="px-4 py-3"><span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${p.statusClass}`}>{p.status}</span></td>
@@ -101,7 +103,7 @@ export default function SellerProductsPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
-                        <button className="p-1.5 rounded-lg hover:bg-neutral-100 transition-colors text-neutral-500" title="Duzenle">
+                        <button className="p-1.5 rounded-lg hover:bg-neutral-100 transition-colors text-neutral-500" title="Düzenle">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                         </button>
                         <button className="p-1.5 rounded-lg hover:bg-red-50 transition-colors text-neutral-500 hover:text-red-500" title="Sil">

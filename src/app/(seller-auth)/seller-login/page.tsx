@@ -42,11 +42,11 @@ export default function SellerLoginPage() {
     setPasswordError("")
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError("Gecerli bir e-posta adresi giriniz.")
+      setEmailError("Geçerli bir e-posta adresi giriniz.")
       return
     }
     if (!password) {
-      setPasswordError("Sifre alani bos birakilamaz.")
+      setPasswordError("Şifre alanı boş bırakılamaz.")
       return
     }
 
@@ -56,8 +56,8 @@ export default function SellerLoginPage() {
 
     if (error) {
       setLoading(false)
-      showToast("error", "Giris Basarisiz", error.message === "Invalid login credentials"
-        ? "E-posta veya sifre hatali."
+      showToast("error", "Giriş Başarısız", error.message === "Invalid login credentials"
+        ? "E-posta veya şifre hatalı."
         : error.message)
       return
     }
@@ -72,16 +72,18 @@ export default function SellerLoginPage() {
     if (!profile || profile.role !== "seller") {
       await supabase.auth.signOut()
       setLoading(false)
-      showToast("error", "Erisim Reddedildi", "Bu hesap bir satici hesabi degil.")
+      showToast("error", "Erişim Reddedildi", "Bu hesap bir satıcı hesabı değil.")
       return
     }
 
-    showToast("success", "Basarili!", "Satici panelinize yonlendiriliyorsunuz...")
+    showToast("success", "Başarılı!", "Satıcı panelinize yönlendiriliyorsunuz...")
     setTimeout(() => router.push("/seller-dashboard"), 1000)
   }
 
   return (
     <>
+      <title>Satıcı Girişi | enolsun.com Satıcı Merkezi</title>
+      <meta name="description" content="enolsun.com Satıcı Merkezi'ne giriş yapın. EN çok kazandıran platformda mağazanızı EN iyi şekilde yönetin." />
       {/* Toast Notification */}
       {toast && (
         <div className="fixed top-6 right-6 z-[200] max-w-sm w-full transition-transform duration-300 ease-out pointer-events-none">
@@ -134,8 +136,8 @@ export default function SellerLoginPage() {
                 </svg>
                 Satici Merkezi
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">Satici Girisi</h1>
-              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">Magaza panelinize giris yaparak satislarinizi yonetin.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">Satıcı Girişi</h1>
+              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">Mağaza panelinize giriş yaparak satışlarınızı EN iyi şekilde yönetin.</p>
             </div>
 
             {/* Form */}
@@ -165,7 +167,7 @@ export default function SellerLoginPage() {
 
               {/* Password */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up delay-300">
-                <label htmlFor="seller-password" className="block text-sm font-medium text-neutral-700">Sifre</label>
+                <label htmlFor="seller-password" className="block text-sm font-medium text-neutral-700">Şifre</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
@@ -177,7 +179,7 @@ export default function SellerLoginPage() {
                     id="seller-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Sifrenizi girin"
+                    placeholder="Şifrenizi girin"
                     required
                     autoComplete="current-password"
                     className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pl-11 pr-11 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300"
@@ -213,9 +215,9 @@ export default function SellerLoginPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                     </svg>
                   </div>
-                  <span className="text-sm text-neutral-500 select-none">Beni Hatirla</span>
+                  <span className="text-sm text-neutral-500 select-none">Beni Hatırla</span>
                 </label>
-                <Link href="#" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Sifremi Unuttum</Link>
+                <Link href="#" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Şifremi Unuttum</Link>
               </div>
 
               {/* Submit */}
@@ -225,7 +227,7 @@ export default function SellerLoginPage() {
                   disabled={loading}
                   className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary-500 px-5 py-3 min-h-[48px] text-sm font-semibold text-white shadow-md shadow-primary-500/20 transition-all duration-200 hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 active:scale-[0.98] disabled:opacity-60"
                 >
-                  {loading ? "Giris yapiliyor..." : "Giris Yap"}
+                  {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
                   {!loading && (
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
@@ -252,18 +254,18 @@ export default function SellerLoginPage() {
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
                 </svg>
-                e-Devlet ile Giris
+                e-Devlet ile Giriş
               </button>
             </div>
 
             {/* Register Link */}
             <div className="space-y-2 opacity-0 animate-fade-in-up delay-600">
               <p className="text-center text-sm text-neutral-400">
-                Henuz satici degil misiniz?{" "}
-                <Link href="/seller-register" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Hemen Basvurun</Link>
+                Henüz satıcı değil misiniz?{" "}
+                <Link href="/seller-register" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Hemen Başvurun</Link>
               </p>
               <p className="text-center text-xs text-neutral-300">
-                <Link href="/login" className="hover:text-primary-500 transition-colors underline underline-offset-2">Musteri girisi icin tiklayin</Link>
+                <Link href="/login" className="hover:text-primary-500 transition-colors underline underline-offset-2">Müşteri girişi için tıklayın</Link>
               </p>
             </div>
 
@@ -305,7 +307,7 @@ export default function SellerLoginPage() {
                 <span className="text-primary-300">Satici Merkezi</span>
               </h2>
               <p className="text-white/60 text-base leading-relaxed max-w-sm mx-auto">
-                En hizli buyuyen pazar yerinde satisa basla!
+                EN hızlı büyüyen pazar yerinde satışa başlayın!
               </p>
             </div>
 
@@ -313,11 +315,11 @@ export default function SellerLoginPage() {
             <div className="grid grid-cols-3 gap-3 xl:gap-4 opacity-0 animate-fade-in-up delay-400">
               <div className="stat-glass rounded-2xl px-4 py-5 text-center transition-transform duration-300 hover:scale-105 hover:-translate-y-1">
                 <div className="text-2xl xl:text-3xl font-bold text-white mb-1">50.000+</div>
-                <div className="text-xs text-white/50 font-medium">Satici</div>
+                <div className="text-xs text-white/50 font-medium">EN Başarılı Satıcı</div>
               </div>
               <div className="stat-glass rounded-2xl px-4 py-5 text-center transition-transform duration-300 hover:scale-105 hover:-translate-y-1">
                 <div className="text-2xl xl:text-3xl font-bold text-white mb-1">2M+</div>
-                <div className="text-xs text-white/50 font-medium">Musteri</div>
+                <div className="text-xs text-white/50 font-medium">EN Mutlu Müşteri</div>
               </div>
               <div className="stat-glass rounded-2xl px-4 py-5 text-center transition-transform duration-300 hover:scale-105 hover:-translate-y-1">
                 <div className="text-2xl xl:text-3xl font-bold text-primary-300 mb-1">&#8378;500M+</div>
@@ -334,8 +336,8 @@ export default function SellerLoginPage() {
                   <div className="w-8 h-8 rounded-full bg-primary-600/30 border-2 border-white/10 flex items-center justify-center text-xs font-bold text-white">K</div>
                 </div>
                 <div className="text-left">
-                  <div className="text-sm font-semibold text-white">En cok kazandiran platform</div>
-                  <div className="text-xs text-white/40">Satista en olsun, enolsun!</div>
+                  <div className="text-sm font-semibold text-white">EN çok kazandıran platform</div>
+                  <div className="text-xs text-white/40">Satışta EN olsun, enolsun!</div>
                 </div>
               </div>
             </div>

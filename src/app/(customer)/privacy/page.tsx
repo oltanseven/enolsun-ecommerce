@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Gizlilik Politikasi - enolsun.com",
+  title: "Gizlilik Politikası | enolsun.com",
   description:
-    "enolsun.com gizlilik politikasi. Kisisel verilerin islenmesi, cerez politikasi, veri guvenligi ve haklariniz.",
-  keywords: "gizlilik politikasi, kvkk, kisisel veri, cerez, enolsun",
+    "enolsun.com gizlilik politikası. Kişisel verilerin korunması, çerez politikası, veri güvenliği ve KVKK kapsamındaki haklarınız.",
+  keywords: "gizlilik politikası, kvkk, kişisel veri, çerez, enolsun, veri güvenliği",
   openGraph: {
-    title: "Gizlilik Politikasi - enolsun.com",
-    description: "enolsun.com gizlilik politikasi ve kisisel verilerin korunmasi.",
+    title: "Gizlilik Politikası | enolsun.com",
+    description: "enolsun.com gizlilik politikası ve kişisel verilerin korunması.",
     type: "website",
   },
 };
@@ -19,10 +19,10 @@ export default function PrivacyPage() {
       <section className="bg-gradient-to-br from-primary-50 via-primary-25 to-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-4">
-            Gizlilik <span className="text-primary-500">Politikasi</span>
+            Gizlilik <span className="text-primary-500">Politikası</span>
           </h1>
           <p className="text-neutral-500">
-            Son guncelleme: 1 Ocak 2026
+            Son güncelleme: 1 Ocak 2026
           </p>
         </div>
       </section>
@@ -34,111 +34,113 @@ export default function PrivacyPage() {
             {/* Intro */}
             <div>
               <p className="text-neutral-600 leading-relaxed">
-                enolsun.com olarak kisisel verilerinizin guvenligine en buyuk onemi veriyoruz.
-                Bu Gizlilik Politikasi, 6698 sayili Kisisel Verilerin Korunmasi Kanunu (KVKK)
-                kapsaminda kisisel verilerinizin nasil toplandigi, islendigi ve korundugunı aciklar.
+                enolsun.com olarak kişisel verilerinizin güvenliğine en büyük önemi veriyoruz.
+                Bu Gizlilik Politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK)
+                kapsamında kişisel verilerinizin nasıl toplandığını, işlendiğini ve korunduğunu açıklar.
+                Verilerinizin güvenliği bizim için EN öncelikli konudur.
               </p>
             </div>
 
             {/* Section 1 */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">1. Kisisel Verilerin Islenmesi</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">1. Kişisel Verilerin İşlenmesi</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Platformumuz uzerinden toplanan kisisel veriler asagidaki amaclarla islenmektedir:
+                  Platformumuz üzerinden toplanan kişisel veriler aşağıdaki amaçlarla işlenmektedir:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li>Uyelik islemlerinin gerceklestirilmesi ve hesap yonetimi</li>
-                  <li>Siparis ve odeme islemlerinin yurutulmesi</li>
-                  <li>Kargo ve teslimat sureclerinin yonetimi</li>
-                  <li>Musteri hizmetleri ve destek taleplerinin karsilanmasi</li>
-                  <li>Yasal yukumluluklerin yerine getirilmesi</li>
-                  <li>Hizmet kalitesinin arttirilmasi ve iyilestirilmesi</li>
+                  <li>Üyelik işlemlerinin gerçekleştirilmesi ve hesap yönetimi</li>
+                  <li>Sipariş ve ödeme işlemlerinin yürütülmesi</li>
+                  <li>Kargo ve teslimat süreçlerinin yönetimi</li>
+                  <li>Müşteri hizmetleri ve destek taleplerinin karşılanması</li>
+                  <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+                  <li>Hizmet kalitesinin artırılması ve iyileştirilmesi</li>
                 </ul>
                 <p>
-                  Toplanan veriler; ad, soyad, e-posta adresi, telefon numarasi, teslimat adresi,
-                  odeme bilgileri ve alisveris gecmisini icerebilir.
+                  Toplanan veriler; ad, soyad, e-posta adresi, telefon numarası, teslimat adresi,
+                  ödeme bilgileri ve alışveriş geçmişini içerebilir.
                 </p>
               </div>
             </div>
 
             {/* Section 2 */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">2. Cerez Politikasi</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">2. Çerez Politikası</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Web sitemiz, kullanici deneyimini iyilestirmek icin cerezler kullanmaktadir.
-                  Cerezler hakkinda detayli bilgi icin{" "}
+                  Web sitemiz, kullanıcı deneyimini iyileştirmek için çerezler kullanmaktadır.
+                  Çerezler hakkında detaylı bilgi için{" "}
                   <a href="/cookies" className="text-primary-500 hover:text-primary-600 font-medium">
-                    Cerez Politikasi
+                    Çerez Politikası
                   </a>{" "}
-                  sayfamizi ziyaret edebilirsiniz.
+                  sayfamızı ziyaret edebilirsiniz.
                 </p>
                 <p>
-                  Kullanilan cerez turleri: zorunlu cerezler, analitik cerezler ve pazarlama cerezleri.
-                  Tarayici ayarlarinizdan cerez tercihlerinizi yonetebilirsiniz.
+                  Kullanılan çerez türleri: zorunlu çerezler, analitik çerezler ve pazarlama çerezleri.
+                  Tarayıcı ayarlarınızdan çerez tercihlerinizi yönetebilirsiniz.
                 </p>
               </div>
             </div>
 
             {/* Section 3 */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">3. Veri Guvenligi</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">3. Veri Güvenliği</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Kisisel verileriniz, en guncel guvenlik onlemleriyle korunmaktadir:
+                  Kişisel verileriniz, en güncel güvenlik önlemleriyle korunmaktadır. enolsun.com olarak
+                  veri güvenliğinde en yüksek standartları uyguluyoruz:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li>256-bit SSL sifreleme ile guveni veri iletimi</li>
-                  <li>PCI DSS uyumlu odeme altyapisi</li>
-                  <li>Duzenli guvenlik denetimleri ve penetrasyon testleri</li>
-                  <li>Erisim kontrol mekanizmalari ve yetkilendirme</li>
-                  <li>Veri yedekleme ve felaket kurtarma planlari</li>
+                  <li>256-bit SSL şifreleme ile güvenli veri iletimi</li>
+                  <li>PCI DSS uyumlu ödeme altyapısı</li>
+                  <li>Düzenli güvenlik denetimleri ve penetrasyon testleri</li>
+                  <li>Erişim kontrol mekanizmaları ve yetkilendirme</li>
+                  <li>Veri yedekleme ve felaket kurtarma planları</li>
                 </ul>
                 <p>
-                  Verileriniz, Turkiye sinirlarindaki guvenli sunucularda saklanmaktadir.
-                  Ucuncu taraflarla veri paylasimi yalnizca hizmet gereklilikleri dogrultusunda
-                  ve yasal cercevede gerceklestirilir.
+                  Verileriniz, Türkiye sınırlarındaki güvenli sunucularda saklanmaktadır.
+                  Üçüncü taraflarla veri paylaşımı yalnızca hizmet gereklilikleri doğrultusunda
+                  ve yasal çerçevede gerçekleştirilir.
                 </p>
               </div>
             </div>
 
             {/* Section 4 */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">4. Haklariniz</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">4. Haklarınız</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  KVKK kapsaminda asagidaki haklara sahipsiniz:
+                  KVKK kapsamında aşağıdaki haklara sahipsiniz:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li>Kisisel verilerinizin islenip islenmedigini ogrenme</li>
-                  <li>Kisisel verileriniz islenmisse buna iliskin bilgi talep etme</li>
-                  <li>Kisisel verilerinizin islenmis amacini ve bunlarin amacina uygun kullanilip kullanilmadigini ogrenme</li>
-                  <li>Yurt icinde veya yurt disinda kisisel verilerin aktarildigi ucuncu kisileri bilme</li>
-                  <li>Kisisel verilerinizin eksik veya yanlis islenmis olmasi halinde bunlarin duzeltilmesini isteme</li>
-                  <li>Islenmesini gerektiren sebeplerin ortadan kalkmasi halinde kisisel verilerin silinmesini veya yok edilmesini isteme</li>
+                  <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+                  <li>Kişisel verileriniz işlenmişse buna ilişkin bilgi talep etme</li>
+                  <li>Kişisel verilerinizin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme</li>
+                  <li>Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme</li>
+                  <li>Kişisel verilerinizin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme</li>
+                  <li>İşlenmesini gerektiren sebeplerin ortadan kalkması hâlinde kişisel verilerin silinmesini veya yok edilmesini isteme</li>
                 </ul>
               </div>
             </div>
 
             {/* Section 5 */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">5. Iletisim</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">5. İletişim</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Gizlilik politikamiz ile ilgili soru ve talepleriniz icin asagidaki iletisim
-                  kanallarindan bize ulasabilirsiniz:
+                  Gizlilik politikamız ile ilgili soru ve talepleriniz için aşağıdaki iletişim
+                  kanallarından bize ulaşabilirsiniz:
                 </p>
                 <div className="bg-neutral-25 rounded-xl p-6 mt-4">
                   <div className="space-y-2">
                     <p><span className="font-medium text-neutral-700">E-posta:</span> kvkk@enolsun.com</p>
                     <p><span className="font-medium text-neutral-700">Telefon:</span> +90 (212) 555 0123</p>
-                    <p><span className="font-medium text-neutral-700">Adres:</span> Istanbul, Turkiye</p>
+                    <p><span className="font-medium text-neutral-700">Adres:</span> İstanbul, Türkiye</p>
                   </div>
                 </div>
                 <p className="text-sm text-neutral-400 mt-4">
-                  Bu politika enolsun.com tarafindan duzenli olarak guncellenmektedir.
-                  Degisiklikler yayinlandigi tarihte yururluge girer.
+                  Bu politika enolsun.com tarafından düzenli olarak güncellenmektedir.
+                  Değişiklikler yayınlandığı tarihte yürürlüğe girer.
                 </p>
               </div>
             </div>

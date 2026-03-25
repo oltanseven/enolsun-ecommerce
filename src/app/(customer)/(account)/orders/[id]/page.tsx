@@ -3,29 +3,32 @@
 import Link from "next/link";
 
 const steps = [
-  { label: "Siparis Alindi", date: "22 Mart 10:30", done: true },
-  { label: "Hazirlaniyor", date: "22 Mart 14:15", done: true },
+  { label: "Sipariş Alındı", date: "22 Mart 10:30", done: true },
+  { label: "Hazırlanıyor", date: "22 Mart 14:15", done: true },
   { label: "Kargoya Verildi", date: "23 Mart 09:00", done: true },
-  { label: "Dagitimda", date: "", done: false, active: true },
+  { label: "Dağıtımda", date: "", done: false, active: true },
   { label: "Teslim Edildi", date: "", done: false },
 ];
 
 const timeline = [
-  { date: "23 Mart 2024 - 16:45", text: "Kargo dagitim subesine ulasti", location: "Istanbul - Sisli Dagitim Merkezi" },
-  { date: "23 Mart 2024 - 09:00", text: "Kargoya verildi", location: "Istanbul - Merkez Transfer" },
-  { date: "22 Mart 2024 - 14:15", text: "Siparisiniz hazirlanmaya basladi", location: "enolsun.com Depo" },
-  { date: "22 Mart 2024 - 10:30", text: "Siparisiniz alindi", location: "" },
+  { date: "23 Mart 2024 - 16:45", text: "Kargo dağıtım şubesine ulaştı", location: "İstanbul - Şişli Dağıtım Merkezi" },
+  { date: "23 Mart 2024 - 09:00", text: "Kargoya verildi", location: "İstanbul - Merkez Transfer" },
+  { date: "22 Mart 2024 - 14:15", text: "Siparişiniz hazırlanmaya başladı", location: "enolsun.com Depo" },
+  { date: "22 Mart 2024 - 10:30", text: "Siparişiniz alındı", location: "" },
 ];
 
 export default function OrderTrackingPage() {
   return (
+    <>
+    <title>Sipariş Takibi | enolsun.com</title>
+    <meta name="description" content="enolsun.com sipariş takibi. Siparişinizin EN güncel durumunu anlık olarak takip edin, kargo hareketlerini izleyin." />
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href="/orders" className="p-2 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 transition-colors">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
         </Link>
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Siparis Takibi</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Sipariş Takibi</h1>
           <p className="text-sm text-neutral-400">ORD-2024-1847</p>
         </div>
       </div>
@@ -63,7 +66,7 @@ export default function OrderTrackingPage() {
 
       {/* Cargo Timeline */}
       <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-5 sm:p-6">
-        <h2 className="text-base font-bold text-neutral-900 mb-5">Kargo Hareketi</h2>
+        <h2 className="text-base font-bold text-neutral-900 mb-5">Kargo Hareketleri</h2>
         <div className="space-y-0">
           {timeline.map((item, i) => (
             <div key={i} className="flex gap-4 relative">
@@ -83,7 +86,7 @@ export default function OrderTrackingPage() {
 
       {/* Order Details */}
       <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-5 sm:p-6">
-        <h2 className="text-base font-bold text-neutral-900 mb-5">Siparis Detayi</h2>
+        <h2 className="text-base font-bold text-neutral-900 mb-5">Sipariş Detayı</h2>
         <div className="space-y-3">
           {[
             { name: "Premium Organik Pamuklu T-Shirt", qty: 1, price: "349,90" },
@@ -106,15 +109,15 @@ export default function OrderTrackingPage() {
         </div>
         <div className="border-t border-neutral-100 mt-4 pt-4">
           <div className="flex justify-between text-sm mb-1">
-            <span className="text-neutral-500">Ara Toplam</span>
+            <span className="text-neutral-500">Ara Toplam </span>
             <span className="text-neutral-800">1.256,90 TL</span>
           </div>
           <div className="flex justify-between text-sm mb-1">
             <span className="text-neutral-500">Kargo</span>
-            <span className="text-green-600">Ucretsiz</span>
+            <span className="text-green-600">Ücretsiz</span>
           </div>
           <div className="flex justify-between text-sm mb-1">
-            <span className="text-primary-600">Kupon Indirimi</span>
+            <span className="text-primary-600">Kupon İndirimi</span>
             <span className="text-primary-600">-125,69 TL</span>
           </div>
           <div className="flex justify-between text-base font-bold mt-3 pt-3 border-t border-neutral-100">
@@ -124,5 +127,6 @@ export default function OrderTrackingPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -3,24 +3,27 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const tabs = ["Tumu", "Hazirlaniyor", "Kargoda", "Teslim Edildi", "Iptal"];
+const tabs = ["Tümü", "Hazırlanıyor", "Kargoda", "Teslim Edildi", "İptal"];
 
 const orders = [
   { id: "ORD-2024-1847", date: "22 Mart 2024", status: "Kargoda", statusColor: "text-blue-700 bg-blue-50", items: 3, total: "1.256,90", tracking: "TR1234567890" },
   { id: "ORD-2024-1832", date: "18 Mart 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 1, total: "899,00", tracking: "" },
   { id: "ORD-2024-1810", date: "12 Mart 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 2, total: "548,00", tracking: "" },
-  { id: "ORD-2024-1798", date: "5 Mart 2024", status: "Iptal", statusColor: "text-red-700 bg-red-50", items: 1, total: "349,90", tracking: "" },
-  { id: "ORD-2024-1765", date: "28 Subat 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 4, total: "2.147,60", tracking: "" },
+  { id: "ORD-2024-1798", date: "5 Mart 2024", status: "İptal", statusColor: "text-red-700 bg-red-50", items: 1, total: "349,90", tracking: "" },
+  { id: "ORD-2024-1765", date: "28 Şubat 2024", status: "Teslim Edildi", statusColor: "text-green-700 bg-green-50", items: 4, total: "2.147,60", tracking: "" },
 ];
 
 export default function OrdersPage() {
-  const [activeTab, setActiveTab] = useState("Tumu");
+  const [activeTab, setActiveTab] = useState("Tümü");
 
-  const filtered = activeTab === "Tumu" ? orders : orders.filter((o) => o.status === activeTab);
+  const filtered = activeTab === "Tümü" ? orders : orders.filter((o) => o.status === activeTab);
 
   return (
+    <>
+    <title>Siparişlerim | enolsun.com — EN Hızlı Teslimat</title>
+    <meta name="description" content="enolsun.com siparişlerinizi takip edin. EN hızlı teslimat ile siparişleriniz EN kısa sürede kapınızda." />
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Siparislerim</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Siparişlerim</h1>
 
       {/* Tab Pills */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
@@ -47,7 +50,7 @@ export default function OrdersPage() {
             </div>
             <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
               <div className="flex items-center gap-4 text-xs text-neutral-500">
-                <span>{order.items} urun</span>
+                <span>{order.items} ürün</span>
                 <span className="font-semibold text-neutral-800">{order.total} TL</span>
               </div>
               <Link href={`/orders/${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
@@ -71,5 +74,6 @@ export default function OrdersPage() {
         </button>
       </div>
     </div>
+    </>
   );
 }

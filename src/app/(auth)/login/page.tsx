@@ -42,7 +42,7 @@ export default function LoginPage() {
     e.preventDefault()
 
     if (!email.trim() || !password) {
-      showToast('Lutfen e-posta ve sifre giriniz.', 'error')
+      showToast('Lütfen e-posta ve şifre giriniz.', 'error')
       return
     }
 
@@ -57,14 +57,14 @@ export default function LoginPage() {
 
       if (error) {
         showToast(
-          error.message === 'Invalid login credentials' ? 'E-posta veya sifre hatali!' : error.message,
+          error.message === 'Invalid login credentials' ? 'E-posta veya şifre hatalı!' : error.message,
           'error'
         )
         setLoading(false)
         return
       }
 
-      showToast('Giris basarili! Yonlendiriliyorsunuz...', 'success')
+      showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success')
 
       const role = data.user?.user_metadata?.role
       setTimeout(() => {
@@ -75,17 +75,19 @@ export default function LoginPage() {
         }
       }, 1000)
     } catch {
-      showToast('Bir hata olustu. Lutfen tekrar deneyin.', 'error')
+      showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error')
       setLoading(false)
     }
   }
 
   const handleSocialLogin = (provider: string) => {
-    showToast(`${provider} ile giris yakinda aktif olacak.`, 'info')
+    showToast(`${provider} ile giriş yakında aktif olacak.`, 'info')
   }
 
   return (
     <>
+      <title>Giriş Yap | enolsun.com</title>
+      <meta name="description" content="enolsun.com hesabınıza giriş yapın. EN iyi fırsatlar, EN hızlı teslimat ve EN güvenilir alışveriş deneyimi sizi bekliyor." />
       {/* Toast Notification */}
       <div className={`fixed top-4 right-4 z-[100] transform transition-transform duration-300 ease-in-out ${toast.visible ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className={`flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-align-lg text-sm font-medium max-w-sm ${
@@ -124,15 +126,15 @@ export default function LoginPage() {
 
             {/* Header */}
             <div className="space-y-2 opacity-0 animate-fade-in-up [animation-delay:0.1s]">
-              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">Tekrar hos geldiniz</h1>
-              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">Hesabiniza giris yaparak alisverise devam edin.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight text-center sm:text-left">EN&apos;lerin Dünyasına Tekrar Hoş Geldiniz!</h1>
+              <p className="text-neutral-500 text-sm leading-relaxed text-center sm:text-left">EN iyi fırsatlar, EN hızlı teslimat ve EN güvenilir alışveriş deneyimi sizi bekliyor.</p>
             </div>
 
             {/* Form */}
             <form className="space-y-5" onSubmit={handleLogin}>
               {/* Email */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.2s]">
-                <label htmlFor="email" className="block text-sm font-medium text-neutral-700">E-posta Adresi</label>
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-700">E-posta Adresiniz</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
@@ -144,7 +146,7 @@ export default function LoginPage() {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ornek@email.com"
+                    placeholder="örnek@email.com"
                     className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-4 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300"
                     style={{ paddingLeft: '2.75rem' }}
                   />
@@ -153,7 +155,7 @@ export default function LoginPage() {
 
               {/* Password */}
               <div className="space-y-1.5 opacity-0 animate-fade-in-up [animation-delay:0.3s]">
-                <label htmlFor="password" className="block text-sm font-medium text-neutral-700">Sifre</label>
+                <label htmlFor="password" className="block text-sm font-medium text-neutral-700">Şifre</label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                     <svg className="h-[18px] w-[18px] text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
@@ -165,12 +167,12 @@ export default function LoginPage() {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Sifrenizi girin"
+                    placeholder="Şifrenizi girin"
                     className="block w-full rounded-xl border border-neutral-200 bg-white py-3 min-h-[48px] pr-11 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300"
                     style={{ paddingLeft: '2.75rem' }}
                   />
                   <button
-                    aria-label="Sifreyi goster/gizle"
+                    aria-label="Şifreyi göster/gizle"
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-neutral-300 hover:text-neutral-500 transition-colors"
@@ -200,9 +202,9 @@ export default function LoginPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                     </svg>
                   </div>
-                  <span className="text-sm text-neutral-500 select-none">Beni Hatirla</span>
+                  <span className="text-sm text-neutral-500 select-none">Beni Hatırla</span>
                 </label>
-                <Link href="/forgot-password" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Sifremi Unuttum</Link>
+                <Link href="/forgot-password" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Şifremi Unuttum</Link>
               </div>
 
               {/* Submit */}
@@ -215,11 +217,11 @@ export default function LoginPage() {
                   {loading ? (
                     <>
                       <svg className="animate-spin w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
-                      Giris yapiliyor...
+                      Giriş yapılıyor...
                     </>
                   ) : (
                     <>
-                      Giris Yap
+                      Giriş Yap
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                     </>
                   )}
@@ -264,8 +266,8 @@ export default function LoginPage() {
 
             {/* Register Link */}
             <p className="text-center text-sm text-neutral-400 opacity-0 animate-fade-in-up [animation-delay:0.6s]">
-              Hesabiniz yok mu?{' '}
-              <Link href="/register" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Kayit Ol</Link>
+              Hesabınız yok mu?{' '}
+              <Link href="/register" className="font-semibold text-primary-500 hover:text-primary-600 transition-colors">Kayıt Ol</Link>
             </p>
           </div>
         </div>
@@ -284,23 +286,23 @@ export default function LoginPage() {
                 </svg>
               </div>
               <div className="space-y-3">
-                <h2 className="text-2xl font-bold text-white tracking-tight">Alisversin Keyfi</h2>
-                <p className="text-white/70 text-sm leading-relaxed">Binlerce urun, ozel kampanyalar ve hizli teslimat ile alisveris deneyiminizi bir ust seviyeye tasiyin.</p>
+                <h2 className="text-2xl font-bold text-white tracking-tight">EN&apos;lerin Dünyasına Hoş Geldiniz!</h2>
+                <p className="text-white/70 text-sm leading-relaxed">EN iyi ürünler, EN özel kampanyalar ve EN hızlı teslimat ile alışveriş deneyiminizi EN üst seviyeye taşıyın.</p>
               </div>
             </div>
 
             <div className="flex gap-4 justify-center opacity-0 animate-fade-in [animation-delay:0.5s]">
               <div className="glass-card rounded-2xl px-5 py-4 text-center">
                 <div className="text-xl font-bold text-white">50K+</div>
-                <div className="text-xs text-white/60 mt-0.5">Mutlu Musteri</div>
+                <div className="text-xs text-white/60 mt-0.5">EN Mutlu Müşteri</div>
               </div>
               <div className="glass-card rounded-2xl px-5 py-4 text-center">
                 <div className="text-xl font-bold text-white">10K+</div>
-                <div className="text-xs text-white/60 mt-0.5">Urun</div>
+                <div className="text-xs text-white/60 mt-0.5">EN İyi Ürün</div>
               </div>
               <div className="glass-card rounded-2xl px-5 py-4 text-center">
                 <div className="text-xl font-bold text-white">4.9</div>
-                <div className="text-xs text-white/60 mt-0.5">Puan</div>
+                <div className="text-xs text-white/60 mt-0.5">EN Yüksek Puan</div>
               </div>
             </div>
           </div>

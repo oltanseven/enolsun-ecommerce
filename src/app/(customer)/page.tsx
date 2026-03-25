@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'enolsun.com — EN\'lerin Dünyasına Hoş Geldiniz! | Online Alışveriş',
-  description: 'enolsun.com ile dogadan ilham alan urunleri kesfedin. Organik, surdurulebilir ve sik tasarimlarla yasam alaninizi donusturun. Hizli teslimat, guvenli odeme.',
+  title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
+  description: 'enolsun.com — EN iyi doğal ürünler, EN güvenilir e-ticaret deneyimi. Sürdürülebilir online alışverişin EN yenilikçi adresi. Hızlı teslimat, güvenli ödeme.',
 }
 
 /* ---- tiny SVG helpers (to keep JSX readable) ---- */
@@ -88,9 +88,9 @@ const categories = [
 ]
 
 const testimonials = [
-  { text: '"Bambu saksi setini aldim, hem kalitesi hem de tasarimi muhtesem. Evime cok yakisti, cevre dostu olmasi da ayri bir arti."', name: 'Ayse Yilmaz', initials: 'AY', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
-  { text: '"Kargo cok hizliydi, urunler harika paketlenmisti. Gece lambasinin isik kalitesi beklentimin cok ustunde cikti."', name: 'Mehmet Kaya', initials: 'MK', bgColor: 'bg-primary-200', textColor: 'text-primary-800' },
-  { text: '"Ucuncu kez alisveris yapiyorum. Her seferinde ayni kalite ve ozen. Musteri hizmetleri de cok ilgili ve cozum odakli."', name: 'Zeynep Demir', initials: 'ZD', bgColor: 'bg-primary-300', textColor: 'text-white' },
+  { text: '"Bambu saksı setini aldım, EN iyi kalite ve EN şık tasarım! Evime çok yakıştı, çevre dostu olması da ayrı bir artı."', name: 'Ayşe Yılmaz', initials: 'AY', bgColor: 'bg-primary-100', textColor: 'text-primary-700' },
+  { text: '"EN hızlı kargo deneyimiydi, ürünler harika paketlenmişti. Gece lambasının ışık kalitesi beklentimin EN üstünde çıktı."', name: 'Mehmet Kaya', initials: 'MK', bgColor: 'bg-primary-200', textColor: 'text-primary-800' },
+  { text: '"Üçüncü kez alışveriş yapıyorum. Her seferinde EN iyi kalite ve özen. Müşteri hizmetleri de EN ilgili ve çözüm odaklı."', name: 'Zeynep Demir', initials: 'ZD', bgColor: 'bg-primary-300', textColor: 'text-white' },
 ]
 
 export default function HomePage() {
@@ -114,18 +114,18 @@ export default function HomePage() {
               </h1>
 
               <p className="text-base md:text-lg text-neutral-400 max-w-md leading-relaxed">
-                Surdurulebilir, cevre dostu ve yenilikci urunlerle yasam alaninizi donusturun. Her urun dogadan ilham alir.
+                EN doğal, EN sürdürülebilir, EN yenilikçi ürünlerle yaşam alanınızı dönüştürün. Doğadan ilham alan EN özel koleksiyonlar burada.
               </p>
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-3">
                 <Link href="/products" className="inline-flex items-center gap-2 px-5 md:px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-md hover:shadow-align-lg transition-all cursor-pointer min-h-[44px]">
-                  Kesfet
+                  EN İyileri Keşfet
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                 </Link>
                 <Link href="/flash-sales" className="inline-flex items-center gap-2 px-5 md:px-6 py-3 bg-white border border-neutral-200 hover:border-primary-300 text-neutral-700 text-sm font-semibold rounded-xl shadow-align-xs hover:shadow-align-sm transition-all cursor-pointer min-h-[44px]">
                   <svg className="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/><path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z"/></svg>
-                  Firsatlar
+                  EN Büyük Fırsatlar
                 </Link>
               </div>
 
@@ -137,7 +137,7 @@ export default function HomePage() {
                     <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary-300 border-2 border-white flex items-center justify-center text-xs font-bold text-primary-800">M</div>
                     <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary-400 border-2 border-white flex items-center justify-center text-xs font-bold text-white">S</div>
                   </div>
-                  <span className="text-xs text-neutral-400"><strong className="text-neutral-600">2.4k+</strong> Mutlu Musteri</span>
+                  <span className="text-xs text-neutral-400"><strong className="text-neutral-600">2.4k+</strong> Mutlu Müşteri</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <div className="flex text-yellow-400">
@@ -200,15 +200,15 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <div className="flex items-center gap-2 md:gap-3 text-white">
               <svg className="w-4 md:w-5 h-4 md:h-5 text-primary-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008v.008h-.008v-.008zm0 0L5.25 6.75h13.5l1.875 7.5"/></svg>
-              <span className="text-xs md:text-sm font-medium">Ucretsiz Kargo</span>
+              <span className="text-xs md:text-sm font-medium">EN Hızlı Kargo</span>
             </div>
             <div className="flex items-center gap-2 md:gap-3 text-white">
               <svg className="w-4 md:w-5 h-4 md:h-5 text-primary-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-              <span className="text-xs md:text-sm font-medium">Guvenli Odeme</span>
+              <span className="text-xs md:text-sm font-medium">EN Güvenli Ödeme</span>
             </div>
             <div className="flex items-center gap-2 md:gap-3 text-white">
               <svg className="w-4 md:w-5 h-4 md:h-5 text-primary-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>
-              <span className="text-xs md:text-sm font-medium">14 Gun Iade</span>
+              <span className="text-xs md:text-sm font-medium">EN Kolay İade</span>
             </div>
             <div className="flex items-center gap-2 md:gap-3 text-white">
               <svg className="w-4 md:w-5 h-4 md:h-5 text-primary-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
@@ -224,10 +224,10 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <p className="text-sm font-semibold text-primary-500 mb-1">Kategoriler</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Populer Kategoriler</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">EN Çok Tercih Edilen Kategoriler</h2>
             </div>
             <Link href="/products" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
-              Tumunu Gor
+              Tümünü Gör
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
             </Link>
           </div>
@@ -239,7 +239,7 @@ export default function HomePage() {
                   {cat.icon}
                 </div>
                 <p className="text-xs md:text-sm font-semibold text-neutral-700 group-hover:text-primary-700">{cat.name}</p>
-                <p className="text-xs text-neutral-400 mt-1">{cat.count} Urun</p>
+                <p className="text-xs text-neutral-400 mt-1">{cat.count} Ürün</p>
               </Link>
             ))}
           </div>
@@ -252,13 +252,13 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-6 md:mb-10">
             <div>
               <p className="text-sm font-semibold text-primary-500 mb-1">Koleksiyon</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Trend Urunler</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">EN Trend Ürünler</h2>
             </div>
             <div className="hidden md:flex items-center bg-neutral-50 rounded-xl p-1">
-              <button className="px-4 py-2 text-sm font-medium bg-white text-neutral-800 rounded-lg shadow-align-xs cursor-pointer">Tumu</button>
-              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">Yeni</button>
-              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">Populer</button>
-              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">Indirimli</button>
+              <button className="px-4 py-2 text-sm font-medium bg-white text-neutral-800 rounded-lg shadow-align-xs cursor-pointer">Tümü</button>
+              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">EN Yeni</button>
+              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">EN Popüler</button>
+              <button className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-neutral-600 rounded-lg cursor-pointer">İndirimli</button>
             </div>
           </div>
 
@@ -318,16 +318,16 @@ export default function HomePage() {
             <div className="relative grid md:grid-cols-2 gap-6 md:gap-8 items-center">
               <div className="space-y-4 md:space-y-6">
                 <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs font-medium text-white">
-                  Sinirli Sure
+                  Sınırlı Süre
                 </span>
                 <h2 className="text-2xl md:text-4xl font-extrabold text-white leading-tight">
-                  Bahar Koleksiyonu<br/>
-                  <span className="text-primary-200">{`%40'a Varan Indirim`}</span>
+                  EN Yeni Bahar Koleksiyonu<br/>
+                  <span className="text-primary-200">{`%40'a Varan İndirim`}</span>
                 </h2>
-                <p className="text-sm md:text-base text-primary-100 max-w-md">Dogadan ilham alan yeni bahar koleksiyonumuz sinirli sureliğine ozel fiyatlarla sizlerle.</p>
+                <p className="text-sm md:text-base text-primary-100 max-w-md">Doğadan ilham alan EN özel bahar koleksiyonumuz, sınırlı süreliğine EN düşük fiyatlarla sizlerle.</p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="/products" className="inline-flex items-center gap-2 px-5 md:px-6 py-3 bg-white text-primary-700 text-sm font-semibold rounded-xl hover:bg-primary-50 transition-colors cursor-pointer min-h-[44px]">
-                    Hemen Alisveris Yap
+                    EN İyi Fırsatları Yakala
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                   </Link>
                 </div>
@@ -335,7 +335,7 @@ export default function HomePage() {
               {/* Countdown Timer */}
               <div className="flex justify-center md:justify-end">
                 <div className="grid grid-cols-4 gap-2 md:gap-3 text-center">
-                  {[{ val: '03', label: 'Gun' }, { val: '14', label: 'Saat' }, { val: '27', label: 'Dakika' }, { val: '52', label: 'Saniye' }].map((t) => (
+                  {[{ val: '03', label: 'Gün' }, { val: '14', label: 'Saat' }, { val: '27', label: 'Dakika' }, { val: '52', label: 'Saniye' }].map((t) => (
                     <div key={t.label} className="bg-white/10 backdrop-blur-sm rounded-xl md:rounded-2xl p-2.5 md:p-4 min-w-[56px] md:min-w-[70px]">
                       <span className="block text-xl md:text-3xl font-bold text-white">{t.val}</span>
                       <span className="text-[10px] md:text-xs text-primary-200 mt-1">{t.label}</span>
@@ -353,7 +353,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <p className="text-sm font-semibold text-primary-500 mb-1">Yorumlar</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Musterilerimiz Ne Diyor?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">EN Mutlu Müşterilerimiz Ne Diyor?</h2>
           </div>
 
           <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none' }}>
@@ -367,7 +367,7 @@ export default function HomePage() {
                   <div className={`w-10 h-10 rounded-full ${t.bgColor} flex items-center justify-center text-sm font-bold ${t.textColor}`}>{t.initials}</div>
                   <div>
                     <p className="text-sm font-semibold text-neutral-800">{t.name}</p>
-                    <p className="text-xs text-neutral-400">Dogrulanmis Alici</p>
+                    <p className="text-xs text-neutral-400">Doğrulanmış Alıcı</p>
                   </div>
                 </div>
               </div>
@@ -384,8 +384,8 @@ export default function HomePage() {
               <div className="w-12 h-12 md:w-14 md:h-14 mx-auto bg-primary-100 rounded-2xl flex items-center justify-center">
                 <svg className="w-6 md:w-7 h-6 md:h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-neutral-900">Yeniliklerden Haberdar Olun</h2>
-              <p className="text-sm text-neutral-500">Yeni urunler, indirimler ve ilham verici icerikler icin bultenimize abone olun.</p>
+              <h2 className="text-xl md:text-2xl font-bold text-neutral-900">EN Yeni Fırsatlardan İlk Siz Haberdar Olun</h2>
+              <p className="text-sm text-neutral-500">EN özel indirimler, EN yeni ürünler ve ilham verici içerikler için bültenimize abone olun.</p>
               <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
                 <input type="email" placeholder="E-posta adresiniz" className="flex-1 px-4 py-3 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all min-h-[44px]" />
                 <button className="px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-sm transition-all whitespace-nowrap cursor-pointer min-h-[44px]">
@@ -403,16 +403,16 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
-              <h2 className="text-2xl font-bold text-white">{`enolsun.com'da Satisa Basla!`}</h2>
-              <p className="text-primary-200 mt-2">En hizli buyuyen pazar yerinde magazani ac, milyonlara ulas.</p>
+              <h2 className="text-2xl font-bold text-white">{`enolsun.com'da EN Kolay Satışa Başla!`}</h2>
+              <p className="text-primary-200 mt-2">EN hızlı büyüyen pazar yerinde mağazanı aç, EN geniş müşteri kitlesine ulaş.</p>
             </div>
             <div className="flex gap-3">
               <Link href="/seller-register" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 text-sm font-semibold rounded-xl hover:bg-primary-50 transition-colors">
-                Hemen Basvur
+                Hemen Başvur
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
               </Link>
               <Link href="/seller-login" className="inline-flex items-center gap-2 px-6 py-3 border border-primary-400 text-primary-200 text-sm font-semibold rounded-xl hover:bg-primary-800 transition-colors">
-                Satici Girisi
+                Satıcı Girişi
               </Link>
             </div>
           </div>

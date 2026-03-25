@@ -20,11 +20,14 @@ export default function CardsPage() {
   };
 
   return (
+    <>
+    <title>Kayıtlı Kartlarım | enolsun.com — EN Güvenli Ödeme</title>
+    <meta name="description" content="enolsun.com kayıtlı kartlarınız. 256-bit SSL şifreleme ile EN güvenli ödeme deneyimi. Kartlarınızı güvenle saklayın." />
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Kartlarim</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Kayıtlı Kartlarım</h1>
         <button onClick={() => setShowForm(!showForm)} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
-          {showForm ? "Iptal" : "+ Yeni Kart"}
+          {showForm ? "İptal" : "+ Yeni Kart"}
         </button>
       </div>
 
@@ -34,11 +37,11 @@ export default function CardsPage() {
           <h2 className="text-base font-bold text-neutral-900 mb-5">Yeni Kart Ekle</h2>
           <div className="space-y-4 max-w-md">
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Uzerindeki Isim</label>
+              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Üzerindeki İsim</label>
               <input type="text" placeholder="EMRE YILMAZ" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all uppercase" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarasi</label>
+              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarası</label>
               <input type="text" placeholder="0000 0000 0000 0000" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all tabular-nums" />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -51,7 +54,7 @@ export default function CardsPage() {
                 <input type="text" placeholder="000" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
               </div>
             </div>
-            <button onClick={() => setShowForm(false)} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Karti Kaydet</button>
+            <button onClick={() => setShowForm(false)} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Kartı Kaydet</button>
           </div>
         </div>
       )}
@@ -61,7 +64,7 @@ export default function CardsPage() {
         {cards.map((card) => (
           <div key={card.id} className={`relative rounded-2xl p-5 overflow-hidden group hover:-translate-y-1 hover:shadow-align-lg transition-all duration-300 ${card.brand === "VISA" ? "bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800" : "bg-gradient-to-br from-neutral-700 via-neutral-800 to-neutral-900"}`}>
             {card.isDefault && (
-              <span className="absolute top-3 right-3 text-[10px] font-semibold text-white/80 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">Varsayilan</span>
+              <span className="absolute top-3 right-3 text-[10px] font-semibold text-white/80 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">Varsayılan</span>
             )}
             <div className="mb-8">
               <span className="text-xs font-bold text-white/60 tracking-widest">{card.brand}</span>
@@ -81,7 +84,7 @@ export default function CardsPage() {
             </div>
             <div className="flex gap-3 mt-4 pt-3 border-t border-white/10">
               {!card.isDefault && (
-                <button onClick={() => setDefault(card.id)} className="text-xs font-medium text-white/70 hover:text-white transition-colors">Varsayilan Yap</button>
+                <button onClick={() => setDefault(card.id)} className="text-xs font-medium text-white/70 hover:text-white transition-colors">Varsayılan Yap</button>
               )}
               <button onClick={() => removeCard(card.id)} className="text-xs font-medium text-red-300 hover:text-red-200 transition-colors">Sil</button>
             </div>
@@ -94,10 +97,11 @@ export default function CardsPage() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-neutral-50 flex items-center justify-center">
             <svg className="w-10 h-10 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
           </div>
-          <h2 className="text-lg font-bold text-neutral-900 mb-2">Kayitli kart yok</h2>
-          <p className="text-sm text-neutral-400">Hizli odeme icin kart ekleyin.</p>
+          <h2 className="text-lg font-bold text-neutral-900 mb-2">Kayıtlı kart yok</h2>
+          <p className="text-sm text-neutral-400">EN güvenli ödeme için kartınızı ekleyin. 256-bit SSL şifreleme ile korunur.</p>
         </div>
       )}
     </div>
+    </>
   );
 }

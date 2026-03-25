@@ -81,13 +81,13 @@ export default function FlashSalesPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-400/20 mb-6">
               <svg className="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z" /></svg>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white mb-4 tracking-tight">Flas Firsatlar</h1>
-            <p className="text-lg sm:text-xl text-primary-200 mb-10 max-w-2xl mx-auto">Kacirilmayacak indirimler, sinirli sure!</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white mb-4 tracking-tight">EN Büyük Flaş Fırsatlar</h1>
+            <p className="text-lg sm:text-xl text-primary-200 mb-10 max-w-2xl mx-auto">EN büyük indirimler, EN kısa süre! Kaçırılmayacak fırsatlar sizi bekliyor.</p>
 
             <div className="inline-flex items-center gap-3 sm:gap-5 bg-white/10 backdrop-blur-sm rounded-2xl px-6 sm:px-10 py-5 border border-white/10">
               <div className="text-center">
                 <div className="tabular-nums text-3xl sm:text-5xl font-extrabold text-white">{String(main.d).padStart(2, "0")}</div>
-                <div className="text-xs sm:text-sm text-primary-200 font-medium mt-1">GUN</div>
+                <div className="text-xs sm:text-sm text-primary-200 font-medium mt-1">GÜN</div>
               </div>
               <span className="text-2xl sm:text-4xl font-bold text-yellow-400/60">:</span>
               <div className="text-center">
@@ -116,16 +116,16 @@ export default function FlashSalesPage() {
             <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15.536 8.464a5 5 0 010 7.072M12 12v.01M17.657 6.343a8 8 0 010 11.314M6.343 6.343a8 8 0 000 11.314M8.464 15.536a5 5 0 010-7.072" /></svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900">Aktif Kampanyalar</h2>
-            <p className="text-sm text-neutral-400">Su an devam eden ozel firsatlar</p>
+            <h2 className="text-2xl font-bold text-neutral-900">EN Aktif Kampanyalar</h2>
+            <p className="text-sm text-neutral-400">Şu an devam eden EN özel fırsatlar</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            { title: "Ev & Yasam Festivali", desc: "Evinizi yenileyin, butcenizi koruyun", discount: 40, time: "2 gun 14 saat kaldi", gradient: "from-amber-400 via-orange-400 to-red-400", icon: <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />, timeColor: "text-orange-700 bg-orange-50" },
-            { title: "Aydinlatma Senligi", desc: "Mekanlariniza isik katin", discount: 35, time: "1 gun 8 saat kaldi", gradient: "from-yellow-300 via-amber-400 to-yellow-500", icon: <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />, timeColor: "text-orange-700 bg-orange-50" },
-            { title: "Dogal Bakim Haftasi", desc: "Doganin gucuyle guzellesin", discount: 50, time: "5 saat kaldi", gradient: "from-emerald-400 via-teal-400 to-cyan-500", icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" /></>, timeColor: "text-red-700 bg-red-50" },
+            { title: "Ev & Yaşam Festivali", desc: "EN iyi fiyatlarla evinizi yenileyin", discount: 40, time: "2 gün 14 saat kaldı", gradient: "from-amber-400 via-orange-400 to-red-400", icon: <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />, timeColor: "text-orange-700 bg-orange-50" },
+            { title: "Aydınlatma Şenliği", desc: "EN şık ışıklandırma çözümleri", discount: 35, time: "1 gün 8 saat kaldı", gradient: "from-yellow-300 via-amber-400 to-yellow-500", icon: <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />, timeColor: "text-orange-700 bg-orange-50" },
+            { title: "Doğal Bakım Haftası", desc: "EN doğal ürünlerle güzelleşin", discount: 50, time: "5 saat kaldı", gradient: "from-emerald-400 via-teal-400 to-cyan-500", icon: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" /></>, timeColor: "text-red-700 bg-red-50" },
           ].map((c, i) => (
             <div key={i} className="group rounded-2xl overflow-hidden border border-neutral-100 bg-white hover:-translate-y-1 hover:shadow-align-lg transition-all duration-300">
               <div className={`relative h-48 bg-gradient-to-br ${c.gradient} flex items-center justify-center`}>
@@ -142,7 +142,7 @@ export default function FlashSalesPage() {
                     {c.time}
                   </span>
                 </div>
-                <Link href="#" className="block w-full text-center py-2.5 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors min-h-[44px] flex items-center justify-center">Kampanyayi Gor</Link>
+                <Link href="#" className="block w-full text-center py-2.5 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors min-h-[44px] flex items-center justify-center">Kampanyayı Gör</Link>
               </div>
             </div>
           ))}
@@ -157,8 +157,8 @@ export default function FlashSalesPage() {
               <svg className="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z" /></svg>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-neutral-900">Flas Firsatlar</h2>
-              <p className="text-sm text-neutral-400">Stoklar tukenmeden kapmaya bakin!</p>
+              <h2 className="text-2xl font-bold text-neutral-900">Flaş Fırsatlar</h2>
+              <p className="text-sm text-neutral-400">EN hızlı kapasite tükeniyor, EN iyi fırsatları kaçırmayın!</p>
             </div>
           </div>
 
@@ -184,7 +184,7 @@ export default function FlashSalesPage() {
                     </div>
                     <div className="mb-2">
                       <div className="flex justify-between text-xs text-neutral-500 mb-1">
-                        <span>Satilan</span>
+                        <span>Satılan</span>
                         <span className="font-semibold">{p.sold}%</span>
                       </div>
                       <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
@@ -211,8 +211,8 @@ export default function FlashSalesPage() {
             <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900">Yakinda Baslayacak</h2>
-            <p className="text-sm text-neutral-400">Hatirlatma kurarak firsati kacirmayin</p>
+            <h2 className="text-2xl font-bold text-neutral-900">Yakında Başlayacak</h2>
+            <p className="text-sm text-neutral-400">Hatırlatma kurarak EN iyi fırsatı kaçırmayın</p>
           </div>
         </div>
 
@@ -226,7 +226,7 @@ export default function FlashSalesPage() {
                   <div className="absolute top-2.5 left-2.5 bg-neutral-600 text-white text-xs font-bold px-2 py-0.5 rounded-lg">%{discount}</div>
                   <div className="absolute bottom-2.5 right-2.5 bg-primary-700 text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
-                    Baslangic: {p.start}
+                    Başlangıç: {p.start}
                   </div>
                 </div>
                 <div className="p-4">
@@ -235,7 +235,7 @@ export default function FlashSalesPage() {
                     <span className="text-lg font-bold text-neutral-500">{p.sale} TL</span>
                     <span className="text-sm text-neutral-300 line-through">{p.original} TL</span>
                   </div>
-                  <button disabled className="w-full py-2 bg-neutral-200 text-neutral-400 text-sm font-semibold rounded-xl cursor-not-allowed">Hatirlat</button>
+                  <button disabled className="w-full py-2 bg-neutral-200 text-neutral-400 text-sm font-semibold rounded-xl cursor-not-allowed">Hatırlat</button>
                 </div>
               </div>
             );
@@ -253,8 +253,8 @@ export default function FlashSalesPage() {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-yellow-400/20 mb-5">
             <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 003 3h14a3 3 0 003-3zM6 4h12a2 2 0 012 2v4a8 8 0 01-16 0V6a2 2 0 012-2z" /></svg>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Flas firsatlari kacirma!</h2>
-          <p className="text-primary-200 mb-8 max-w-lg mx-auto">E-posta adresini birak, yeni kampanyalardan ve flas indirimlerden aninda haberdar ol.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">EN büyük fırsatları kaçırma!</h2>
+          <p className="text-primary-200 mb-8 max-w-lg mx-auto">E-posta adresini bırak, EN yeni kampanyalardan ve EN büyük indirimlerden anında haberdar ol.</p>
           <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
             <input type="email" required placeholder="ornek@email.com" className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-primary-300 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 text-sm min-h-[44px]" />
             <button type="submit" className="px-6 py-3 bg-white text-primary-700 font-semibold rounded-xl hover:bg-primary-50 transition-colors text-sm whitespace-nowrap min-h-[44px]">Abone Ol</button>

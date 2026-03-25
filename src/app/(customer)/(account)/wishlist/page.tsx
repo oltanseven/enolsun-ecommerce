@@ -4,12 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 
 const initialWishlist = [
-  { id: 1, name: "El Yapimi Bambu Lamba", price: 899, rating: 4.9, gradient: "from-yellow-200 to-amber-300" },
-  { id: 2, name: "Organik Yuz Bakim Seti", price: 449, rating: 4.8, gradient: "from-rose-200 to-pink-300" },
-  { id: 3, name: "Dogal Tas Difuzor", price: 349, rating: 4.6, gradient: "from-teal-200 to-cyan-300" },
+  { id: 1, name: "El Yapımı Bambu Lamba", price: 899, rating: 4.9, gradient: "from-yellow-200 to-amber-300" },
+  { id: 2, name: "Organik Yüz Bakım Seti", price: 449, rating: 4.8, gradient: "from-rose-200 to-pink-300" },
+  { id: 3, name: "Doğal Taş Difüzör", price: 349, rating: 4.6, gradient: "from-teal-200 to-cyan-300" },
   { id: 4, name: "Minimalist LED Avize", price: 1299, rating: 4.7, gradient: "from-violet-200 to-purple-300" },
-  { id: 5, name: "Ahsap Kesme Tahtasi", price: 279, rating: 4.5, gradient: "from-amber-200 to-yellow-300" },
-  { id: 6, name: "Pamuk Orgu Battaniye", price: 1199, rating: 4.8, gradient: "from-sky-200 to-blue-300" },
+  { id: 5, name: "Ahşap Kesme Tahtası", price: 279, rating: 4.5, gradient: "from-amber-200 to-yellow-300" },
+  { id: 6, name: "Pamuk Örgü Battaniye", price: 1199, rating: 4.8, gradient: "from-sky-200 to-blue-300" },
 ];
 
 export default function WishlistPage() {
@@ -20,10 +20,13 @@ export default function WishlistPage() {
   };
 
   return (
+    <>
+    <title>Favorilerim | enolsun.com</title>
+    <meta name="description" content="enolsun.com favori ürünleriniz. EN sevdiğiniz ürünleri burada toplayın, EN iyi fiyatları kaçırmayın." />
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Favorilerim</h1>
-        <span className="text-sm text-neutral-400">{items.length} urun</span>
+        <span className="text-sm text-neutral-400">{items.length} ürün</span>
       </div>
 
       {items.length === 0 ? (
@@ -31,9 +34,9 @@ export default function WishlistPage() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary-50 flex items-center justify-center">
             <svg className="w-10 h-10 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
           </div>
-          <h2 className="text-lg font-bold text-neutral-900 mb-2">Favori listeniz bos</h2>
-          <p className="text-sm text-neutral-400 mb-6">Begediginiz urunleri favorilere ekleyin!</p>
-          <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Urunlere Goz At</Link>
+          <h2 className="text-lg font-bold text-neutral-900 mb-2">Favori listeniz boş</h2>
+          <p className="text-sm text-neutral-400 mb-6">EN sevdiğin ürünleri burada topla!</p>
+          <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Ürünlere Göz At</Link>
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
@@ -61,5 +64,6 @@ export default function WishlistPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

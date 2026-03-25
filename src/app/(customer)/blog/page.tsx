@@ -2,86 +2,86 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Blog - enolsun.com | Surdurulebilir Yasam Rehberi",
+  title: "Blog | enolsun.com — EN Güncel İçerikler",
   description:
-    "enolsun.com blog: Surdurulebilir yasam, dogal urunler ve cevre dostu alisveris ipuclari.",
-  keywords: "enolsun blog, surdurulebilir yasam, dogal urunler, cevre dostu",
+    "enolsun.com blog: Sürdürülebilir yaşam, doğal ürünler ve çevre dostu alışveriş hakkında EN faydalı içerikler.",
+  keywords: "enolsun blog, sürdürülebilir yaşam, doğal ürünler, çevre dostu, yeşil yaşam rehberi",
   openGraph: {
-    title: "Blog - enolsun.com",
-    description: "Surdurulebilir yasam rehberiniz. En guncel icerikler.",
+    title: "Blog | enolsun.com — EN Güncel İçerikler",
+    description: "Sürdürülebilir yaşam rehberiniz. EN güncel ve EN faydalı içerikler.",
     type: "website",
   },
 };
 
 const posts = [
   {
-    title: "Surdurulebilir Alisversin 5 Altin Kurali",
+    title: "Sürdürülebilir Alışverişin 5 Altın Kuralı",
     excerpt:
-      "Cevre dostu alisveris aliskanliklari edinmek icin bilmeniz gereken en onemli 5 kural. Kucuk adimlarla buyuk degisimler yaratin.",
+      "Çevre dostu alışveriş alışkanlıkları edinmek için bilmeniz gereken EN önemli 5 kural. Küçük adımlarla büyük değişimler yaratın.",
     date: "20 Mart 2026",
-    category: "Surdurulebilirlik",
-    readTime: "5 dk",
+    category: "Sürdürülebilirlik",
+    readTime: "5 dk okuma",
     gradient: "from-emerald-100 to-teal-100",
   },
   {
-    title: "Bambu Urunlerinin Faydalari",
+    title: "Bambu Ürünlerinin EN Önemli Faydaları",
     excerpt:
-      "Bambu, en hizli buyuyen bitki olarak surdurulebilirlikte en onde gelen malzemelerden. Neden bambu secmelisiniz?",
+      "Bambu, EN hızlı büyüyen bitki olarak sürdürülebilirlikte EN önde gelen malzemelerden. Neden bambu seçmelisiniz?",
     date: "15 Mart 2026",
-    category: "Dogal Malzemeler",
-    readTime: "4 dk",
+    category: "Doğal Malzemeler",
+    readTime: "4 dk okuma",
     gradient: "from-lime-100 to-green-100",
   },
   {
-    title: "Evinizi Dogal Urunlerle Donusturun",
+    title: "Evinizi Doğal Ürünlerle Dönüştürmenin EN Kolay Yolları",
     excerpt:
-      "Yasam alaninizi en dogal haliyle donusturmenin yollari. Dogal dekorasyon ve cevre dostu ev urunleri rehberi.",
+      "Yaşam alanınızı EN doğal hâliyle dönüştürmenin yolları. Doğal dekorasyon ve çevre dostu ev ürünleri rehberi.",
     date: "10 Mart 2026",
-    category: "Ev & Yasam",
-    readTime: "6 dk",
+    category: "Ev & Yaşam",
+    readTime: "6 dk okuma",
     gradient: "from-amber-100 to-yellow-100",
   },
   {
-    title: "Organik Cilt Bakimina Baslangic Rehberi",
+    title: "Organik Cilt Bakımına EN İyi Başlangıç Rehberi",
     excerpt:
-      "Cildiniz icin en dogal bakim rutinini olusturun. Kimyasal icermeyen urunlerle en saf guzellik.",
+      "Cildiniz için EN doğal bakım rutinini oluşturun. Kimyasal içermeyen ürünlerle EN saf güzellik.",
     date: "5 Mart 2026",
-    category: "Dogal Bakim",
-    readTime: "7 dk",
+    category: "Doğal Bakım",
+    readTime: "7 dk okuma",
     gradient: "from-rose-100 to-pink-100",
   },
   {
-    title: "Sifir Atik Mutfak: Adim Adim Rehber",
+    title: "Sıfır Atık Mutfak: Adım Adım Rehber",
     excerpt:
-      "Mutfaginizda atigi en aza indirmenin pratik yollari. Beeswax wrap, cam kavanoz ve daha fazlasi.",
-    date: "28 Subat 2026",
-    category: "Sifir Atik",
-    readTime: "5 dk",
+      "Mutfağınızda atığı EN aza indirmenin pratik yolları. Beeswax wrap, cam kavanoz ve daha fazlası.",
+    date: "28 Şubat 2026",
+    category: "Sıfır Atık",
+    readTime: "5 dk okuma",
     gradient: "from-sky-100 to-blue-100",
   },
   {
-    title: "2026'nin En Trend Eko-Giyim Parcalari",
+    title: "2026&apos;nın EN Trend Eko-Giyim Parçaları",
     excerpt:
-      "Bu sezonun en populer surdurulebilir moda trendleri. Organik pamuk, geri donusturulmus kumas ve daha fazlasi.",
-    date: "20 Subat 2026",
+      "Bu sezonun EN popüler sürdürülebilir moda trendleri. Organik pamuk, geri dönüştürülmüş kumaş ve daha fazlası.",
+    date: "20 Şubat 2026",
     category: "Moda",
-    readTime: "4 dk",
+    readTime: "4 dk okuma",
     gradient: "from-violet-100 to-purple-100",
   },
 ];
 
 const popularPosts = [
-  "Surdurulebilir Alisversin 5 Altin Kurali",
-  "Bambu Urunlerinin Faydalari",
-  "Organik Cilt Bakimina Baslangic Rehberi",
+  "Sürdürülebilir Alışverişin 5 Altın Kuralı",
+  "Bambu Ürünlerinin EN Önemli Faydaları",
+  "Organik Cilt Bakımına EN İyi Başlangıç Rehberi",
 ];
 
 const categories = [
-  "Surdurulebilirlik",
-  "Dogal Malzemeler",
-  "Ev & Yasam",
-  "Dogal Bakim",
-  "Sifir Atik",
+  "Sürdürülebilirlik",
+  "Doğal Malzemeler",
+  "Ev & Yaşam",
+  "Doğal Bakım",
+  "Sıfır Atık",
   "Moda",
 ];
 
@@ -92,13 +92,13 @@ export default function BlogPage() {
       <section className="bg-gradient-to-br from-primary-50 via-primary-25 to-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <span className="inline-block px-4 py-1.5 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-6">
-            En Guncel Icerikler
+            EN Güncel İçerikler
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-4">
             enolsun <span className="text-primary-500">Blog</span>
           </h1>
           <p className="text-lg text-neutral-500 max-w-2xl mx-auto">
-            Surdurulebilir yasam, dogal urunler ve cevre dostu alisveris hakkinda en faydali icerikler.
+            Sürdürülebilir yaşam, doğal ürünler ve çevre dostu alışveriş hakkında EN faydalı içerikler.
           </p>
         </div>
       </section>
@@ -136,7 +136,7 @@ export default function BlogPage() {
                       <div className="flex items-center justify-between">
                         <span className="text-neutral-400 text-xs">{post.date}</span>
                         <span className="text-primary-500 text-sm font-medium hover:text-primary-600 cursor-pointer">
-                          Devamini Oku &rarr;
+                          Devamını Oku &rarr;
                         </span>
                       </div>
                     </div>
@@ -149,7 +149,7 @@ export default function BlogPage() {
             <aside className="space-y-8">
               {/* Popular Posts */}
               <div className="bg-neutral-25 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Populer Yazilar</h3>
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Popüler Yazılar</h3>
                 <ul className="space-y-3">
                   {popularPosts.map((title, i) => (
                     <li key={title} className="flex gap-3 items-start">
@@ -181,9 +181,9 @@ export default function BlogPage() {
 
               {/* Newsletter */}
               <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl p-6 text-white">
-                <h3 className="text-lg font-semibold mb-2">Bultenimize Katilin</h3>
+                <h3 className="text-lg font-semibold mb-2">Bültenimize Katılın</h3>
                 <p className="text-primary-100 text-sm mb-4">
-                  En yeni icerikleri ve firsat bildirimlerini kacirmayin.
+                  EN yeni içerikleri ve EN özel fırsat bildirimlerini kaçırmayın.
                 </p>
                 <div className="space-y-2">
                   <input

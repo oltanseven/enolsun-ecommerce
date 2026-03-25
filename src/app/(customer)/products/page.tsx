@@ -12,10 +12,10 @@ const SmallStar = ({ filled = true }: { filled?: boolean }) => (
 )
 
 const filterCategories = [
-  { name: 'Ev & Yasam', count: 18 },
-  { name: 'Dogal Bakim', count: 12 },
+  { name: 'Ev & Yaşam', count: 18 },
+  { name: 'Doğal Bakım', count: 12 },
   { name: 'Eko Giyim', count: 10 },
-  { name: 'Aydinlatma', count: 8 },
+  { name: 'Aydınlatma', count: 8 },
   { name: 'Mutfak', count: 9 },
   { name: 'Outdoor', count: 7 },
 ]
@@ -23,11 +23,11 @@ const filterCategories = [
 const colors = [
   { name: 'Siyah', bg: 'bg-neutral-900', selected: true },
   { name: 'Beyaz', bg: 'bg-white' },
-  { name: 'Yesil', bg: 'bg-primary-500' },
+  { name: 'Yeşil', bg: 'bg-primary-500' },
   { name: 'Kahverengi', bg: 'bg-amber-600' },
   { name: 'Mavi', bg: 'bg-blue-500' },
-  { name: 'Kirmizi', bg: 'bg-red-500' },
-  { name: 'Sari', bg: 'bg-yellow-400' },
+  { name: 'Kırmızı', bg: 'bg-red-500' },
+  { name: 'Sarı', bg: 'bg-yellow-400' },
   { name: 'Gri', bg: 'bg-neutral-300' },
 ]
 
@@ -52,7 +52,7 @@ export default function ProductsPage() {
     <div className="space-y-6">
       {/* Kategori */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Kategori</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Kategoriler</h3>
         <div className="space-y-3">
           {filterCategories.map((cat) => (
             <label key={cat.name} className="flex items-center gap-3 cursor-pointer group">
@@ -66,7 +66,7 @@ export default function ProductsPage() {
 
       {/* Fiyat Araligi */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Araligi</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Aralığı</h3>
         <div className="space-y-4">
           <div>
             <input type="range" min="0" max="5000" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} className="w-full accent-primary-500" />
@@ -101,7 +101,7 @@ export default function ProductsPage() {
 
       {/* Degerlendirme */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Degerlendirme</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Değerlendirme</h3>
         <div className="space-y-2">
           {[5, 4, 3].map((rating) => (
             <label key={rating} className="flex items-center gap-2 cursor-pointer group">
@@ -125,7 +125,7 @@ export default function ProductsPage() {
           <nav aria-label="Sayfa yolu" className="flex items-center gap-2 text-sm text-neutral-400 overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
             <Link href="/" className="hover:text-primary-500 transition-colors flex-shrink-0">Ana Sayfa</Link>
             <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-            <span className="text-neutral-700 font-medium flex-shrink-0">Urunler</span>
+            <span className="text-neutral-700 font-medium flex-shrink-0">Ürünler</span>
           </nav>
         </div>
       </div>
@@ -135,8 +135,8 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">Tum Urunler</h1>
-              <p className="mt-1 text-neutral-400 text-sm">Toplam <span className="font-semibold text-neutral-600">64</span> urun listeleniyor</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">Tüm Ürünler</h1>
+              <p className="mt-1 text-neutral-400 text-sm">EN geniş ürün yelpazemizde toplam <span className="font-semibold text-neutral-600">64</span> ürün listeleniyor</p>
             </div>
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function ProductsPage() {
               <div className="absolute inset-0 bg-black/40" onClick={() => setFilterOpen(false)} />
               <div className="absolute top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-align-xl overflow-y-auto flex flex-col slide-in-left">
                 <div className="flex items-center justify-between p-5 border-b border-neutral-100">
-                  <h2 className="text-lg font-bold text-neutral-900">Filtreler</h2>
+                  <h2 className="text-lg font-bold text-neutral-900">Filtrele</h2>
                   <button onClick={() => setFilterOpen(false)} className="p-2 text-neutral-400 hover:text-neutral-600 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
@@ -168,7 +168,7 @@ export default function ProductsPage() {
                   <FilterContent />
                 </div>
                 <div className="p-5 border-t border-neutral-100">
-                  <button onClick={() => setFilterOpen(false)} className="w-full py-3 bg-primary-500 text-white font-semibold rounded-xl hover:bg-primary-600 transition-colors min-h-[44px]">Filtreleri Uygula</button>
+                  <button onClick={() => setFilterOpen(false)} className="w-full py-3 bg-primary-500 text-white font-semibold rounded-xl hover:bg-primary-600 transition-colors min-h-[44px]">EN İyi Sonuçları Göster</button>
                 </div>
               </div>
             </div>
@@ -188,11 +188,11 @@ export default function ProductsPage() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400">
-                    <option value="popular">Populerlik</option>
-                    <option value="newest">En Yeniler</option>
-                    <option value="price_asc">Fiyat: Artan</option>
-                    <option value="price_desc">Fiyat: Azalan</option>
-                    <option value="rating">Puan</option>
+                    <option value="popular">EN Popüler</option>
+                    <option value="newest">EN Yeniler</option>
+                    <option value="price_asc">Fiyat: EN Düşük</option>
+                    <option value="price_desc">Fiyat: EN Yüksek</option>
+                    <option value="rating">EN Yüksek Puan</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-1 bg-neutral-50 rounded-lg p-1">

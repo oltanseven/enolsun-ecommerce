@@ -83,11 +83,11 @@ export default function CartPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-neutral-900 mb-2">Sepetiniz bos</h2>
-            <p className="text-xs sm:text-sm text-neutral-400 mb-6 sm:mb-8">Henuz sepetinize urun eklemediniz. Harika urunlerimize goz atin!</p>
+            <h2 className="text-lg sm:text-xl font-bold text-neutral-900 mb-2">Sepetiniz şu an boş</h2>
+            <p className="text-xs sm:text-sm text-neutral-400 mb-6 sm:mb-8">EN iyi ürünlerimiz sizi bekliyor! EN çok beğenilen koleksiyonlarımıza göz atın.</p>
             <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-sm transition-all hover:shadow-align-md active:scale-[0.98] min-h-[48px]">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-              Alisverise Basla
+              EN İyileri Keşfet
             </Link>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function CartPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900">Sepetim</h1>
-              <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 text-primary-700">{items.length} urun</span>
+              <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 text-primary-700">{items.length} ürün</span>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default function CartPage() {
             <div className="flex-1 h-0.5 bg-neutral-200 mx-2 sm:mx-3 rounded-full"></div>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-neutral-100 text-neutral-400 flex items-center justify-center text-xs sm:text-sm font-medium border border-neutral-200">2</div>
-              <span className="text-xs sm:text-sm font-medium text-neutral-400 hidden sm:inline">Odeme</span>
+              <span className="text-xs sm:text-sm font-medium text-neutral-400 hidden sm:inline">Ödeme</span>
             </div>
             <div className="flex-1 h-0.5 bg-neutral-200 mx-2 sm:mx-3 rounded-full"></div>
             <div className="flex items-center gap-1.5 sm:gap-2">
@@ -155,7 +155,7 @@ export default function CartPage() {
                           {item.size && <span className="inline-flex items-center text-[10px] sm:text-xs text-neutral-500 bg-neutral-50 border border-neutral-100 rounded-lg px-1.5 sm:px-2 py-0.5">{item.size}</span>}
                         </div>
                       </div>
-                      <button onClick={() => removeItem(item.id)} className="p-2 sm:p-1.5 text-neutral-300 hover:text-error-base hover:bg-error-light rounded-lg transition-colors flex-shrink-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" title="Kaldir">
+                      <button onClick={() => removeItem(item.id)} className="p-2 sm:p-1.5 text-neutral-300 hover:text-error-base hover:bg-error-light rounded-lg transition-colors flex-shrink-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" title="Kaldır">
                         <svg className="w-5 h-5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                         </svg>
@@ -184,7 +184,7 @@ export default function CartPage() {
             <div className="pt-2">
               <Link href="/" className="flex sm:inline-flex items-center justify-center sm:justify-start gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors group w-full sm:w-auto px-4 py-3 sm:px-0 sm:py-0 border border-primary-200 sm:border-0 rounded-xl sm:rounded-none bg-primary-25 sm:bg-transparent min-h-[48px] sm:min-h-0">
                 <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-                Alisverise Devam Et
+                Alışverişe Devam Et
               </Link>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function CartPage() {
           {/* Right Column - Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl border border-neutral-100 shadow-align-sm p-4 sm:p-6 lg:sticky lg:top-24 animate-scale-in">
-              <h2 className="text-lg font-bold text-neutral-900 mb-4 sm:mb-5">Siparis Ozeti</h2>
+              <h2 className="text-lg font-bold text-neutral-900 mb-4 sm:mb-5">Sipariş Özeti</h2>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-neutral-500">Ara Toplam</span>
@@ -202,14 +202,14 @@ export default function CartPage() {
                   <span className="text-neutral-500">Kargo</span>
                   <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-0.5">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                    Ucretsiz
+                    Ücretsiz
                   </span>
                 </div>
               </div>
 
               {/* Coupon Input */}
               <div className="mt-4 sm:mt-5">
-                <label className="text-xs font-medium text-neutral-500 mb-1.5 block">Indirim Kuponu</label>
+                <label className="text-xs font-medium text-neutral-500 mb-1.5 block">İndirim Kuponu</label>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input type="text" value={coupon} onChange={(e) => setCoupon(e.target.value)} placeholder="Kupon kodu girin" className="w-full sm:flex-1 px-3 py-3 sm:py-2.5 text-sm border border-neutral-200 rounded-xl bg-white placeholder:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all min-h-[48px] sm:min-h-0" />
                   <button onClick={applyCouponCode} className="w-full sm:w-auto px-4 py-3 sm:py-2.5 text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 border border-primary-200 rounded-xl transition-colors flex-shrink-0 min-h-[48px] sm:min-h-0">Uygula</button>
@@ -230,7 +230,7 @@ export default function CartPage() {
               {discount > 0 && (
                 <div className="mt-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-primary-600">Indirim</span>
+                    <span className="text-primary-600">İndirim</span>
                     <span className="font-medium text-primary-600">-{formatPrice(discount)}</span>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function CartPage() {
               </div>
 
               <Link href="/checkout" className="hidden md:flex w-full items-center justify-center gap-2 px-6 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-sm transition-all hover:shadow-align-md active:scale-[0.98]">
-                Odemeye Gec
+                Güvenli Ödemeye Geç
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </Link>
 
@@ -253,15 +253,15 @@ export default function CartPage() {
                 <div className="flex items-center justify-center gap-3 sm:gap-4 text-neutral-400 flex-wrap">
                   <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs">
                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
-                    <span>Guvenli Odeme</span>
+                    <span>EN Güvenli Ödeme</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs">
                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
-                    <span>SSL Sifreleme</span>
+                    <span>SSL Şifreleme</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs">
                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
-                    <span>Ucretsiz Kargo</span>
+                    <span>Ücretsiz Kargo</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center gap-2 mt-3 sm:mt-4">
@@ -283,7 +283,7 @@ export default function CartPage() {
             <p className="text-lg font-bold text-neutral-900">{formatPrice(total)}</p>
           </div>
           <Link href="/checkout" className="flex-1 max-w-[200px] flex items-center justify-center gap-2 px-5 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-align-sm transition-all active:scale-[0.98] min-h-[48px]">
-            Odemeye Gec
+            Güvenli Ödemeye Geç
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
           </Link>
         </div>

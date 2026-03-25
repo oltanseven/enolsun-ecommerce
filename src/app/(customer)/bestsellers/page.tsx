@@ -4,17 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 
 const categories = [
-  { key: "all", label: "Tumu" },
-  { key: "ev", label: "Ev & Yasam" },
-  { key: "bakim", label: "Dogal Bakim" },
-  { key: "aydinlatma", label: "Aydinlatma" },
+  { key: "all", label: "Tümü" },
+  { key: "ev", label: "Ev & Yaşam" },
+  { key: "bakim", label: "Doğal Bakım" },
+  { key: "aydinlatma", label: "Aydınlatma" },
   { key: "mutfak", label: "Mutfak" },
 ];
 
 const top3 = [
-  { rank: 2, name: "Organik Yuz Bakim Seti", desc: "7 parca dogal icerikli set", cat: "bakim", rating: 4.8, reviews: 312, sold: "2.140", price: 449, border: "border-2 border-gray-400", gradient: "from-gray-200 via-gray-100 to-gray-300", badgeBg: "bg-gray-400", order: "order-2 lg:order-1" },
-  { rank: 1, name: "El Yapimi Bambu Lamba", desc: "Surdurulebilir bambudan, minimalist tasarim", cat: "ev", rating: 4.9, reviews: 487, sold: "3.247", price: 899, border: "border-2 border-[#d4a017]", gradient: "from-yellow-200 via-amber-100 to-orange-200", badgeBg: "bg-gradient-to-br from-yellow-500 to-amber-600", order: "order-1 lg:order-2", featured: true },
-  { rank: 3, name: "Minimalist LED Avize", desc: "Modern cizgiler, sicak isik", cat: "aydinlatma", rating: 4.7, reviews: 198, sold: "1.856", price: 1299, border: "border-2 border-[#b87333]", gradient: "from-orange-200 via-amber-100 to-yellow-200", badgeBg: "bg-gradient-to-br from-amber-600 to-orange-700", order: "order-3" },
+  { rank: 2, name: "Organik Yüz Bakım Seti", desc: "7 parça doğal içerikli EN etkili set", cat: "bakim", rating: 4.8, reviews: 312, sold: "2.140", price: 449, border: "border-2 border-gray-400", gradient: "from-gray-200 via-gray-100 to-gray-300", badgeBg: "bg-gray-400", order: "order-2 lg:order-1" },
+  { rank: 1, name: "El Yapımı Bambu Lamba", desc: "EN sürdürülebilir bambudan, minimalist tasarım", cat: "ev", rating: 4.9, reviews: 487, sold: "3.247", price: 899, border: "border-2 border-[#d4a017]", gradient: "from-yellow-200 via-amber-100 to-orange-200", badgeBg: "bg-gradient-to-br from-yellow-500 to-amber-600", order: "order-1 lg:order-2", featured: true },
+  { rank: 3, name: "Minimalist LED Avize", desc: "EN modern çizgiler, sıcak ışık", cat: "aydinlatma", rating: 4.7, reviews: 198, sold: "1.856", price: 1299, border: "border-2 border-[#b87333]", gradient: "from-orange-200 via-amber-100 to-yellow-200", badgeBg: "bg-gradient-to-br from-amber-600 to-orange-700", order: "order-3" },
 ];
 
 const products = [
@@ -64,8 +64,8 @@ export default function BestsellersPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-100 mb-6">
               <svg className="w-8 h-8 text-yellow-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 21 12 16.5 5.8 21l2.4-7.1L2 9.4h7.6z" /></svg>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-4 tracking-tight">Cok Satanlar</h1>
-            <p className="text-lg text-neutral-500 mb-10 max-w-xl mx-auto">Herkesin tercih ettigi urunler</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-4 tracking-tight">EN Çok Satanlar</h1>
+            <p className="text-lg text-neutral-500 mb-10 max-w-xl mx-auto">EN çok satan, EN çok beğenilen ürünler bir arada</p>
 
             <div className="flex flex-nowrap md:flex-wrap md:justify-center gap-2 overflow-x-auto scrollbar-hide px-2 md:px-0 pb-2 md:pb-0">
               {categories.map((c) => (
@@ -86,7 +86,7 @@ export default function BestsellersPage() {
               {item.featured && (
                 <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 21 12 16.5 5.8 21l2.4-7.1L2 9.4h7.6z" /></svg>
-                  En Cok Satan
+                  EN Çok Satan
                 </div>
               )}
               <div className={`relative ${item.featured ? "h-64 lg:h-72" : "h-56"} bg-gradient-to-br ${item.gradient} flex items-center justify-center`}>
@@ -95,18 +95,18 @@ export default function BestsellersPage() {
               </div>
               <div className={item.featured ? "p-6" : "p-5"}>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full">{item.cat === "ev" ? "Ev & Yasam" : item.cat === "bakim" ? "Dogal Bakim" : "Aydinlatma"}</span>
+                  <span className="text-xs font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full">{item.cat === "ev" ? "Ev & Yaşam" : item.cat === "bakim" ? "Doğal Bakım" : "Aydınlatma"}</span>
                 </div>
                 <h3 className={`${item.featured ? "text-xl" : "text-lg"} font-bold text-neutral-900 mb-1`}>{item.name}</h3>
                 <p className="text-sm text-neutral-400 mb-3">{item.desc}</p>
                 <div className="flex items-center gap-1 mb-2">
                   <Stars rating={item.rating} />
-                  <span className="text-xs text-neutral-400 ml-1">{item.rating} ({item.reviews} degerlendirme)</span>
+                  <span className="text-xs text-neutral-400 ml-1">{item.rating} ({item.reviews} değerlendirme)</span>
                 </div>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                    {item.sold} satildi
+                    {item.sold} satıldı
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export default function BestsellersPage() {
                     <span className="text-xs text-neutral-400 ml-1">{p.rating}</span>
                   </div>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full">{p.sold} satildi</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full">{p.sold} satıldı</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold text-primary-600">{p.price} TL</span>
@@ -156,8 +156,8 @@ export default function BestsellersPage() {
             <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900">Bu Hafta Yukselenler</h2>
-            <p className="text-sm text-neutral-400">Satislari hizla artan urunler</p>
+            <h2 className="text-2xl font-bold text-neutral-900">Bu Hafta EN Çok Yükselenler</h2>
+            <p className="text-sm text-neutral-400">Satışları EN hızlı artan ürünler</p>
           </div>
         </div>
 
@@ -175,7 +175,7 @@ export default function BestsellersPage() {
                 <h3 className="font-semibold text-neutral-900 text-sm mb-2">{p.name}</h3>
                 <div className="flex items-center gap-1.5 mb-3">
                   <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                  <span className="text-xs font-semibold text-green-600">Bu hafta %{p.increase} artis</span>
+                  <span className="text-xs font-semibold text-green-600">Bu hafta %{p.increase} artış</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-bold text-primary-600">{p.price} TL</span>

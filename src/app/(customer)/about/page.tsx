@@ -2,29 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Hakkimizda - enolsun.com | EN'lerin Dunyasina Hos Geldiniz!",
+  title: "Hakkımızda | enolsun.com — EN'lerin Hikayesi",
   description:
-    "enolsun.com hakkinda her sey. Turkiye'nin en surdurulebilir e-ticaret platformunun hikayesi, misyonu ve degerleri.",
-  keywords: "enolsun hakkinda, hakkimizda, surdurulebilir e-ticaret, dogal urunler",
+    "enolsun.com'un kuruluş hikayesi, misyonu ve vizyonu. EN güvenilir, EN sürdürülebilir e-ticaret platformunun değerleri.",
+  keywords: "enolsun hakkında, hakkımızda, sürdürülebilir e-ticaret, doğal ürünler, güvenilir alışveriş",
   openGraph: {
-    title: "Hakkimizda - enolsun.com",
-    description: "enolsun.com hakkinda her sey. EN'lerin hikayesini kesfet.",
+    title: "Hakkımızda | enolsun.com — EN'lerin Hikayesi",
+    description: "enolsun.com'un kuruluş hikayesi ve EN'lerin dünyasını keşfedin.",
     type: "website",
   },
 };
 
 const stats = [
-  { value: "50.000+", label: "Satici" },
-  { value: "2M+", label: "Musteri" },
+  { value: "50.000+", label: "Satıcı" },
+  { value: "2M+", label: "Mutlu Müşteri" },
   { value: "500M+", label: "Ciro (TL)" },
-  { value: "8", label: "Kategori" },
+  { value: "8", label: "Ana Kategori" },
 ];
 
 const values = [
   {
-    title: "En Surdurulebilir",
+    title: "EN Sürdürülebilir",
     description:
-      "Cevre dostu urunleri ve surdurulebilir is modellerini onceliklendiriyoruz. Her satis, daha yesil bir gelecege katki saglar.",
+      "Çevre dostu ürünleri ve sürdürülebilir iş modellerini önceliklendiriyoruz. Her satış, daha yeşil bir geleceğe katkı sağlar.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
@@ -32,9 +32,9 @@ const values = [
     ),
   },
   {
-    title: "En Guvenilir",
+    title: "EN Güvenilir",
     description:
-      "100% orijinal urun garantisi, guvenli odeme altyapisi ve seffaf satici degerlendirme sistemiyle guvende alisveris yapin.",
+      "%100 orijinal ürün garantisi, güvenli ödeme altyapısı ve şeffaf satıcı değerlendirme sistemiyle EN güvende alışveriş deneyimi.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
@@ -42,9 +42,9 @@ const values = [
     ),
   },
   {
-    title: "En Yenilikci",
+    title: "EN Yenilikçi",
     description:
-      "Yapay zeka destekli oneri sistemi, akilli arama ve kisisellestirilmis alisveris deneyimiyle sektore yon veriyoruz.",
+      "Yapay zekâ destekli öneri sistemi, akıllı arama ve kişiselleştirilmiş alışveriş deneyimiyle sektöre EN yenilikçi çözümleri sunuyoruz.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -54,8 +54,8 @@ const values = [
 ];
 
 const team = [
-  { name: "Emre Yilmaz", role: "Kurucu & CEO", initials: "EY" },
-  { name: "Ayse Demir", role: "CTO", initials: "AD" },
+  { name: "Emre Yılmaz", role: "Kurucu & CEO", initials: "EY" },
+  { name: "Ayşe Demir", role: "CTO", initials: "AD" },
   { name: "Mehmet Kaya", role: "CPO", initials: "MK" },
   { name: "Zeynep Arslan", role: "CMO", initials: "ZA" },
 ];
@@ -67,14 +67,14 @@ export default function AboutPage() {
       <section className="relative bg-gradient-to-br from-primary-50 via-primary-25 to-white py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <span className="inline-block px-4 py-1.5 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-6">
-            EN&apos;lerin Dunyasina Hos Geldiniz!
+            EN&apos;lerin Dünyasına Hoş Geldiniz!
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-800 mb-6">
-            enolsun.com <span className="text-primary-500">Hakkinda</span>
+            enolsun.com <span className="text-primary-500">Hakkımızda</span>
           </h1>
           <p className="text-lg md:text-xl text-neutral-500 max-w-3xl mx-auto leading-relaxed">
-            Turkiye&apos;nin en surdurulebilir e-ticaret platformu olarak, dogal ve cevre dostu urunleri
-            en genis kitlelere ulastiriyoruz. Her &quot;en&quot; bizim icin bir sorumluluk.
+            Türkiye&apos;nin EN sürdürülebilir e-ticaret platformu olarak, doğal ve çevre dostu ürünleri
+            EN geniş kitlelere ulaştırıyoruz. Her &quot;EN&quot; bizim için bir sorumluluk, her ürün bir güvence.
           </p>
         </div>
       </section>
@@ -88,24 +88,24 @@ export default function AboutPage() {
                 EN&apos;lerin Hikayesi
               </h2>
               <p className="text-neutral-500 mb-4 leading-relaxed">
-                2020 yilinda Istanbul&apos;da, dogal ve surdurulebilir urunlere ulasmanin neden bu kadar
-                zor oldugu sorusuyla yola ciktik. Amacimiz basitti: insanlarin en kaliteli, en dogal
-                ve en uygun fiyatli urunlere kolayca ulasmalarini saglamak.
+                2020 yılında İstanbul&apos;da, doğal ve sürdürülebilir ürünlere ulaşmanın neden bu kadar
+                zor olduğu sorusuyla yola çıktık. Amacımız basitti: insanların EN kaliteli, EN doğal
+                ve EN uygun fiyatlı ürünlere kolayca ulaşmasını sağlamak.
               </p>
               <p className="text-neutral-500 mb-4 leading-relaxed">
-                Bugün 50.000&apos;den fazla saticiyla Turkiye&apos;nin dort bir yanindan en ozel urunleri
-                bir araya getiriyoruz. Her urun, surdurulebilirlik kriterlerimizden gecerek
+                Bugün 50.000&apos;den fazla satıcıyla Türkiye&apos;nin dört bir yanından EN özel ürünleri
+                bir araya getiriyoruz. Her ürün, sürdürülebilirlik kriterlerimizden geçerek
                 platformumuza kabul ediliyor.
               </p>
               <p className="text-neutral-500 leading-relaxed">
-                Misyonumuz: Herkesin en dogal, en kaliteli ve en surdurulebilir urunlere ulasmalarini
-                saglamak. Cunku en iyisi dogada!
+                Misyonumuz: Herkesin EN doğal, EN kaliteli ve EN sürdürülebilir ürünlere ulaşmasını
+                sağlamak. Çünkü EN iyisi doğada, EN güzeli enolsun.com&apos;da!
               </p>
             </div>
             <div className="bg-gradient-to-br from-primary-100 to-primary-200 rounded-3xl p-12 flex items-center justify-center min-h-[320px]">
               <div className="text-center">
                 <div className="text-6xl mb-4">🌿</div>
-                <p className="text-primary-700 font-semibold text-lg">Dogan&apos;in Ilhamiyla</p>
+                <p className="text-primary-700 font-semibold text-lg">Doğanın İlhamıyla</p>
                 <p className="text-primary-600 text-sm mt-1">2020&apos;den beri</p>
               </div>
             </div>
@@ -131,9 +131,9 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-neutral-25">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-4">Degerlerimiz</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-4">Değerlerimiz</h2>
             <p className="text-neutral-500 max-w-2xl mx-auto">
-              Her adimimizda &quot;en&quot; olmak icin calisiyoruz. Bu degerler, bizi biz yapan temel taslar.
+              Her adımımızda &quot;EN&quot; olmak için çalışıyoruz. Bu değerler, bizi biz yapan temel taşlar.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -159,7 +159,7 @@ export default function AboutPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-4">Ekibimiz</h2>
             <p className="text-neutral-500 max-w-2xl mx-auto">
-              En tutkulu ekip, en buyuk fikirleri hayata gecirir.
+              EN tutkulu ekip, EN büyük fikirleri hayata geçirir.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -183,13 +183,13 @@ export default function AboutPage() {
             Sen de EN&apos;lerden biri ol!
           </h2>
           <p className="text-primary-100 mb-8 text-lg">
-            enolsun.com&apos;da satici olarak binlerce musteriye ulasin.
+            enolsun.com&apos;da satıcı olarak binlerce müşteriye ulaşın. EN büyük fırsatlar burada!
           </p>
           <Link
             href="/seller-register"
             className="inline-flex items-center px-8 py-3.5 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-25 transition-colors"
           >
-            Satici Ol
+            Satıcı Ol
             <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>

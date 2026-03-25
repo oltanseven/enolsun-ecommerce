@@ -39,22 +39,22 @@ export default function SellerRegisterPage() {
     switch (step) {
       case 1:
         if (!form.firstName || !form.lastName) { showToast("error", "Hata", "Ad ve soyad zorunludur."); return false }
-        if (!form.tcKimlik || form.tcKimlik.length !== 11) { showToast("error", "Hata", "TC Kimlik 11 haneli olmalidir."); return false }
-        if (!form.phone) { showToast("error", "Hata", "Telefon numarasi zorunludur."); return false }
-        if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { showToast("error", "Hata", "Gecerli bir e-posta giriniz."); return false }
-        if (!form.password || form.password.length < 6) { showToast("error", "Hata", "Sifre en az 6 karakter olmalidir."); return false }
+        if (!form.tcKimlik || form.tcKimlik.length !== 11) { showToast("error", "Hata", "TC Kimlik 11 haneli olmalıdır."); return false }
+        if (!form.phone) { showToast("error", "Hata", "Telefon numarası zorunludur."); return false }
+        if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { showToast("error", "Hata", "Geçerli bir e-posta giriniz."); return false }
+        if (!form.password || form.password.length < 6) { showToast("error", "Hata", "Şifre en az 6 karakter olmalıdır."); return false }
         return true
       case 2:
-        if (!form.storeName) { showToast("error", "Hata", "Magaza adi zorunludur."); return false }
-        if (!form.category) { showToast("error", "Hata", "Kategori seciniz."); return false }
+        if (!form.storeName) { showToast("error", "Hata", "Mağaza adı zorunludur."); return false }
+        if (!form.category) { showToast("error", "Hata", "Kategori seçiniz."); return false }
         return true
       case 3:
         if (!form.taxOffice || !form.taxNumber) { showToast("error", "Hata", "Vergi bilgileri zorunludur."); return false }
         if (!form.iban) { showToast("error", "Hata", "IBAN zorunludur."); return false }
-        if (!form.bankName) { showToast("error", "Hata", "Banka seciniz."); return false }
+        if (!form.bankName) { showToast("error", "Hata", "Banka seçiniz."); return false }
         return true
       case 4:
-        if (!form.sellerAgreement || !form.kvkkAgreement) { showToast("error", "Hata", "Tum sozlesmeleri onaylayin."); return false }
+        if (!form.sellerAgreement || !form.kvkkAgreement) { showToast("error", "Hata", "Tüm sözleşmeleri onaylayın."); return false }
         return true
       default: return true
     }
@@ -72,7 +72,7 @@ export default function SellerRegisterPage() {
   function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    if (file.size > 2 * 1024 * 1024) { showToast("error", "Hata", "Dosya boyutu 2MB'den kucuk olmali."); return }
+    if (file.size > 2 * 1024 * 1024) { showToast("error", "Hata", "Dosya boyutu 2MB'den küçük olmalı."); return }
     setLogoName(file.name)
     const reader = new FileReader()
     reader.onload = (ev) => setLogoPreview(ev.target?.result as string)
@@ -98,13 +98,13 @@ export default function SellerRegisterPage() {
 
     if (error) {
       setLoading(false)
-      showToast("error", "Basvuru Basarisiz", error.message)
+      showToast("error", "Başvuru Başarısız", error.message)
       return
     }
 
     setLoading(false)
     setShowSuccess(true)
-    showToast("success", "Basarili!", "Basvurunuz basariyla alindi.")
+    showToast("success", "Başarılı!", "Başvurunuz başarıyla alındı.")
     // Auto-redirect to seller-login after 3 seconds
     setTimeout(() => router.push("/seller-login"), 3000)
   }
@@ -122,14 +122,14 @@ export default function SellerRegisterPage() {
               </svg>
             </div>
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-neutral-900">Basvurunuz Alindi!</h2>
-              <p className="text-neutral-500 text-sm leading-relaxed">Basvurunuz basariyla iletildi. En kisa surede degerlendirilecek ve sonuc e-posta adresinize bildirilecektir.</p>
+              <h2 className="text-2xl font-bold text-neutral-900">Başvurunuz Alındı!</h2>
+              <p className="text-neutral-500 text-sm leading-relaxed">Başvurunuz başarıyla iletildi. EN kısa sürede değerlendirilecek ve sonuç e-posta adresinize bildirilecektir.</p>
             </div>
             <div className="bg-primary-25 rounded-xl p-4 border border-primary-100">
-              <p className="text-sm text-primary-700 font-medium">Ortalama degerlendirme suresi: 24 saat</p>
+              <p className="text-sm text-primary-700 font-medium">Ortalama değerlendirme süresi: 24 saat</p>
             </div>
             <Link href="/seller-login" className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-6 py-3 min-h-[48px] text-sm font-semibold text-white shadow-md shadow-primary-500/20 transition-all duration-200 hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 active:scale-[0.98]">
-              Satici Girisine Don
+              Satıcı Girişine Dön
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
             </Link>
           </div>
@@ -144,6 +144,8 @@ export default function SellerRegisterPage() {
 
   return (
     <>
+      <title>Satıcı Ol | enolsun.com — EN Kolay Başvuru</title>
+      <meta name="description" content="enolsun.com'da satıcı olun. EN kolay başvuru, EN düşük komisyon oranları ve EN geniş müşteri ağı ile satışa başlayın." />
       {/* Toast */}
       {toast && (
         <div className="fixed top-6 right-6 z-[200] max-w-sm w-full pointer-events-none">
@@ -174,7 +176,7 @@ export default function SellerRegisterPage() {
               </div>
               <span className="text-lg font-bold text-neutral-800 tracking-tight">enolsun<span className="text-primary-500">.com</span></span>
             </Link>
-            <Link href="/seller-login" className="text-sm text-neutral-400 hover:text-primary-500 transition-colors">Zaten satici misiniz? <span className="font-semibold text-primary-500">Giris Yapin</span></Link>
+            <Link href="/seller-login" className="text-sm text-neutral-400 hover:text-primary-500 transition-colors">Zaten satıcı mısınız? <span className="font-semibold text-primary-500">Giriş Yapın</span></Link>
           </div>
 
           {/* Header */}
@@ -183,10 +185,10 @@ export default function SellerRegisterPage() {
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.15c0 .415.336.75.75.75z"/>
               </svg>
-              Satici Basvurusu
+              Satıcı Başvurusu
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">Magaza Basvuru Formu</h1>
-            <p className="text-neutral-500 text-sm leading-relaxed">En kolay satis platformunda yerinizi alin. Basvurunuz 24 saat icinde degerlendirilir.</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">EN Kolay Satıcı Başvurusu</h1>
+            <p className="text-neutral-500 text-sm leading-relaxed">EN kolay satış platformunda yerinizi alın. Başvurunuz 24 saat içinde değerlendirilir.</p>
           </div>
 
           {/* Step Indicator */}
@@ -208,10 +210,10 @@ export default function SellerRegisterPage() {
                   <span className={`text-xs font-medium mt-2 transition-colors duration-300 text-center leading-tight ${
                     step <= currentStep ? "text-primary-600" : "text-neutral-400"
                   }`}>
-                    {step === 1 && "Kisisel Bilgiler"}
-                    {step === 2 && "Magaza Bilgileri"}
+                    {step === 1 && "Kişisel Bilgiler"}
+                    {step === 2 && "Mağaza Bilgileri"}
                     {step === 3 && "Vergi & Banka"}
-                    {step === 4 && "Sozlesme & Onay"}
+                    {step === 4 && "Sözleşme & Onay"}
                   </span>
                 </div>
               ))}
@@ -228,24 +230,24 @@ export default function SellerRegisterPage() {
                     <span className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center">
                       <svg className="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                     </span>
-                    Kisisel Bilgiler
+                    Kişisel Bilgiler
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-sm font-medium text-neutral-700">Ad <span className="text-error-base">*</span></label>
-                      <input type="text" value={form.firstName} onChange={(e) => updateForm("firstName", e.target.value)} placeholder="Adiniz" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
+                      <label className="block text-sm font-medium text-neutral-700">Adınız <span className="text-error-base">*</span></label>
+                      <input type="text" value={form.firstName} onChange={(e) => updateForm("firstName", e.target.value)} placeholder="Adınız" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="block text-sm font-medium text-neutral-700">Soyad <span className="text-error-base">*</span></label>
-                      <input type="text" value={form.lastName} onChange={(e) => updateForm("lastName", e.target.value)} placeholder="Soyadiniz" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
+                      <label className="block text-sm font-medium text-neutral-700">Soyadınız <span className="text-error-base">*</span></label>
+                      <input type="text" value={form.lastName} onChange={(e) => updateForm("lastName", e.target.value)} placeholder="Soyadınız" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">TC Kimlik Numarasi <span className="text-error-base">*</span></label>
+                    <label className="block text-sm font-medium text-neutral-700">TC Kimlik Numaranız <span className="text-error-base">*</span></label>
                     <input type="text" value={form.tcKimlik} onChange={(e) => updateForm("tcKimlik", e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="11 haneli TC Kimlik No" maxLength={11} inputMode="numeric" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Telefon Numarasi <span className="text-error-base">*</span></label>
+                    <label className="block text-sm font-medium text-neutral-700">Telefon Numaranız <span className="text-error-base">*</span></label>
                     <input type="tel" value={form.phone} onChange={(e) => updateForm("phone", e.target.value)} placeholder="05XX XXX XX XX" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                   </div>
                   <div className="space-y-1.5">
@@ -253,7 +255,7 @@ export default function SellerRegisterPage() {
                     <input type="email" value={form.email} onChange={(e) => updateForm("email", e.target.value)} placeholder="ornek@magaza.com" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Sifre <span className="text-error-base">*</span></label>
+                    <label className="block text-sm font-medium text-neutral-700">Şifre <span className="text-error-base">*</span></label>
                     <div className="relative">
                       <input type={showPassword ? "text" : "password"} value={form.password} onChange={(e) => updateForm("password", e.target.value)} placeholder="En az 6 karakter" minLength={6} className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 pr-11 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                       <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-neutral-300 hover:text-neutral-500 transition-colors" tabIndex={-1}>
@@ -265,7 +267,7 @@ export default function SellerRegisterPage() {
                         </svg>
                       </button>
                     </div>
-                    <p className="text-xs text-neutral-300">En az 6 karakter olmalidir</p>
+                    <p className="text-xs text-neutral-300">EN az 6 karakter olmalıdır</p>
                   </div>
                 </div>
               </div>
@@ -279,17 +281,17 @@ export default function SellerRegisterPage() {
                     <span className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center">
                       <svg className="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.15c0 .415.336.75.75.75z"/></svg>
                     </span>
-                    Magaza Bilgileri
+                    Mağaza Bilgileri
                   </h2>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Magaza Adi <span className="text-error-base">*</span></label>
-                    <input type="text" value={form.storeName} onChange={(e) => updateForm("storeName", e.target.value)} placeholder="Magaza adinizi girin" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
+                    <label className="block text-sm font-medium text-neutral-700">Mağaza Adı <span className="text-error-base">*</span></label>
+                    <input type="text" value={form.storeName} onChange={(e) => updateForm("storeName", e.target.value)} placeholder="Mağaza adınızı girin" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="block text-sm font-medium text-neutral-700">Ana Kategori <span className="text-error-base">*</span></label>
                     <div className="relative">
                       <select value={form.category} onChange={(e) => updateForm("category", e.target.value)} className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300 appearance-none pr-10">
-                        <option value="" disabled>Kategori secin</option>
+                        <option value="" disabled>Kategori seçin</option>
                         <option value="elektronik">Elektronik</option>
                         <option value="moda">Moda &amp; Giyim</option>
                         <option value="ev-yasam">Ev &amp; Yasam</option>
@@ -307,12 +309,12 @@ export default function SellerRegisterPage() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Magaza Aciklamasi</label>
-                    <textarea value={form.storeDesc} onChange={(e) => updateForm("storeDesc", e.target.value)} rows={3} placeholder="Magazaniz hakkinda kisa bir aciklama yazin..." className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300 resize-none"></textarea>
+                    <label className="block text-sm font-medium text-neutral-700">Mağaza Açıklaması</label>
+                    <textarea value={form.storeDesc} onChange={(e) => updateForm("storeDesc", e.target.value)} rows={3} placeholder="Mağazanız hakkında kısa bir açıklama yazın..." className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300 resize-none"></textarea>
                     <p className="text-xs text-neutral-300">Maksimum 300 karakter</p>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Magaza Logosu</label>
+                    <label className="block text-sm font-medium text-neutral-700">Mağaza Logosu</label>
                     <div className="upload-zone border-neutral-200 rounded-xl p-6 text-center cursor-pointer" onClick={() => document.getElementById("logo-input")?.click()}>
                       <input type="file" id="logo-input" accept="image/png,image/jpeg,image/svg+xml" className="hidden" onChange={handleLogoUpload} />
                       {!logoPreview ? (
@@ -320,7 +322,7 @@ export default function SellerRegisterPage() {
                           <div className="w-12 h-12 rounded-xl bg-neutral-50 flex items-center justify-center">
                             <svg className="w-6 h-6 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
                           </div>
-                          <p className="text-sm text-neutral-500"><span className="font-semibold text-primary-500">Dosya secin</span> veya surukleyip birakin</p>
+                          <p className="text-sm text-neutral-500"><span className="font-semibold text-primary-500">Dosya seçin</span> veya sürükleyip bırakın</p>
                           <p className="text-xs text-neutral-300">PNG, JPG veya SVG (maks. 2MB)</p>
                         </div>
                       ) : (
@@ -348,7 +350,7 @@ export default function SellerRegisterPage() {
                     Vergi &amp; Banka Bilgileri
                   </h2>
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-neutral-700">Sirket Turu <span className="text-error-base">*</span></label>
+                    <label className="block text-sm font-medium text-neutral-700">Şirket Türü <span className="text-error-base">*</span></label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {["sahis", "limited", "anonim"].map(type => (
                         <label key={type} className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${form.companyType === type ? "border-primary-500 bg-primary-25" : "border-neutral-200 hover:border-primary-300"}`}>
@@ -356,7 +358,7 @@ export default function SellerRegisterPage() {
                           <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${form.companyType === type ? "border-primary-500" : "border-neutral-200"}`}>
                             {form.companyType === type && <div className="w-2.5 h-2.5 rounded-full bg-primary-500"></div>}
                           </div>
-                          <span className="text-sm font-medium text-neutral-700">{type === "sahis" ? "Sahis" : type === "limited" ? "Limited" : "Anonim"}</span>
+                          <span className="text-sm font-medium text-neutral-700">{type === "sahis" ? "Şahıs" : type === "limited" ? "Limited" : "Anonim"}</span>
                         </label>
                       ))}
                     </div>
@@ -367,8 +369,8 @@ export default function SellerRegisterPage() {
                       <input type="text" value={form.taxOffice} onChange={(e) => updateForm("taxOffice", e.target.value)} placeholder="Vergi dairesi adi" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="block text-sm font-medium text-neutral-700">Vergi Numarasi <span className="text-error-base">*</span></label>
-                      <input type="text" value={form.taxNumber} onChange={(e) => updateForm("taxNumber", e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="Vergi numaraniz" maxLength={11} inputMode="numeric" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
+                      <label className="block text-sm font-medium text-neutral-700">Vergi Numarası <span className="text-error-base">*</span></label>
+                      <input type="text" value={form.taxNumber} onChange={(e) => updateForm("taxNumber", e.target.value.replace(/\D/g, "").slice(0, 11))} placeholder="Vergi numaranız" maxLength={11} inputMode="numeric" className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 placeholder:text-neutral-300 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300" />
                     </div>
                   </div>
                   <div className="space-y-1.5">
@@ -379,10 +381,10 @@ export default function SellerRegisterPage() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-neutral-700">Banka Adi <span className="text-error-base">*</span></label>
+                    <label className="block text-sm font-medium text-neutral-700">Banka Adı <span className="text-error-base">*</span></label>
                     <div className="relative">
                       <select value={form.bankName} onChange={(e) => updateForm("bankName", e.target.value)} className="block w-full rounded-xl border border-neutral-200 bg-white py-3 px-4 min-h-[48px] text-sm text-neutral-800 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 hover:border-neutral-300 appearance-none pr-10">
-                        <option value="" disabled>Banka secin</option>
+                        <option value="" disabled>Banka seçin</option>
                         <option value="ziraat">Ziraat Bankasi</option>
                         <option value="isbank">Is Bankasi</option>
                         <option value="garanti">Garanti BBVA</option>
@@ -417,18 +419,18 @@ export default function SellerRegisterPage() {
                   </h2>
                   {/* Commission Table */}
                   <div className="space-y-2">
-                    <h3 className="text-sm font-semibold text-neutral-700">Komisyon Oranlari</h3>
+                    <h3 className="text-sm font-semibold text-neutral-700">Komisyon Oranları</h3>
                     <div className="rounded-xl border border-neutral-200 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead><tr className="bg-neutral-50"><th className="text-left py-2.5 px-4 font-semibold text-neutral-600 text-xs uppercase tracking-wide">Kategori</th><th className="text-right py-2.5 px-4 font-semibold text-neutral-600 text-xs uppercase tracking-wide">Komisyon</th></tr></thead>
                         <tbody className="divide-y divide-neutral-100">
-                          {[["Elektronik", "%8"], ["Moda & Giyim", "%12"], ["Ev & Yasam", "%10"], ["Kozmetik", "%15"], ["Diger Kategoriler", "%10"]].map(([cat, rate]) => (
+                          {[["Elektronik", "%8"], ["Moda & Giyim", "%12"], ["Ev & Yaşam", "%10"], ["Kozmetik", "%15"], ["Diğer Kategoriler", "%10"]].map(([cat, rate]) => (
                             <tr key={cat} className="hover:bg-neutral-25 transition-colors"><td className="py-2.5 px-4 text-neutral-700">{cat}</td><td className="py-2.5 px-4 text-right font-semibold text-primary-600">{rate}</td></tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
-                    <p className="text-xs text-neutral-400">* En dusuk komisyon oranlari garanti edilmektedir.</p>
+                    <p className="text-xs text-neutral-400">* EN düşük komisyon oranları garanti edilmektedir.</p>
                   </div>
                   {/* Agreements */}
                   <div className="space-y-3">
@@ -464,13 +466,13 @@ export default function SellerRegisterPage() {
               <div className="flex-1"></div>
               {currentStep < 4 ? (
                 <button type="button" onClick={nextStep} className="flex items-center gap-2 rounded-xl bg-primary-500 px-6 py-3 min-h-[48px] text-sm font-semibold text-white shadow-md shadow-primary-500/20 transition-all duration-200 hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 active:scale-[0.98]">
-                  Ileri
+                  İleri
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                 </button>
               ) : (
                 <button type="button" onClick={submitApplication} disabled={loading} className="flex items-center gap-2 rounded-xl bg-primary-500 px-6 py-3 min-h-[48px] text-sm font-semibold text-white shadow-md shadow-primary-500/20 transition-all duration-200 hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 active:scale-[0.98] disabled:opacity-60">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  {loading ? "Gonderiliyor..." : "Basvuruyu Tamamla"}
+                  {loading ? "Gönderiliyor..." : "Başvuruyu Tamamla"}
                 </button>
               )}
             </div>
@@ -487,15 +489,15 @@ export default function SellerRegisterPage() {
           <div className="relative z-10 space-y-6 max-w-sm w-full">
             <div className="space-y-3 mb-8">
               <h2 className="text-2xl xl:text-3xl font-bold text-white tracking-tight leading-tight">Neden <span className="text-primary-300">enolsun</span>?</h2>
-              <p className="text-white/50 text-sm">En guvenilir e-ticaret altyapisi ile tanisin.</p>
+              <p className="text-white/50 text-sm">EN güvenilir e-ticaret altyapısı ile tanışın.</p>
             </div>
             <div className="space-y-3">
               {[
-                { icon: "M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z", title: "En dusuk komisyon oranlari", desc: "Sektorun en rekabetci oranlari" },
-                { icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z", title: "En hizli odeme sistemi", desc: "3 gunde hesabinizda" },
-                { icon: "M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605", title: "En kapsamli satici paneli", desc: "Analizler, raporlar ve istatistikler" },
-                { icon: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z", title: "En genis musteri agi", desc: "2 milyondan fazla aktif musteri" },
-                { icon: "M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155", title: "7/24 satici destek hatti", desc: "Her zaman yaninizdayiz" },
+                { icon: "M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z", title: "EN düşük komisyon oranları", desc: "Sektörün EN rekabetçi oranları" },
+                { icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z", title: "EN hızlı ödeme sistemi", desc: "3 günde hesabınızda" },
+                { icon: "M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605", title: "EN kapsamlı satıcı paneli", desc: "Analizler, raporlar ve istatistikler" },
+                { icon: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z", title: "EN geniş müşteri ağı", desc: "2 milyondan fazla aktif müşteri" },
+                { icon: "M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155", title: "7/24 satıcı destek hattı", desc: "Her zaman yanınızdayız" },
               ].map((b, i) => (
                 <div key={i} className="benefit-glass rounded-xl p-4 flex items-start gap-3.5 transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] group">
                   <div className="w-10 h-10 rounded-lg bg-primary-400/15 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-400/25 transition-colors">
@@ -509,7 +511,7 @@ export default function SellerRegisterPage() {
               ))}
             </div>
             <div className="pt-4 border-t border-white/5">
-              <p className="text-xs text-white/30 text-center italic">Satista en olsun, enolsun!</p>
+              <p className="text-xs text-white/30 text-center italic">Satışta EN olsun, enolsun!</p>
             </div>
           </div>
         </div>

@@ -1,50 +1,50 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cerez Politikasi - enolsun.com",
+  title: "Çerez Politikası | enolsun.com",
   description:
-    "enolsun.com cerez politikasi. Cerez turleri, cerez yonetimi ve ucuncu taraf cerezler hakkinda bilgi.",
-  keywords: "cerez politikasi, cookie, cerez yonetimi, enolsun",
+    "enolsun.com çerez politikası. Çerez türleri, çerez yönetimi ve üçüncü taraf çerezler hakkında detaylı bilgi.",
+  keywords: "çerez politikası, cookie, çerez yönetimi, enolsun, gizlilik",
   openGraph: {
-    title: "Cerez Politikasi - enolsun.com",
-    description: "enolsun.com cerez politikasi ve cerez yonetimi.",
+    title: "Çerez Politikası | enolsun.com",
+    description: "enolsun.com çerez politikası ve çerez yönetimi.",
     type: "website",
   },
 };
 
 const cookieTypes = [
   {
-    name: "Zorunlu Cerezler",
+    name: "Zorunlu Çerezler",
     description:
-      "Web sitesinin temel islevlerinin calismasi icin gerekli olan cerezlerdir. Bu cerezler olmadan site duzgun calismaz.",
+      "Web sitesinin temel işlevlerinin çalışması için gerekli olan çerezlerdir. Bu çerezler olmadan site düzgün çalışmaz.",
     examples: [
-      "Oturum yonetimi (giris durumunuz)",
+      "Oturum yönetimi (giriş durumunuz)",
       "Sepet bilgileri",
-      "Guvenlik cerezleri",
-      "Cerez tercih ayarlariniz",
+      "Güvenlik çerezleri",
+      "Çerez tercih ayarlarınız",
     ],
     canDisable: false,
   },
   {
-    name: "Analitik Cerezler",
+    name: "Analitik Çerezler",
     description:
-      "Ziyaretcilerin siteyi nasil kullandigini anlamamiza yardimci olan cerezlerdir. Toplanan veriler anonimdir.",
+      "Ziyaretçilerin siteyi nasıl kullandığını anlamamıza yardımcı olan çerezlerdir. Toplanan veriler anonimdir.",
     examples: [
-      "Sayfa goruntulenme sayilari",
-      "Ziyaretci sayisi ve kaynaklari",
-      "Sitede gecirilen sure",
-      "En cok ziyaret edilen sayfalar",
+      "Sayfa görüntülenme sayıları",
+      "Ziyaretçi sayısı ve kaynakları",
+      "Sitede geçirilen süre",
+      "En çok ziyaret edilen sayfalar",
     ],
     canDisable: true,
   },
   {
-    name: "Pazarlama Cerezleri",
+    name: "Pazarlama Çerezleri",
     description:
-      "Size ilgi alaniniza uygun reklamlar gostermek ve pazarlama kampanyalarinin etkinligini olcmek icin kullanilir.",
+      "Size ilgi alanınıza uygun reklamlar göstermek ve pazarlama kampanyalarının etkinliğini ölçmek için kullanılır.",
     examples: [
-      "Kisisellestirilmis reklam gosterimi",
-      "Sosyal medya entegrasyonlari",
-      "Reklam kampanyasi performansi",
+      "Kişiselleştirilmiş reklam gösterimi",
+      "Sosyal medya entegrasyonları",
+      "Reklam kampanyası performansı",
       "Yeniden hedefleme (retargeting)",
     ],
     canDisable: true,
@@ -58,10 +58,10 @@ export default function CookiesPage() {
       <section className="bg-gradient-to-br from-primary-50 via-primary-25 to-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-4">
-            Cerez <span className="text-primary-500">Politikasi</span>
+            Çerez <span className="text-primary-500">Politikası</span>
           </h1>
           <p className="text-neutral-500">
-            Son guncelleme: 1 Ocak 2026
+            Son güncelleme: 1 Ocak 2026
           </p>
         </div>
       </section>
@@ -73,24 +73,24 @@ export default function CookiesPage() {
             {/* Intro */}
             <div>
               <p className="text-neutral-600 leading-relaxed">
-                enolsun.com olarak web sitemizde cerezler kullaniyoruz. Bu politika, hangi cerezleri
-                kullandigimizi, neden kullandigimizi ve cerez tercihlerinizi nasil yonetebileceginizi aciklar.
+                enolsun.com olarak web sitemizde çerezler kullanıyoruz. Bu politika, hangi çerezleri
+                kullandığımızı, neden kullandığımızı ve çerez tercihlerinizi nasıl yönetebileceğinizi açıklar.
               </p>
             </div>
 
             {/* What are cookies */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Cerez Nedir?</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Çerez Nedir?</h2>
               <p className="text-neutral-600 leading-relaxed">
-                Cerezler, web sitelerinin cihaziniza (bilgisayar, tablet veya telefon) yerlesirdigi
-                kucuk metin dosyalaridir. Cerezler, web sitesinin sizi tanimas, tercihlerinizi
-                hatirlamas ve size daha iyi bir deneyim sunmasini saglar.
+                Çerezler, web sitelerinin cihazınıza (bilgisayar, tablet veya telefon) yerleştirdiği
+                küçük metin dosyalarıdır. Çerezler, web sitesinin sizi tanımasını, tercihlerinizi
+                hatırlamasını ve size daha iyi bir deneyim sunmasını sağlar.
               </p>
             </div>
 
             {/* Cookie Types */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-6">Kullandigimiz Cerez Turleri</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-6">Kullandığımız Çerez Türleri</h2>
               <div className="space-y-6">
                 {cookieTypes.map((type) => (
                   <div
@@ -101,7 +101,7 @@ export default function CookiesPage() {
                       <h3 className="text-xl font-semibold text-neutral-800">{type.name}</h3>
                       {type.canDisable ? (
                         <span className="px-3 py-1 bg-amber-50 text-amber-600 text-xs font-medium rounded-full">
-                          Devre Disi Birakilabilir
+                          Devre Dışı Bırakılabilir
                         </span>
                       ) : (
                         <span className="px-3 py-1 bg-primary-50 text-primary-600 text-xs font-medium rounded-full">
@@ -111,7 +111,7 @@ export default function CookiesPage() {
                     </div>
                     <p className="text-neutral-600 leading-relaxed mb-4">{type.description}</p>
                     <div className="bg-neutral-25 rounded-xl p-4">
-                      <p className="text-sm font-medium text-neutral-700 mb-2">Ornekler:</p>
+                      <p className="text-sm font-medium text-neutral-700 mb-2">Örnekler:</p>
                       <ul className="space-y-1">
                         {type.examples.map((example) => (
                           <li key={example} className="text-neutral-500 text-sm flex items-center gap-2">
@@ -128,60 +128,60 @@ export default function CookiesPage() {
 
             {/* How to manage */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Cerezleri Nasil Yonetebilirsiniz?</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Çerezleri Nasıl Yönetebilirsiniz?</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Cerez tercihlerinizi asagidaki yontemlerle yonetebilirsiniz:
+                  Çerez tercihlerinizi aşağıdaki yöntemlerle yönetebilirsiniz:
                 </p>
                 <div className="bg-neutral-25 rounded-xl p-6 space-y-4">
                   <div>
-                    <h4 className="font-medium text-neutral-700 mb-1">Tarayici Ayarlari</h4>
+                    <h4 className="font-medium text-neutral-700 mb-1">Tarayıcı Ayarları</h4>
                     <p className="text-sm text-neutral-500">
-                      Cogu web tarayicisi, cerezleri kontrol etmenize olanak tanir. Tarayicinizin
-                      ayarlar bolumunden cerezleri silebilir, engelleyebilir veya bildirimleri yonetebilirsiniz.
+                      Çoğu web tarayıcısı, çerezleri kontrol etmenize olanak tanır. Tarayıcınızın
+                      ayarlar bölümünden çerezleri silebilir, engelleyebilir veya bildirimleri yönetebilirsiniz.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-medium text-neutral-700 mb-1">Cerez Tercih Paneli</h4>
+                    <h4 className="font-medium text-neutral-700 mb-1">Çerez Tercih Paneli</h4>
                     <p className="text-sm text-neutral-500">
-                      Sitemizi ilk ziyaretinizde gosterilen cerez onay bannerindan tercihlerinizi
-                      belirleyebilirsiniz. Daha sonra sayfanin altindaki &quot;Cerez Ayarlari&quot;
-                      linkinden tercihlerinizi guncelleyebilirsiniz.
+                      Sitemizi ilk ziyaretinizde gösterilen çerez onay banner&apos;ından tercihlerinizi
+                      belirleyebilirsiniz. Daha sonra sayfanın altındaki &quot;Çerez Ayarları&quot;
+                      linkinden tercihlerinizi güncelleyebilirsiniz.
                     </p>
                   </div>
                 </div>
                 <p className="text-sm text-neutral-400">
-                  Not: Zorunlu cerezleri devre disi birakmak, web sitesinin duzgun calismamas&atilde;na neden olabilir.
+                  Not: Zorunlu çerezleri devre dışı bırakmak, web sitesinin düzgün çalışmamasına neden olabilir.
                 </p>
               </div>
             </div>
 
             {/* Third-party */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Ucuncu Taraf Cerezler</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Üçüncü Taraf Çerezler</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Sitemizde asagidaki ucuncu taraf hizmetlerinin cerezleri de kullanilmaktadir:
+                  Sitemizde aşağıdaki üçüncü taraf hizmetlerinin çerezleri de kullanılmaktadır:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li><span className="font-medium">Google Analytics:</span> Site trafigi ve kullanici davranisi analizi</li>
-                  <li><span className="font-medium">Facebook Pixel:</span> Reklam olcumleme ve hedefleme</li>
-                  <li><span className="font-medium">Hotjar:</span> Kullanici deneyimi analizi (isi haritalari, oturum kayitlari)</li>
-                  <li><span className="font-medium">Intercom:</span> Canli destek ve musteri iletisimi</li>
+                  <li><span className="font-medium">Google Analytics:</span> Site trafiği ve kullanıcı davranışı analizi</li>
+                  <li><span className="font-medium">Facebook Pixel:</span> Reklam ölçümleme ve hedefleme</li>
+                  <li><span className="font-medium">Hotjar:</span> Kullanıcı deneyimi analizi (ısı haritaları, oturum kayıtları)</li>
+                  <li><span className="font-medium">Intercom:</span> Canlı destek ve müşteri iletişimi</li>
                 </ul>
                 <p>
-                  Bu hizmetlerin kendi gizlilik politikalari ve cerez politikalari bulunmaktadir.
-                  Detayli bilgi icin ilgili hizmetin web sitesini ziyaret edebilirsiniz.
+                  Bu hizmetlerin kendi gizlilik politikaları ve çerez politikaları bulunmaktadır.
+                  Detaylı bilgi için ilgili hizmetin web sitesini ziyaret edebilirsiniz.
                 </p>
               </div>
             </div>
 
             {/* Contact */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-4">Iletisim</h2>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-4">İletişim</h2>
               <div className="space-y-3 text-neutral-600 leading-relaxed">
                 <p>
-                  Cerez politikamiz ile ilgili sorulariniz icin:
+                  Çerez politikamız ile ilgili sorularınız için:
                 </p>
                 <div className="bg-neutral-25 rounded-xl p-6">
                   <div className="space-y-2">
@@ -190,8 +190,8 @@ export default function CookiesPage() {
                   </div>
                 </div>
                 <p className="text-sm text-neutral-400 mt-4">
-                  Bu politika enolsun.com tarafindan duzenli olarak guncellenmektedir.
-                  Degisiklikler yayinlandigi tarihte yururluge girer.
+                  Bu politika enolsun.com tarafından düzenli olarak güncellenmektedir.
+                  Değişiklikler yayınlandığı tarihte yürürlüğe girer.
                 </p>
               </div>
             </div>
