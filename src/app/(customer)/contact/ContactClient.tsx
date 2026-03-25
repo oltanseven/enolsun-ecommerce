@@ -111,7 +111,7 @@ export default function ContactClient() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-medium text-neutral-500 mb-1.5">Adınız</label>
-                      <input type="text" name="first_name" required placeholder="Emre" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                      <input type="text" name="first_name" required placeholder="Adiniz" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-neutral-500 mb-1.5">Soyadınız</label>
@@ -120,7 +120,7 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">E-posta</label>
-                    <input type="email" name="email" required placeholder="emre@ornek.com" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
+                    <input type="email" name="email" required placeholder="ornek@email.com" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-neutral-500 mb-1.5">Konu</label>

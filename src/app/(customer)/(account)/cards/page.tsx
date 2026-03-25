@@ -8,10 +8,8 @@ const _sb = createClient();
 
 interface SavedCard {
   id: string;
-  last4: string;
-  brand: string;
-  holder: string;
-  expires: string;
+  last_four: string;
+  card_brand: string;
   is_default: boolean;
 }
 
@@ -20,7 +18,7 @@ export default function CardsPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState({ holder: "", number: "", expiry: "", cvv: "" });
+  const [formData, setFormData] = useState({ number: "", cvv: "" });
 
   useEffect(() => {
     fetchCards();
@@ -40,12 +38,8 @@ export default function CardsPage() {
       setCards(
         data.map((c: any) => ({
           id: c.id,
-          last4: c.last4,
-          brand: (c.brand ?? "VISA").toUpperCase(),
-          holder: c.holder_name ?? c.holder ?? "",
-          expires: c.expiry_month && c.expiry_year
-            ? `${String(c.expiry_month).padStart(2, "0")}/${String(c.expiry_year).slice(-2)}`
-            : c.expires ?? "",
+          last_four: c.last_four,
+          card_brand: (c.card_brand ?? "VISA").toUpperCase(),
           is_default: c.is_default ?? false,
         }))
       );
@@ -80,7 +74,7 @@ export default function CardsPage() {
   }
 
   async function handleAddCard() {
-    if (!formData.holder || !formData.number || !formData.expiry || !formData.cvv) {
+    if (!formData.number || !formData.cvv) {
       showToast("Lütfen tüm alanları doldurun.", "error");
       return;
     }
@@ -90,22 +84,18 @@ export default function CardsPage() {
     if (!user) { setSaving(false); return; }
 
     const cleanNumber = formData.number.replace(/\s/g, "");
-    const last4 = cleanNumber.slice(-4);
-    const [expMonth, expYear] = formData.expiry.split("/");
+    const last_four = cleanNumber.slice(-4);
 
     // Detect brand
-    let brand = "VISA";
-    if (cleanNumber.startsWith("5")) brand = "MASTERCARD";
-    else if (cleanNumber.startsWith("3")) brand = "AMEX";
-    else if (cleanNumber.startsWith("9") || cleanNumber.startsWith("65")) brand = "TROY";
+    let card_brand = "visa";
+    if (cleanNumber.startsWith("5")) card_brand = "mastercard";
+    else if (cleanNumber.startsWith("3")) card_brand = "amex";
+    else if (cleanNumber.startsWith("9") || cleanNumber.startsWith("65")) card_brand = "troy";
 
     const { error } = await _sb.from("saved_cards").insert({
       user_id: user.id,
-      last4,
-      brand: brand.toLowerCase(),
-      holder_name: formData.holder.toUpperCase(),
-      expiry_month: parseInt(expMonth),
-      expiry_year: parseInt(expYear.length === 2 ? `20${expYear}` : expYear),
+      last_four,
+      card_brand,
       is_default: cards.length === 0,
     });
 
@@ -115,7 +105,7 @@ export default function CardsPage() {
       showToast("Kart eklenemedi.", "error");
     } else {
       showToast("Kart başarıyla eklendi.", "success");
-      setFormData({ holder: "", number: "", expiry: "", cvv: "" });
+      setFormData({ number: "", cvv: "" });
       setShowForm(false);
       fetchCards();
     }
@@ -139,22 +129,12 @@ export default function CardsPage() {
           <h2 className="text-base font-bold text-neutral-900 mb-5">Yeni Kart Ekle</h2>
           <div className="space-y-4 max-w-md">
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Üzerindeki İsim</label>
-              <input type="text" value={formData.holder} onChange={(e) => setFormData((p) => ({ ...p, holder: e.target.value }))} placeholder="AD SOYAD" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all uppercase" />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarası</label>
+              <label className="block text-xs font-medium text-neutral-500 mb-1.5">Kart Numarasi</label>
               <input type="text" value={formData.number} onChange={(e) => setFormData((p) => ({ ...p, number: e.target.value }))} placeholder="0000 0000 0000 0000" maxLength={19} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all tabular-nums" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1.5">Son Kullanma</label>
-                <input type="text" value={formData.expiry} onChange={(e) => setFormData((p) => ({ ...p, expiry: e.target.value }))} placeholder="AA/YY" maxLength={5} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1.5">CVV</label>
-                <input type="text" value={formData.cvv} onChange={(e) => setFormData((p) => ({ ...p, cvv: e.target.value }))} placeholder="000" maxLength={4} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
-              </div>
+            <div className="max-w-[200px]">
+              <label className="block text-xs font-medium text-neutral-500 mb-1.5">CVV</label>
+              <input type="text" value={formData.cvv} onChange={(e) => setFormData((p) => ({ ...p, cvv: e.target.value }))} placeholder="000" maxLength={4} className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
             </div>
             <button onClick={handleAddCard} disabled={saving} className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60">
               {saving ? "Kaydediliyor..." : "Kartı Kaydet"}
@@ -176,25 +156,15 @@ export default function CardsPage() {
       {!loading && cards.length > 0 && (
         <div className="grid sm:grid-cols-2 gap-4">
           {cards.map((card) => (
-            <div key={card.id} className={`relative rounded-2xl p-5 overflow-hidden group hover:-translate-y-1 hover:shadow-align-lg transition-all duration-300 ${card.brand === "VISA" ? "bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800" : card.brand === "TROY" ? "bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800" : "bg-gradient-to-br from-neutral-700 via-neutral-800 to-neutral-900"}`}>
+            <div key={card.id} className={`relative rounded-2xl p-5 overflow-hidden group hover:-translate-y-1 hover:shadow-align-lg transition-all duration-300 ${card.card_brand === "VISA" ? "bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800" : card.card_brand === "TROY" ? "bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800" : "bg-gradient-to-br from-neutral-700 via-neutral-800 to-neutral-900"}`}>
               {card.is_default && (
-                <span className="absolute top-3 right-3 text-[10px] font-semibold text-white/80 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">Varsayılan</span>
+                <span className="absolute top-3 right-3 text-[10px] font-semibold text-white/80 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">Varsayilan</span>
               )}
               <div className="mb-8">
-                <span className="text-xs font-bold text-white/60 tracking-widest">{card.brand}</span>
+                <span className="text-xs font-bold text-white/60 tracking-widest">{card.card_brand}</span>
               </div>
               <div className="mb-6">
-                <p className="text-lg font-mono text-white tracking-[0.2em] tabular-nums">**** **** **** {card.last4}</p>
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-[10px] text-white/50 mb-0.5">Kart Sahibi</p>
-                  <p className="text-xs font-medium text-white">{card.holder}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-white/50 mb-0.5">Son Kullanma</p>
-                  <p className="text-xs font-medium text-white">{card.expires}</p>
-                </div>
+                <p className="text-lg font-mono text-white tracking-[0.2em] tabular-nums">**** **** **** {card.last_four}</p>
               </div>
               <div className="flex gap-3 mt-4 pt-3 border-t border-white/10">
                 {!card.is_default && (

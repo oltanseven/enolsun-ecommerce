@@ -62,6 +62,12 @@ export default function SellerLoginPage() {
       return
     }
 
+    if (!data.user) {
+      setLoading(false)
+      showToast("error", "Giriş Başarısız", "Bir hata oluştu.")
+      return
+    }
+
     // Check role
     const { data: profile } = await supabase
       .from("profiles")

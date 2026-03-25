@@ -34,7 +34,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
         .from("profiles")
         .select("full_name")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
       if (profile?.full_name) {
         setUserName(profile.full_name);

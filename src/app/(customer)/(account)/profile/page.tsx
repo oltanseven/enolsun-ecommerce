@@ -10,7 +10,7 @@ interface Address {
   id: string;
   user_id: string;
   title: string;
-  full_address: string;
+  address_line: string;
   city: string;
   district: string;
   postal_code: string;
@@ -21,7 +21,7 @@ interface Address {
 
 const emptyAddressForm = {
   title: "",
-  full_address: "",
+  address_line: "",
   city: "",
   district: "",
   postal_code: "",
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         .from("profiles")
         .select("full_name, phone, birth_date, gender")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
       if (profile) {
         const parts = (profile.full_name ?? "").split(" ");
@@ -162,8 +162,8 @@ export default function ProfilePage() {
   }
 
   async function handleSaveAddress() {
-    const { title, full_address, city, district, postal_code, phone: addrPhone } = addressForm;
-    if (!title.trim() || !full_address.trim() || !city.trim() || !district.trim()) {
+    const { title, address_line, city, district, postal_code, phone: addrPhone } = addressForm;
+    if (!title.trim() || !address_line.trim() || !city.trim() || !district.trim()) {
       showToast("Lütfen zorunlu alanları doldurun.", "error");
       return;
     }
@@ -178,7 +178,7 @@ export default function ProfilePage() {
         .from("addresses")
         .update({
           title: title.trim(),
-          full_address: full_address.trim(),
+          address_line: address_line.trim(),
           city: city.trim(),
           district: district.trim(),
           postal_code: postal_code.trim(),
@@ -205,7 +205,7 @@ export default function ProfilePage() {
         .insert({
           user_id: user.id,
           title: title.trim(),
-          full_address: full_address.trim(),
+          address_line: address_line.trim(),
           city: city.trim(),
           district: district.trim(),
           postal_code: postal_code.trim(),
@@ -272,7 +272,7 @@ export default function ProfilePage() {
     setEditingAddressId(addr.id);
     setAddressForm({
       title: addr.title,
-      full_address: addr.full_address,
+      address_line: addr.address_line,
       city: addr.city,
       district: addr.district,
       postal_code: addr.postal_code,
@@ -402,7 +402,7 @@ export default function ProfilePage() {
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-neutral-500 mb-1.5">Açık Adres *</label>
-                <input type="text" value={addressForm.full_address} onChange={(e) => setAddressForm((p) => ({ ...p, full_address: e.target.value }))} className={inputClass} />
+                <input type="text" value={addressForm.address_line} onChange={(e) => setAddressForm((p) => ({ ...p, address_line: e.target.value }))} className={inputClass} />
               </div>
               <div>
                 <label className="block text-xs font-medium text-neutral-500 mb-1.5">İl *</label>
@@ -450,7 +450,7 @@ export default function ProfilePage() {
                 )}
                 <p className="text-sm font-semibold text-neutral-800 mb-1">{addr.title}</p>
                 <p className="text-xs text-neutral-500 leading-relaxed">
-                  {addr.full_address}, {addr.district}, {addr.city} {addr.postal_code}
+                  {addr.address_line}, {addr.district}, {addr.city} {addr.postal_code}
                 </p>
                 {addr.phone && <p className="text-xs text-neutral-400 mt-1">{addr.phone}</p>}
                 <div className="flex gap-3 mt-3">

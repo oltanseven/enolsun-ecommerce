@@ -34,7 +34,6 @@ interface Store {
   logo_url: string | null;
   city: string | null;
   rating: number | null;
-  review_count: number | null;
   follower_count: number | null;
 }
 
@@ -59,6 +58,7 @@ export default function StorePage() {
   const [activeTab, setActiveTab] = useState("products");
   const [following, setFollowing] = useState(false);
   const [openPolicy, setOpenPolicy] = useState<number | null>(null);
+  const [storeReviewCount, setStoreReviewCount] = useState(0);
 
   useEffect(() => {
     async function load() {
@@ -66,21 +66,28 @@ export default function StorePage() {
 
       const { data: storeData } = await _sb
         .from("stores")
-        .select("*")
+        .select("id, name, slug, description, logo_url, city, rating, follower_count")
         .eq("slug", slug)
         .maybeSingle();
 
       if (!storeData) { setLoading(false); return; }
       setStore(storeData);
 
-      const { data: storeProducts } = await _sb
-        .from("products")
-        .select("id, name, slug, price, discount_price, rating, review_count, product_images(url, is_primary)")
-        .eq("store_id", storeData.id)
-        .eq("is_active", true)
-        .order("created_at", { ascending: false });
+      const [{ data: storeProducts }, { count: reviewCount }] = await Promise.all([
+        _sb
+          .from("products")
+          .select("id, name, slug, price, discount_price, rating, review_count, product_images(url, is_primary)")
+          .eq("store_id", storeData.id)
+          .eq("is_active", true)
+          .order("created_at", { ascending: false }),
+        _sb
+          .from("reviews")
+          .select("*", { count: "exact", head: true })
+          .eq("store_id", storeData.id),
+      ]);
 
       setProducts(storeProducts || []);
+      setStoreReviewCount(reviewCount ?? 0);
       setLoading(false);
     }
     load();
@@ -143,7 +150,7 @@ export default function StorePage() {
     .toUpperCase();
 
   const storeRating = store.rating || 0;
-  const reviewCount = store.review_count || 0;
+  const reviewCount = storeReviewCount;
   const followerCount = store.follower_count || 0;
   const formatFollowers = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n);
 

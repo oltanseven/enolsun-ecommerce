@@ -110,7 +110,7 @@ export default function SellerAddProductPage() {
       .select("id")
       .single()
 
-    if (error) {
+    if (error || !product) {
       showToast("Urun eklenemedi: " + error.message, "error")
       setSubmitting(false)
       return
