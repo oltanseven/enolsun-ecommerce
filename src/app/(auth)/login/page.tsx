@@ -31,7 +31,7 @@ export default function LoginPage() {
         if (role === 'seller') {
           router.replace('/seller-dashboard')
         } else {
-          router.replace('/')
+          router.replace('/dashboard')
         }
       }
     }
@@ -71,7 +71,7 @@ export default function LoginPage() {
         if (role === 'seller') {
           router.push('/seller-dashboard')
         } else {
-          router.push('/')
+          router.push('/dashboard')
         }
       }, 1000)
     } catch {
@@ -202,7 +202,7 @@ export default function LoginPage() {
                   </div>
                   <span className="text-sm text-neutral-500 select-none">Beni Hatirla</span>
                 </label>
-                <Link href="#" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Sifremi Unuttum</Link>
+                <Link href="/forgot-password" className="text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors min-h-[44px] flex items-center">Sifremi Unuttum</Link>
               </div>
 
               {/* Submit */}

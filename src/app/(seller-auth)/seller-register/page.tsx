@@ -105,6 +105,8 @@ export default function SellerRegisterPage() {
     setLoading(false)
     setShowSuccess(true)
     showToast("success", "Basarili!", "Basvurunuz basariyla alindi.")
+    // Auto-redirect to seller-login after 3 seconds
+    setTimeout(() => router.push("/seller-login"), 3000)
   }
 
   const progressWidth = ((currentStep - 1) / 3) * 75

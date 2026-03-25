@@ -7,6 +7,17 @@ import { createClient } from "@/lib/supabase/client"
 
 export default function SellerLoginPage() {
   const router = useRouter()
+
+  // Redirect already-logged-in sellers to dashboard
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && user.user_metadata?.role === "seller") {
+        router.replace("/seller-dashboard")
+      }
+    })
+  }, [router])
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)

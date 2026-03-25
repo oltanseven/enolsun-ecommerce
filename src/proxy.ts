@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 
 // Customer-protected routes
 const CUSTOMER_PROTECTED_ROUTES = [
+  '/dashboard',
   '/profile',
   '/orders',
   '/wishlist',
@@ -68,13 +69,27 @@ export async function proxy(request: NextRequest) {
       url.pathname = '/login'
       return NextResponse.redirect(url)
     }
+    // Prevent seller users from accessing customer-only routes
+    const role = user.user_metadata?.role
+    if (role === 'seller') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/seller-dashboard'
+      return NextResponse.redirect(url)
+    }
   }
 
-  // Protect seller routes — redirect to /seller-login if no session
+  // Protect seller routes — redirect to /seller-login if no session or wrong role
   if (SELLER_PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
     if (!user) {
       const url = request.nextUrl.clone()
       url.pathname = '/seller-login'
+      return NextResponse.redirect(url)
+    }
+    // Prevent non-seller users from accessing seller routes
+    const role = user.user_metadata?.role
+    if (role !== 'seller') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
       return NextResponse.redirect(url)
     }
   }
@@ -84,7 +99,7 @@ export async function proxy(request: NextRequest) {
     if (user) {
       const role = user.user_metadata?.role
       const url = request.nextUrl.clone()
-      url.pathname = role === 'seller' ? '/seller-dashboard' : '/'
+      url.pathname = role === 'seller' ? '/seller-dashboard' : '/dashboard'
       return NextResponse.redirect(url)
     }
   }
@@ -94,7 +109,7 @@ export async function proxy(request: NextRequest) {
     if (user) {
       const role = user.user_metadata?.role
       const url = request.nextUrl.clone()
-      url.pathname = role === 'seller' ? '/seller-dashboard' : '/'
+      url.pathname = role === 'seller' ? '/seller-dashboard' : '/dashboard'
       return NextResponse.redirect(url)
     }
   }

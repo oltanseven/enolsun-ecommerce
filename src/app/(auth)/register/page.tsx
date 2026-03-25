@@ -31,8 +31,15 @@ export default function RegisterPage() {
   useEffect(() => {
     const checkSession = async () => {
       const supabase = createClient()
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) router.replace('/')
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const role = user.user_metadata?.role
+        if (role === 'seller') {
+          router.replace('/seller-dashboard')
+        } else {
+          router.replace('/dashboard')
+        }
+      }
     }
     checkSession()
   }, [router])

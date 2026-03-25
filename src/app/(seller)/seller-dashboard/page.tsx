@@ -219,7 +219,7 @@ export default function SellerDashboardPage() {
                   </td>
                   <td data-label="Tarih" className="px-5 lg:px-6 py-4 text-sm text-neutral-500">{order.date}</td>
                   <td data-label="Islem" className="px-5 lg:px-6 py-4">
-                    <Link href="#" className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Detay</Link>
+                    <Link href={`/seller-orders?order=${order.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">Detay</Link>
                   </td>
                 </tr>
               ))}

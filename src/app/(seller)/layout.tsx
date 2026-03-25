@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
 
 const navItems = [
   { href: "/seller-dashboard", label: "Genel Bakis", icon: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></> },
@@ -16,15 +17,22 @@ const navItems = [
 
 const bottomLinks = [
   { href: "#", label: "Yardim Merkezi", icon: <><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></> },
-  { href: "/store", label: "Magazayi Goruntule", icon: <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>, external: true },
+  { href: "/store/yesil-yaprak-atolye", label: "Magazayi Goruntule", icon: <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>, external: true },
 ]
 
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false)
 
   function toggleSidebar() { setSidebarOpen(!sidebarOpen) }
+
+  async function handleSignOut() {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push("/seller-login")
+  }
 
   return (
     <div className="bg-neutral-50 text-neutral-800 antialiased min-h-screen">
@@ -68,7 +76,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
         <nav className="flex-1 overflow-y-auto py-3 px-3">
           <ul className="space-y-1">
             {navItems.map(item => {
-              const isActive = pathname === item.href
+              const isActive = pathname === item.href || pathname.startsWith(item.href + "/")
               return (
                 <li key={item.href}>
                   <Link
@@ -103,10 +111,10 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               </li>
             ))}
             <li>
-              <Link href="/seller-login" className="seller-sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-error-base hover:!bg-error-light">
+              <button onClick={handleSignOut} className="w-full seller-sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-error-base hover:!bg-error-light">
                 <svg className="nav-icon w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
                 <span>Cikis Yap</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </nav>
@@ -133,16 +141,16 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
             </div>
 
             <div className="flex items-center gap-1">
-              <button className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
+              <Link href="/seller-orders" className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
                 <span className="tooltip">Bildirimler</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
                 <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-error-base text-white text-[10px] font-bold rounded-full px-1">5</span>
-              </button>
-              <button className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
+              </Link>
+              <Link href="/seller-messages" className="tooltip-container relative p-2 rounded-xl hover:bg-neutral-50 text-neutral-500 transition-colors">
                 <span className="tooltip">Mesajlar</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
                 <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-primary-500 text-white text-[10px] font-bold rounded-full px-1">3</span>
-              </button>
+              </Link>
               <div className="relative ml-1">
                 <button onClick={() => setAvatarMenuOpen(!avatarMenuOpen)} className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-neutral-50 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-semibold">YA</div>
@@ -158,15 +166,15 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
                       Magaza Ayarlari
                     </Link>
-                    <Link href="/store" target="_blank" className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">
+                    <Link href="/store/yesil-yaprak-atolye" target="_blank" className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-50">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
                       Magazayi Goruntule
                     </Link>
                     <div className="border-t border-neutral-100 mt-1 pt-1">
-                      <Link href="/seller-login" className="flex items-center gap-2 px-4 py-2 text-sm text-error-base hover:bg-error-light">
+                      <button onClick={() => { setAvatarMenuOpen(false); handleSignOut() }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-error-base hover:bg-error-light">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
                         Cikis Yap
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 )}
