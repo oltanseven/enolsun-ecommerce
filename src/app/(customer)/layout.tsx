@@ -3,6 +3,7 @@ import Footer from '@/components/layout/Footer'
 import MobileBottomNav from '@/components/layout/MobileBottomNav'
 import ScrollToTop from '@/components/layout/ScrollToTop'
 import ChatWidget from '@/components/layout/ChatWidget'
+import ToastProvider from '@/components/ui/Toast'
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
       <MobileBottomNav />
       <ScrollToTop />
       <ChatWidget />
+      <ToastProvider />
     </>
   )
 }
