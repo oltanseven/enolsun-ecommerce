@@ -291,7 +291,7 @@ export default function SellerProductsPage() {
                             )}
                           </button>
                           {/* Edit */}
-                          <Link href={`/seller-add-product?edit=${p.id}`} className="p-1.5 rounded-lg hover:bg-neutral-100 transition-colors text-neutral-500" title="Düzenle">
+                          <Link href={`/seller-edit-product/${p.id}`} className="p-1.5 rounded-lg hover:bg-neutral-100 transition-colors text-neutral-500" title="Düzenle">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                           </Link>
                           {/* Delete */}
@@ -344,6 +344,13 @@ export default function SellerProductsPage() {
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                       )}
                     </button>
+                    <Link
+                      href={`/seller-edit-product/${p.id}`}
+                      className="p-1.5 rounded-lg bg-white/90 shadow-sm text-neutral-500 hover:bg-neutral-100 transition-colors"
+                      title="Düzenle"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    </Link>
                     <button
                       onClick={() => deleteProduct(p.id)}
                       disabled={deletingId === p.id}

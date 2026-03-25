@@ -25,6 +25,16 @@ const SELLER_PROTECTED_ROUTES = [
   '/seller-settings',
 ]
 
+// Admin-protected routes
+const ADMIN_PROTECTED_ROUTES = [
+  '/admin-dashboard',
+  '/admin-users',
+  '/admin-products',
+  '/admin-orders',
+  '/admin-categories',
+  '/admin-coupons',
+]
+
 // Auth pages for logged-in customers
 const CUSTOMER_AUTH_ROUTES = ['/login', '/register']
 
@@ -88,6 +98,22 @@ export async function proxy(request: NextRequest) {
     // Prevent non-seller users from accessing seller routes
     const role = user.user_metadata?.role
     if (role !== 'seller') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // Protect admin routes — redirect to /login if no session or wrong role
+  if (ADMIN_PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+    // Must be admin or seller (temporary until dedicated admin user exists)
+    const role = user.user_metadata?.role
+    if (role !== 'admin' && role !== 'seller') {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       return NextResponse.redirect(url)

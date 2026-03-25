@@ -7,6 +7,14 @@ import NewsletterForm from '@/components/ui/NewsletterForm'
 export const metadata: Metadata = {
   title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
   description: 'enolsun.com — EN iyi doğal ürünler, EN güvenilir e-ticaret deneyimi. Sürdürülebilir online alışverişin EN yenilikçi adresi. Hızlı teslimat, güvenli ödeme.',
+  openGraph: {
+    title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
+    description: 'EN iyi doğal ürünler, EN güvenilir e-ticaret deneyimi.',
+    url: 'https://enolsun-nextjs.vercel.app',
+    siteName: 'enolsun.com',
+    locale: 'tr_TR',
+    type: 'website',
+  },
 }
 
 /* ---- tiny SVG helpers (to keep JSX readable) ---- */
