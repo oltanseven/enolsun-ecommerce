@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 
 const primaryImage = (images: any[]) =>
   images?.find((img: any) => img.is_primary)?.url || images?.[0]?.url;
@@ -47,6 +48,7 @@ export default function DashboardPage() {
   const [favCount, setFavCount] = useState(0);
   const [couponCount, setCouponCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+  const { getViewed } = useRecentlyViewed();
 
   useEffect(() => {
     async function load() {
@@ -98,15 +100,41 @@ export default function DashboardPage() {
 
       setCouponCount(couponsCount || 0);
 
-      // Fetch recommended products
-      const { data: products } = await _sb
-        .from("products")
-        .select("id, name, slug, price, discount_price, product_images(url, is_primary)")
-        .eq("is_active", true)
-        .order("created_at", { ascending: false })
-        .limit(4);
+      // Fetch recently viewed products
+      const viewedIds = getViewed();
+      if (viewedIds.length > 0) {
+        const { data: viewedProducts } = await _sb
+          .from("products")
+          .select("id, name, slug, price, discount_price, product_images(url, is_primary)")
+          .in("id", viewedIds.slice(0, 4))
+          .eq("is_active", true);
 
-      setRecommendations(products || []);
+        if (viewedProducts && viewedProducts.length > 0) {
+          // Preserve localStorage order
+          const sorted = viewedIds
+            .map((id) => viewedProducts.find((p: any) => p.id === id))
+            .filter(Boolean) as Product[];
+          setRecommendations(sorted);
+        } else {
+          // Fallback to newest products
+          const { data: fallback } = await _sb
+            .from("products")
+            .select("id, name, slug, price, discount_price, product_images(url, is_primary)")
+            .eq("is_active", true)
+            .order("created_at", { ascending: false })
+            .limit(4);
+          setRecommendations(fallback || []);
+        }
+      } else {
+        // No recently viewed, fallback to newest products
+        const { data: fallback } = await _sb
+          .from("products")
+          .select("id, name, slug, price, discount_price, product_images(url, is_primary)")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(4);
+        setRecommendations(fallback || []);
+      }
       setLoading(false);
     }
     load();

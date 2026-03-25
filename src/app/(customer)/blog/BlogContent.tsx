@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { showToast } from "@/components/ui/Toast";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
 const posts = [
   {
@@ -118,6 +119,11 @@ export default function BlogContent() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Breadcrumb */}
+      <div className="max-w-6xl mx-auto px-4 pt-6">
+        <Breadcrumb items={[{ label: "Blog" }]} />
+      </div>
+
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-50 via-primary-25 to-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 text-center">

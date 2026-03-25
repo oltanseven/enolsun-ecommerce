@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/client";
 import FavoriteButton from "@/components/ui/FavoriteButton";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
 const _sb = createClient();
 
@@ -191,6 +192,11 @@ export default function BestsellersPage() {
 
   return (
     <>
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Breadcrumb items={[{ label: "Cok Satanlar" }]} />
+      </div>
+
       {/* Hero Section */}
       <section>
         <div className="bg-primary-50 relative overflow-hidden">

@@ -8,6 +8,9 @@ import { createClient } from '@/lib/supabase/client'
 import type { Product, ProductImage, ProductVariant } from '@/lib/queries'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import AddToCartButton from '@/components/ui/AddToCartButton'
+import SizeGuide from '@/components/ui/SizeGuide'
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed'
+import { showToast } from '@/components/ui/Toast'
 
 const StarIcon = ({ filled = true, size = 'sm' }: { filled?: boolean; size?: 'sm' | 'md' }) => (
   <svg className={`${size === 'md' ? 'w-5 h-5' : 'w-4 h-4'} ${filled ? 'text-yellow-400' : 'text-neutral-200'}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -151,6 +154,35 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description')
   const [productReviews, setProductReviews] = useState<ReviewWithProfile[]>([])
   const [reviewsLoading, setReviewsLoading] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
+  const [isZooming, setIsZooming] = useState(false)
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
+  const [recentlyViewedProducts, setRecentlyViewedProducts] = useState<Product[]>([])
+  const { getViewed, addViewed } = useRecentlyViewed()
+
+  // Track recently viewed & fetch recently viewed products
+  useEffect(() => {
+    if (!product) return
+    addViewed(product.id)
+
+    const fetchRecentlyViewed = async () => {
+      const ids = getViewed().filter((id) => id !== product.id)
+      if (ids.length === 0) return
+      const _sb = createClient()
+      const { data } = await _sb
+        .from('products')
+        .select('*, product_images(*)')
+        .in('id', ids.slice(0, 8))
+        .eq('is_active', true)
+      if (data) {
+        // Preserve the order from localStorage
+        const sorted = ids.map((id) => data.find((p: any) => p.id === id)).filter(Boolean) as Product[]
+        setRecentlyViewedProducts(sorted)
+      }
+    }
+    fetchRecentlyViewed()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id])
 
   useEffect(() => {
     if (!slug) return
@@ -279,13 +311,25 @@ export default function ProductDetailPage() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-6">
             {/* LEFT: IMAGE GALLERY */}
             <div className="space-y-4">
-              {/* Main Image */}
+              {/* Main Image with Zoom on Hover (desktop) */}
               {galleryItems[selectedImage]?.type === 'image' ? (
-                <div className="w-full aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-50">
+                <div
+                  className="w-full aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-50 cursor-zoom-in"
+                  onMouseEnter={() => setIsZooming(true)}
+                  onMouseLeave={() => { setIsZooming(false); setZoomPosition({ x: 0, y: 0 }); }}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * -100;
+                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -100;
+                    setZoomPosition({ x, y });
+                  }}
+                >
                   <img
                     src={galleryItems[selectedImage].url!}
                     alt={galleryItems[selectedImage].alt || product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-150 ease-out"
+                    style={isZooming ? { transform: `scale(2) translate(${zoomPosition.x}%, ${zoomPosition.y}%)` } : undefined}
+                    draggable={false}
                   />
                 </div>
               ) : (
@@ -374,7 +418,10 @@ export default function ProductDetailPage() {
 
               {/* Size Selection */}
               <div>
-                <p className="text-sm font-medium text-neutral-700 mb-3">Boyut: <span className="text-neutral-500 font-normal">{sizes[selectedSize]?.name}</span></p>
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="text-sm font-medium text-neutral-700">Boyut: <span className="text-neutral-500 font-normal">{sizes[selectedSize]?.name}</span></p>
+                  {sizeVariants.length > 0 && <SizeGuide />}
+                </div>
                 <div className="flex gap-2">
                   {sizes.map((s, i) => (
                     <button key={s.name} onClick={() => setSelectedSize(i)} className={`w-12 h-12 rounded-xl text-sm font-medium transition-all ${selectedSize === i ? 'bg-primary-500 text-white shadow-sm' : 'bg-neutral-50 text-neutral-600 border border-neutral-200 hover:border-primary-300'}`}>{s.name}</button>
@@ -420,6 +467,50 @@ export default function ProductDetailPage() {
                   size="md"
                   className="w-12 h-12 flex items-center justify-center rounded-xl border border-neutral-200 bg-white text-neutral-400 hover:border-primary-300 hover:text-primary-500 transition-all min-h-[48px]"
                 />
+                <div className="relative">
+                  <button
+                    onClick={() => setShareOpen(!shareOpen)}
+                    className="w-12 h-12 flex items-center justify-center rounded-xl border border-neutral-200 bg-white text-neutral-400 hover:border-primary-300 hover:text-primary-500 transition-all min-h-[48px]"
+                    aria-label="Paylas"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+                  </button>
+                  {shareOpen && (
+                    <div className="absolute right-0 top-14 z-30 w-48 bg-white border border-neutral-100 rounded-xl shadow-align-lg p-2 animate-fade-in">
+                      <a
+                        href={`https://wa.me/?text=${encodeURIComponent(product.name + ' ' + window.location.href)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 rounded-lg transition-colors"
+                        onClick={() => setShareOpen(false)}
+                      >
+                        <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                        WhatsApp
+                      </a>
+                      <a
+                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(product.name)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 rounded-lg transition-colors"
+                        onClick={() => setShareOpen(false)}
+                      >
+                        <svg className="w-4 h-4 text-neutral-800" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                        X (Twitter)
+                      </a>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href)
+                          showToast('Link kopyalandi!', 'success')
+                          setShareOpen(false)
+                        }}
+                        className="flex items-center gap-2 px-3 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 rounded-lg transition-colors w-full"
+                      >
+                        <svg className="w-4 h-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.54a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L4.343 8.28" /></svg>
+                        Linki Kopyala
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Trust Badges */}
@@ -587,6 +678,39 @@ export default function ProductDetailPage() {
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                           </button>
                         </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* RECENTLY VIEWED */}
+          {recentlyViewedProducts.length > 0 && (
+            <section className="mt-12 md:mt-16">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl md:text-2xl font-bold text-neutral-900">Son Goruntulenenler</h2>
+              </div>
+              <div className="flex gap-3 md:gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                {recentlyViewedProducts.map((sp) => {
+                  const spImage = primaryImage(sp.product_images || [])
+                  return (
+                    <Link key={sp.id} href={`/product/${sp.slug}`} className="group shrink-0 w-40 sm:w-52 bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block">
+                      <div className="relative overflow-hidden">
+                        {spImage ? (
+                          <div className="w-full h-40 sm:h-56 bg-neutral-50 overflow-hidden">
+                            <img src={spImage} alt={sp.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="w-full h-40 sm:h-56 bg-gradient-to-br from-primary-50 via-primary-100 to-primary-200 flex items-center justify-center">
+                            <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-3 md:p-4">
+                        <h3 className="text-xs md:text-sm font-semibold text-neutral-800 mb-1 md:mb-2 line-clamp-2">{sp.name}</h3>
+                        <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{(sp.discount_price ?? sp.price).toLocaleString('tr-TR')}</span>
                       </div>
                     </Link>
                   )

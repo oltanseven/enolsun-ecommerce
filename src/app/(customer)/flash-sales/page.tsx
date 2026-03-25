@@ -6,6 +6,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 import AddToCartButton from "@/components/ui/AddToCartButton";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
 const _sb = createClient();
 
@@ -138,6 +139,11 @@ export default function FlashSalesPage() {
 
   return (
     <>
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Breadcrumb items={[{ label: "Flas Satislar" }]} />
+      </div>
+
       {/* Hero Header */}
       <section>
         <div className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-600">
