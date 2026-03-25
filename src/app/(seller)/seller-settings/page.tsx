@@ -48,7 +48,7 @@ export default function SellerSettingsPage() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-neutral-800 mb-6">Mağaza Ayarları</h1>
+      <h1 className="text-2xl font-bold text-neutral-800 mb-6">Mağaza Ayarları — EN Kolay Mağaza Yönetimi</h1>
 
       {/* Tab Navigation */}
       <div className="flex flex-wrap gap-2 mb-8">

@@ -34,7 +34,7 @@ export default function ReviewsPage() {
   return (
     <>
     <title>Değerlendirmelerim | enolsun.com</title>
-    <meta name="description" content="enolsun.com ürün değerlendirmeleriniz. Aldığınız ürünleri puanlayın, yorumlarınızla diğer müşterilere yol gösterin." />
+    <meta name="description" content="enolsun.com ürün değerlendirmeleriniz. EN dürüst değerlendirmeler ve EN detaylı yorumlarla diğer müşterilere yol gösterin." />
     <div className="space-y-6">
       <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Değerlendirmelerim</h1>
 
@@ -69,7 +69,7 @@ export default function ReviewsPage() {
 
               <div className="mb-3">
                 <label className="text-xs font-medium text-neutral-500 mb-1.5 block">Yorumunuz</label>
-                <textarea rows={3} value={comments[item.id] || ""} onChange={(e) => setComments((prev) => ({ ...prev, [item.id]: e.target.value }))} placeholder="Ürün hakkındaki düşüncelerinizi paylaşın..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none" />
+                <textarea rows={3} value={comments[item.id] || ""} onChange={(e) => setComments((prev) => ({ ...prev, [item.id]: e.target.value }))} placeholder="EN dürüst değerlendirmenizi paylaşın, EN detaylı yorumlarınız diğer müşterilere yol gösterir..." className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all resize-none" />
               </div>
 
               <button className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Değerlendirmeyi Gönder</button>

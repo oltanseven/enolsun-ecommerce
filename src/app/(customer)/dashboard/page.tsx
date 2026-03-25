@@ -26,7 +26,7 @@ const searchTrends = [
 export default function DashboardPage() {
   return (
     <>
-    <title>Hesabım | enolsun.com</title>
+    <title>Hesabım | enolsun.com — EN Kişisel Deneyim</title>
     <meta name="description" content="enolsun.com hesabınızı yönetin. EN son siparişleriniz, EN çok aranan ürünler ve size özel EN iyi fırsatlar burada." />
     <div className="pt-4 sm:pt-8 pb-20 md:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

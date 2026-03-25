@@ -34,7 +34,7 @@ export default function TermsPage() {
             {/* Intro */}
             <div>
               <p className="text-neutral-600 leading-relaxed">
-                Bu Kullanım Koşulları, enolsun.com web sitesini ve mobil uygulamasını kullanan
+                EN şeffaf kullanım koşulları ile hizmetinizdeyiz. Bu Kullanım Koşulları, enolsun.com web sitesini ve mobil uygulamasını kullanan
                 tüm kullanıcıları bağlar. Platformumuzu kullanarak bu koşulları kabul etmiş sayılırsınız.
               </p>
             </div>

@@ -56,7 +56,7 @@ export default function SellerOrdersPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-neutral-800">Siparişler</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">Siparişler — EN Hızlı Sipariş Yönetimi</h1>
           <span className="bg-primary-100 text-primary-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">156</span>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm font-medium text-neutral-700 hover:bg-neutral-50 shadow-align-xs transition-colors">

@@ -73,7 +73,7 @@ export default function CookiesPage() {
             {/* Intro */}
             <div>
               <p className="text-neutral-600 leading-relaxed">
-                enolsun.com olarak web sitemizde çerezler kullanıyoruz. Bu politika, hangi çerezleri
+                enolsun.com olarak web sitemizde EN güvenli çerez yönetimi ilkesiyle çerezler kullanıyoruz. Bu politika, hangi çerezleri
                 kullandığımızı, neden kullandığımızı ve çerez tercihlerinizi nasıl yönetebileceğinizi açıklar.
               </p>
             </div>
