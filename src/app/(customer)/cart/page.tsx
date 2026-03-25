@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { useCart } from "@/hooks/useCart";
 
 const primaryImage = (images: any[]) =>
@@ -186,12 +186,10 @@ export default function CartPage() {
                     {/* Product Image */}
                     <Link href={`/product/${item.product?.slug}`} className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-xl overflow-hidden flex-shrink-0 relative">
                       {imageUrl ? (
-                        <Image
+                        <img
                           src={imageUrl}
                           alt={item.product?.name || "Ürün"}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 112px"
+                          className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-primary-100 via-primary-200 to-primary-300 flex items-center justify-center">

@@ -44,6 +44,9 @@ export default function DashboardPage() {
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [favCount, setFavCount] = useState(0);
+  const [couponCount, setCouponCount] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
 
   useEffect(() => {
     async function load() {
@@ -61,6 +64,14 @@ export default function DashboardPage() {
 
       setUserName(profile?.full_name || user.user_metadata?.full_name || "");
 
+      // Fetch ALL orders count
+      const { count: ordersCount } = await _sb
+        .from("orders")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setTotalOrders(ordersCount || 0);
+
       // Fetch recent orders
       const { data: orders } = await _sb
         .from("orders")
@@ -70,6 +81,22 @@ export default function DashboardPage() {
         .limit(3);
 
       setRecentOrders(orders || []);
+
+      // Fetch favorites count
+      const { count: wishlistCount } = await _sb
+        .from("wishlists")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setFavCount(wishlistCount || 0);
+
+      // Fetch coupons count
+      const { count: couponsCount } = await _sb
+        .from("user_coupons")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setCouponCount(couponsCount || 0);
 
       // Fetch recommended products
       const { data: products } = await _sb
@@ -153,10 +180,10 @@ export default function DashboardPage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-8">
           {[
-            { label: "Toplam Sipariş", value: String(recentOrders.length || 0), icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />, color: "bg-primary-50 text-primary-500" },
+            { label: "Toplam Sipariş", value: String(totalOrders), icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />, color: "bg-primary-50 text-primary-500" },
             { label: "Aktif Sipariş", value: String(recentOrders.filter(o => o.status === "processing" || o.status === "shipped").length), icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />, color: "bg-blue-50 text-blue-500" },
-            { label: "Favorilerim", value: "—", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />, color: "bg-red-50 text-red-500" },
-            { label: "Kuponlarım", value: "—", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />, color: "bg-yellow-50 text-yellow-600" },
+            { label: "Favorilerim", value: String(favCount), icon: <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />, color: "bg-red-50 text-red-500" },
+            { label: "Kuponlarım", value: String(couponCount), icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />, color: "bg-yellow-50 text-yellow-600" },
           ].map((stat, i) => (
             <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-align-xs p-4 sm:p-5 animate-fade-in-up" style={{ animationDelay: `${i * 0.1}s` }}>
               <div className={`w-10 h-10 rounded-xl ${stat.color} flex items-center justify-center mb-3`}>

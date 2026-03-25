@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
+
 import { createClient } from '@/lib/supabase/client'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import AddToCartButton from '@/components/ui/AddToCartButton'
@@ -346,15 +346,11 @@ function ProductsContent() {
                       <Link key={product.id} href={`/product/${product.slug}`} className={`group bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block ${viewMode === 'list' ? 'flex gap-4' : ''}`}>
                         <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-40 h-40 flex-shrink-0' : ''}`}>
                           {imgUrl ? (
-                            <div className={`relative ${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'}`}>
-                              <Image
-                                src={imgUrl}
-                                alt={product.name}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                              />
-                            </div>
+                            <img
+                              src={imgUrl}
+                              alt={product.name}
+                              className={`${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'} object-cover group-hover:scale-105 transition-transform duration-500`}
+                            />
                           ) : (
                             <div className={`${viewMode === 'list' ? 'w-full h-full' : 'w-full h-40 sm:h-56'} bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 flex items-center justify-center`}>
                               <svg className="w-16 sm:w-24 h-16 sm:h-24 text-primary-200 group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>

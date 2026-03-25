@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { createClient } from "@/lib/supabase/client";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 
@@ -274,12 +274,10 @@ export default function BestsellersPage() {
                     } flex items-center justify-center`}
                   >
                     {imgUrl ? (
-                      <Image
+                      <img
                         src={imgUrl}
                         alt={item.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 1024px) 100vw, 33vw"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
                       <svg
@@ -383,12 +381,10 @@ export default function BestsellersPage() {
                         } flex items-center justify-center`}
                       >
                         {imgUrl ? (
-                          <Image
+                          <img
                             src={imgUrl}
                             alt={p.name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
                           <svg
@@ -483,12 +479,10 @@ export default function BestsellersPage() {
                     } flex items-center justify-center`}
                   >
                     {imgUrl ? (
-                      <Image
+                      <img
                         src={imgUrl}
                         alt={p.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
                       <svg

@@ -102,38 +102,26 @@ export default async function HomePage() {
                 <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-primary-300 rounded-full opacity-30 blur-xl" />
 
                 <div className="relative grid grid-cols-2 gap-2 sm:gap-4">
-                  <div className="space-y-2 sm:space-y-4">
-                    <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-align-sm card-hover">
-                      <div className="w-full h-20 sm:h-32 bg-gradient-to-br from-primary-100 to-primary-50 rounded-lg md:rounded-xl mb-2 md:mb-3 flex items-center justify-center">
-                        <svg className="w-10 sm:w-16 h-10 sm:h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
+                  {products.slice(0, 4).map((p, i) => {
+                    const img = primaryImage(p.product_images || [])
+                    const isFloat = i === 1
+                    const heights = ['h-20 sm:h-32', 'h-16 sm:h-24', 'h-18 sm:h-28', 'h-24 sm:h-36']
+                    return (
+                      <div key={p.id} className={`${i < 2 ? '' : 'pt-4 sm:pt-8'}`}>
+                        <Link href={`/product/${p.slug}`} className={`bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-align-sm card-hover block ${isFloat ? 'animate-float' : ''}`}>
+                          <div className={`w-full ${heights[i]} bg-gradient-to-br from-primary-100 to-primary-50 rounded-lg md:rounded-xl mb-2 md:mb-3 overflow-hidden flex items-center justify-center`}>
+                            {img ? (
+                              <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <svg className="w-10 sm:w-16 h-10 sm:h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/><circle cx="12" cy="12" r="3"/></svg>
+                            )}
+                          </div>
+                          <p className="text-xs font-semibold text-neutral-700 line-clamp-1">{p.name}</p>
+                          <p className="text-sm font-bold text-primary-600">&#8378;{(p.discount_price || p.price).toLocaleString('tr-TR')}</p>
+                        </Link>
                       </div>
-                      <p className="text-xs font-semibold text-neutral-700">Organik Saksi</p>
-                      <p className="text-sm font-bold text-primary-600">&#8378;249</p>
-                    </div>
-                    <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-align-sm card-hover animate-float">
-                      <div className="w-full h-16 sm:h-24 bg-gradient-to-br from-primary-200 to-primary-100 rounded-lg md:rounded-xl mb-2 md:mb-3 flex items-center justify-center">
-                        <svg className="w-8 sm:w-12 h-8 sm:h-12 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                      </div>
-                      <p className="text-xs font-semibold text-neutral-700">Gece Lambasi</p>
-                      <p className="text-sm font-bold text-primary-600">&#8378;189</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2 sm:space-y-4 pt-4 sm:pt-8">
-                    <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-align-sm card-hover">
-                      <div className="w-full h-18 sm:h-28 bg-gradient-to-br from-primary-50 to-white rounded-lg md:rounded-xl mb-2 md:mb-3 flex items-center justify-center">
-                        <svg className="w-9 sm:w-14 h-9 sm:h-14 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
-                      </div>
-                      <p className="text-xs font-semibold text-neutral-700">Bambu Set</p>
-                      <p className="text-sm font-bold text-primary-600">&#8378;549</p>
-                    </div>
-                    <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-align-sm card-hover">
-                      <div className="w-full h-24 sm:h-36 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg md:rounded-xl mb-2 md:mb-3 flex items-center justify-center">
-                        <svg className="w-10 sm:w-16 h-10 sm:h-16 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-                      </div>
-                      <p className="text-xs font-semibold text-neutral-700">Dekoratif Yildiz</p>
-                      <p className="text-sm font-bold text-primary-600">&#8378;129</p>
-                    </div>
-                  </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>

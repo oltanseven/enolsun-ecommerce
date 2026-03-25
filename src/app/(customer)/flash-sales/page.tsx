@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { createClient } from "@/lib/supabase/client";
 import FavoriteButton from "@/components/ui/FavoriteButton";
 import AddToCartButton from "@/components/ui/AddToCartButton";
@@ -253,12 +253,10 @@ export default function FlashSalesPage() {
                       <Link href={`/product/${p.slug}`}>
                         <div className={`relative h-44 ${!imgUrl ? `bg-gradient-to-br ${gradients[i % gradients.length]}` : "bg-neutral-100"} flex items-center justify-center`}>
                           {imgUrl ? (
-                            <Image
+                            <img
                               src={imgUrl}
                               alt={p.name}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              className="w-full h-full object-cover"
                             />
                           ) : (
                             <svg className="w-12 h-12 text-white/60" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="12" cy="12" r="3" /></svg>

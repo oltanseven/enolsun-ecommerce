@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Product, ProductImage, ProductVariant } from '@/lib/queries'
@@ -236,14 +236,11 @@ export default function ProductDetailPage() {
             <div className="space-y-4">
               {/* Main Image */}
               {galleryItems[selectedImage]?.type === 'image' ? (
-                <div className="w-full aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-50 relative">
-                  <Image
+                <div className="w-full aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-50">
+                  <img
                     src={galleryItems[selectedImage].url!}
                     alt={galleryItems[selectedImage].alt || product.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority
+                    className="w-full h-full object-cover"
                   />
                 </div>
               ) : (
@@ -256,9 +253,7 @@ export default function ProductDetailPage() {
                 {galleryItems.map((item, i) => (
                   <button key={i} onClick={() => setSelectedImage(i)} className={`w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === i ? 'border-primary-500 ring-2 ring-primary-200' : 'border-transparent hover:border-neutral-200'}`}>
                     {item.type === 'image' ? (
-                      <div className="relative w-full h-full">
-                        <Image src={item.url!} alt={item.alt || product.name} fill className="object-cover" sizes="80px" />
-                      </div>
+                      <img src={item.url!} alt={item.alt || product.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className={`w-full h-full bg-gradient-to-br ${(item as any).gradient} flex items-center justify-center`}>
                         <svg className="w-6 h-6 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="0.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/></svg>
@@ -495,8 +490,8 @@ export default function ProductDetailPage() {
                     <Link key={sp.id} href={`/product/${sp.slug}`} className="group bg-white rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden card-hover block">
                       <div className="relative overflow-hidden">
                         {spImage ? (
-                          <div className="w-full h-40 sm:h-56 relative bg-neutral-50">
-                            <Image src={spImage} alt={sp.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" />
+                          <div className="w-full h-40 sm:h-56 bg-neutral-50 overflow-hidden">
+                            <img src={spImage} alt={sp.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           </div>
                         ) : (
                           <div className="w-full h-40 sm:h-56 bg-gradient-to-br from-primary-50 via-primary-100 to-primary-200 flex items-center justify-center">
