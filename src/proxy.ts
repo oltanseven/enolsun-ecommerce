@@ -42,6 +42,19 @@ const CUSTOMER_AUTH_ROUTES = ['/login', '/register']
 const SELLER_AUTH_ROUTES = ['/seller-login', '/seller-register']
 
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Maintenance mode — redirect all public traffic to /maintenance
+  if (process.env.NEXT_PUBLIC_MAINTENANCE === 'true') {
+    // Allow maintenance page itself, static assets, API, and admin/seller login
+    const allowed = ['/maintenance', '/_next', '/favicon.ico', '/api', '/seller-login', '/seller-dashboard', '/admin-dashboard']
+    if (!allowed.some(p => pathname.startsWith(p))) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/maintenance'
+      return NextResponse.redirect(url)
+    }
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -69,8 +82,6 @@ export async function proxy(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  const { pathname } = request.nextUrl
 
   // Protect customer routes — redirect to /login if no session
   if (CUSTOMER_PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
