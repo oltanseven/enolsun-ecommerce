@@ -1,4 +1,27 @@
+'use client'
+
+import { useState } from 'react'
+
 export default function MaintenancePage() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async () => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return
+    setStatus('loading')
+    try {
+      await fetch('/api/email/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      setStatus('success')
+      setEmail('')
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 flex items-center justify-center p-4">
       <div className="max-w-lg w-full text-center">
@@ -44,17 +67,38 @@ export default function MaintenancePage() {
 
         {/* Email Signup */}
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 sm:p-6 mb-8 border border-white/10">
-          <p className="text-sm font-medium text-white mb-3">Acilis haberini ilk sen al!</p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="email"
-              placeholder="E-posta adresiniz"
-              className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent min-h-[44px]"
-            />
-            <button className="px-6 py-3 bg-white text-primary-700 text-sm font-semibold rounded-xl hover:bg-primary-50 transition-colors whitespace-nowrap min-h-[44px]">
-              Beni Haberdar Et
-            </button>
-          </div>
+          {status === 'success' ? (
+            <div className="py-2">
+              <div className="w-12 h-12 bg-primary-300/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <p className="text-sm font-medium text-white">Tesekkurler! Acilis haberini ilk sen alacaksin.</p>
+            </div>
+          ) : (
+            <>
+              <p className="text-sm font-medium text-white mb-3">Acilis haberini ilk sen al!</p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+                  placeholder="E-posta adresiniz"
+                  className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent min-h-[44px]"
+                />
+                <button
+                  onClick={handleSubmit}
+                  disabled={status === 'loading'}
+                  className="px-6 py-3 bg-white text-primary-700 text-sm font-semibold rounded-xl hover:bg-primary-50 transition-colors whitespace-nowrap min-h-[44px] disabled:opacity-60"
+                >
+                  {status === 'loading' ? 'Kaydediliyor...' : 'Beni Haberdar Et'}
+                </button>
+              </div>
+              {status === 'error' && (
+                <p className="text-xs text-red-300 mt-2">Bir hata olustu. Lutfen tekrar deneyin.</p>
+              )}
+            </>
+          )}
         </div>
 
         {/* Social Links */}
@@ -70,7 +114,6 @@ export default function MaintenancePage() {
           </a>
         </div>
 
-        {/* Footer */}
         <p className="text-xs text-primary-300/60">&copy; 2026 enolsun.com — Tum haklari saklidir.</p>
       </div>
     </div>
