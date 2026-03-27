@@ -45,7 +45,8 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Maintenance mode — redirect all public traffic to /maintenance
-  if (process.env.NEXT_PUBLIC_MAINTENANCE === 'true') {
+  const maintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE || process.env.MAINTENANCE_MODE
+  if (maintenanceMode === 'true') {
     // Allow maintenance page itself, static assets, API, and admin/seller login
     const allowed = ['/maintenance', '/_next', '/favicon.ico', '/api', '/seller-login', '/seller-dashboard', '/admin-dashboard']
     if (!allowed.some(p => pathname.startsWith(p))) {
