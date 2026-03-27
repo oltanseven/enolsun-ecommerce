@@ -116,6 +116,13 @@ export default function RegisterPage() {
         return
       }
 
+      // Send welcome email (fire and forget)
+      fetch('/api/email/welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), name: fullName.trim() }),
+      }).catch(() => {})
+
       showToast('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...')
       setTimeout(() => router.push('/login'), 1500)
     } catch {
