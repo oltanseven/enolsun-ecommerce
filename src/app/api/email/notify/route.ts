@@ -3,7 +3,7 @@ import { Resend } from 'resend'
 import { createClient } from '@/lib/supabase/server'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM_EMAIL = 'enolsun.com <onboarding@resend.dev>'
+const FROM_EMAIL = 'enolsun.com <info@enolsun.com>'
 
 export async function POST(request: Request) {
   try {
