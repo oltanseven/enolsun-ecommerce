@@ -287,11 +287,11 @@ export default function SellerOrdersPage() {
       <div className="bg-white rounded-xl border border-neutral-100 p-4 mb-6 shadow-align-xs">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex items-center gap-2 flex-1">
-            <input type="date" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all w-full sm:w-auto" />
+            <input aria-label="Baslangic tarihi" type="date" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all w-full sm:w-auto" />
             <span className="text-neutral-400 text-sm">-</span>
-            <input type="date" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all w-full sm:w-auto" />
+            <input aria-label="Bitis tarihi" type="date" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all w-full sm:w-auto" />
           </div>
-          <select className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all bg-white">
+          <select aria-label="Siparis durumu" className="px-3 py-2 border border-neutral-200 rounded-xl text-sm text-neutral-700 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all bg-white">
             <option value="">Durum Seçin</option>
             <option>Beklemede</option>
             <option>Hazırlanıyor</option>

@@ -337,7 +337,7 @@ export default function FlashSalesPage() {
                   <h3 className="font-semibold text-neutral-700 text-sm mb-2">{p.name}</h3>
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="text-lg font-bold text-neutral-500">{p.sale} TL</span>
-                    <span className="text-sm text-neutral-300 line-through">{p.original} TL</span>
+                    <span className="text-sm text-neutral-500 line-through">{p.original} TL</span>
                   </div>
                   <button disabled className="w-full py-2 bg-neutral-200 text-neutral-400 text-sm font-semibold rounded-xl cursor-not-allowed">Hatirlat</button>
                 </div>

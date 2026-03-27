@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Flaş Fırsatlar | enolsun.com — EN Büyük İndirimler',
+  title: 'Flaş Fırsatlar | enolsun.com',
   description: 'enolsun.com flaş fırsatlarıyla EN büyük indirimleri yakalayın. Sınırlı süreli kampanyalar, EN düşük fiyatlar ve EN hızlı kargo avantajlarıyla alışveriş yapın.',
 }
 

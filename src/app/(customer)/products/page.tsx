@@ -161,7 +161,7 @@ function ProductsContent() {
     <div className="space-y-6">
       {/* Kategori */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Kategoriler</h3>
+        <h2 className="text-sm font-semibold text-neutral-900 mb-4">Kategoriler</h2>
         <div className="space-y-3">
           {categories.map((cat) => (
             <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
@@ -172,7 +172,7 @@ function ProductsContent() {
                 className="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 focus:ring-offset-0 transition-colors"
               />
               <span className="text-sm text-neutral-600 group-hover:text-neutral-900 transition-colors">{cat.name}</span>
-              <span className="ml-auto text-xs text-neutral-300 bg-neutral-50 px-1.5 py-0.5 rounded-full">{getCategoryProductCount(cat.id)}</span>
+              <span className="ml-auto text-xs text-neutral-500 bg-neutral-50 px-1.5 py-0.5 rounded-full">{getCategoryProductCount(cat.id)}</span>
             </label>
           ))}
         </div>
@@ -180,10 +180,10 @@ function ProductsContent() {
 
       {/* Fiyat Araligi */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Araligi</h3>
+        <h2 className="text-sm font-semibold text-neutral-900 mb-4">Fiyat Araligi</h2>
         <div className="space-y-4">
           <div>
-            <input type="range" min="0" max="5000" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} className="w-full accent-primary-500" />
+            <input aria-label="Fiyat araligi" type="range" min="0" max="5000" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} className="w-full accent-primary-500" />
             <div className="flex justify-between mt-1 text-xs text-neutral-400">
               <span>&#8378;0</span>
               <span className="font-medium text-primary-600">&#8378;{priceRange.toLocaleString('tr-TR')}</span>
@@ -205,17 +205,17 @@ function ProductsContent() {
 
       {/* Renk */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Renk</h3>
+        <h2 className="text-sm font-semibold text-neutral-900 mb-4">Renk</h2>
         <div className="flex flex-wrap gap-2">
           {colors.map((c) => (
-            <button key={c.name} className={`w-8 h-8 rounded-full ${c.bg} border-2 border-neutral-200 hover:border-primary-400 transition-all focus:outline-none ${c.selected ? 'ring-2 ring-primary-500 ring-offset-2' : ''}`} title={c.name} />
+            <button key={c.name} aria-label={c.name} className={`w-8 h-8 rounded-full ${c.bg} border-2 border-neutral-200 hover:border-primary-400 transition-all focus:outline-none ${c.selected ? 'ring-2 ring-primary-500 ring-offset-2' : ''}`} title={c.name} />
           ))}
         </div>
       </div>
 
       {/* Degerlendirme */}
       <div className="bg-white rounded-xl border border-neutral-100 p-5">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Degerlendirme</h3>
+        <h2 className="text-sm font-semibold text-neutral-900 mb-4">Degerlendirme</h2>
         <div className="space-y-2">
           {[5, 4, 3].map((rating) => (
             <label key={rating} className="flex items-center gap-2 cursor-pointer group">
@@ -278,7 +278,7 @@ function ProductsContent() {
               <div className="absolute top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-align-xl overflow-y-auto flex flex-col slide-in-left">
                 <div className="flex items-center justify-between p-5 border-b border-neutral-100">
                   <h2 className="text-lg font-bold text-neutral-900">Filtrele</h2>
-                  <button onClick={() => setFilterOpen(false)} className="p-2 text-neutral-400 hover:text-neutral-600 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
+                  <button aria-label="Filtreyi kapat" onClick={() => setFilterOpen(false)} className="p-2 text-neutral-400 hover:text-neutral-600 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </div>
@@ -305,7 +305,7 @@ function ProductsContent() {
               {/* Sort & View Controls */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
-                  <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400">
+                  <select aria-label="Siralama" value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400">
                     <option value="popular">EN Populer</option>
                     <option value="newest">EN Yeniler</option>
                     <option value="price_asc">Fiyat: EN Dusuk</option>
@@ -314,11 +314,11 @@ function ProductsContent() {
                   </select>
                 </div>
                 <div className="flex items-center gap-1 bg-neutral-50 rounded-lg p-1">
-                  <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-align-xs text-neutral-800' : 'text-neutral-400 hover:text-neutral-600'}`}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+                  <button aria-label="Izgara gorunumu" onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-align-xs text-neutral-800' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                    <svg aria-hidden="true" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
                   </button>
-                  <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-align-xs text-neutral-800' : 'text-neutral-400 hover:text-neutral-600'}`}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
+                  <button aria-label="Liste gorunumu" onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-align-xs text-neutral-800' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                    <svg aria-hidden="true" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
                   </button>
                 </div>
               </div>
@@ -376,7 +376,7 @@ function ProductsContent() {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1 md:gap-2">
                               <span className="text-base md:text-lg font-bold text-primary-600">&#8378;{product.price}</span>
-                              {product.compare_at_price && <span className="text-xs md:text-sm text-neutral-300 line-through">&#8378;{product.compare_at_price}</span>}
+                              {product.compare_at_price && <span className="text-xs md:text-sm text-neutral-500 line-through">&#8378;{product.compare_at_price}</span>}
                             </div>
                             <AddToCartButton
                               productId={product.id}
@@ -396,6 +396,7 @@ function ProductsContent() {
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-10">
                   <button
+                    aria-label="Onceki sayfa"
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage(prev => prev - 1)}
                     className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
@@ -420,6 +421,7 @@ function ProductsContent() {
                     )
                   )}
                   <button
+                    aria-label="Sonraki sayfa"
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage(prev => prev + 1)}
                     className="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"

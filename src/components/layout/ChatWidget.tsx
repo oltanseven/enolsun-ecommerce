@@ -67,6 +67,7 @@ export default function ChatWidget() {
             </div>
           </div>
           <button
+            aria-label="Sohbeti kapat"
             onClick={() => setIsOpen(false)}
             className="p-1.5 hover:bg-white/20 rounded-lg transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
@@ -102,13 +103,14 @@ export default function ChatWidget() {
           <div className="flex items-center gap-2">
             <input
               type="text"
+              aria-label="Mesajinizi yazin"
               placeholder="Mesajinizi yazin..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               className="flex-1 px-3.5 py-2.5 bg-neutral-50 border border-neutral-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all min-h-[44px]"
             />
-            <button aria-label="Canli destek" onClick={handleSend} className="p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-colors shrink-0 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center">
+            <button aria-label="Mesaj gonder" onClick={handleSend} className="p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-colors shrink-0 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
             </button>
           </div>
@@ -117,6 +119,7 @@ export default function ChatWidget() {
 
       {/* Chat Toggle Button */}
       <button
+        aria-label="Canli destek"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-[4.5rem] sm:bottom-6 right-4 sm:right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 bg-primary-500 hover:bg-primary-600 text-white rounded-full shadow-align-lg hover:shadow-align-xl flex items-center justify-center transition-all group cursor-pointer"
       >

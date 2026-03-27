@@ -122,16 +122,16 @@ export default function CheckoutPage() {
                   <input type="text" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-neutral-500 mb-1.5">İl</label>
-                  <select className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
+                  <label className="block text-xs font-medium text-neutral-500 mb-1.5" htmlFor="checkout-city">İl</label>
+                  <select id="checkout-city" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
                     <option>İstanbul</option>
                     <option>Ankara</option>
                     <option>İzmir</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-neutral-500 mb-1.5">İlçe</label>
-                  <select className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
+                  <label className="block text-xs font-medium text-neutral-500 mb-1.5" htmlFor="checkout-district">İlçe</label>
+                  <select id="checkout-district" className="w-full px-3 py-2.5 text-sm border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-all bg-white">
                     <option>Şişli</option>
                     <option>Beşiktaş</option>
                     <option>Kadıköy</option>

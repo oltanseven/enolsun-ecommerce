@@ -72,6 +72,7 @@ export default function SearchBar({ mobile = false, onClose }: { mobile?: boolea
         <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
         <input
           type="text"
+          aria-label="Urun ara"
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Urun, kategori veya marka ara..."
@@ -120,7 +121,7 @@ export default function SearchBar({ mobile = false, onClose }: { mobile?: boolea
                         &#8378;{(product.discount_price || product.price).toLocaleString('tr-TR')}
                       </span>
                       {product.discount_price && (
-                        <span className="text-xs text-neutral-300 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>
+                        <span className="text-xs text-neutral-500 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>
                       )}
                     </div>
                   </div>

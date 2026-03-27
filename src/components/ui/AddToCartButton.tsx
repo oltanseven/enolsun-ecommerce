@@ -35,6 +35,7 @@ export default function AddToCartButton({ productId, variantId, className, child
     <button
       onClick={handleClick}
       disabled={adding}
+      aria-label="Sepete ekle"
       className={className || 'w-full px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2'}
     >
       {adding ? (

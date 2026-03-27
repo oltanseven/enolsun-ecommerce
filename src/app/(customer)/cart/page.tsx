@@ -117,6 +117,7 @@ export default function CartPage() {
       <div className="pt-4 sm:pt-8 pb-32 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-12 sm:py-20 max-w-md mx-auto px-4">
+            <h1 className="text-2xl font-bold text-neutral-900 mb-6">Sepetim</h1>
             <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 sm:mb-6 rounded-full bg-primary-50 border-2 border-dashed border-primary-200 flex items-center justify-center">
               <svg className="w-10 h-10 sm:w-14 sm:h-14 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -207,12 +208,12 @@ export default function CartPage() {
                           </Link>
                           {item.product?.discount_price && item.product?.price && (
                             <div className="flex items-center gap-1.5 mt-1">
-                              <span className="text-xs text-neutral-400 line-through">{formatPrice(item.product.price)}</span>
+                              <span className="text-xs text-neutral-500 line-through">{formatPrice(item.product.price)}</span>
                               <span className="text-xs font-semibold text-primary-600">{formatPrice(item.product.discount_price)}</span>
                             </div>
                           )}
                         </div>
-                        <button onClick={() => removeFromCart(item.id)} className="p-2 sm:p-1.5 text-neutral-300 hover:text-error-base hover:bg-error-light rounded-lg transition-colors flex-shrink-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" title="Kaldır">
+                        <button aria-label="Urunu kaldir" onClick={() => removeFromCart(item.id)} className="p-2 sm:p-1.5 text-neutral-300 hover:text-error-base hover:bg-error-light rounded-lg transition-colors flex-shrink-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" title="Kaldır">
                           <svg className="w-5 h-5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                           </svg>
@@ -220,11 +221,11 @@ export default function CartPage() {
                       </div>
                       <div className="flex items-end justify-between mt-3 sm:mt-4">
                         <div className="flex items-center border border-neutral-200 rounded-xl overflow-hidden">
-                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-9 h-9 flex items-center justify-center text-neutral-500 hover:text-neutral-800 hover:bg-primary-50 transition-colors min-w-[36px] min-h-[36px]">
+                          <button aria-label="Miktari azalt" onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-9 h-9 flex items-center justify-center text-neutral-500 hover:text-neutral-800 hover:bg-primary-50 transition-colors min-w-[36px] min-h-[36px]">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M5 12h14" /></svg>
                           </button>
                           <span className="w-10 h-9 flex items-center justify-center text-sm font-semibold text-neutral-800 border-x border-neutral-200">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-9 h-9 flex items-center justify-center text-neutral-500 hover:text-neutral-800 hover:bg-primary-50 transition-colors min-w-[36px] min-h-[36px]">
+                          <button aria-label="Miktari artir" onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-9 h-9 flex items-center justify-center text-neutral-500 hover:text-neutral-800 hover:bg-primary-50 transition-colors min-w-[36px] min-h-[36px]">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M12 5v14m-7-7h14" /></svg>
                           </button>
                         </div>
@@ -277,7 +278,7 @@ export default function CartPage() {
                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary-700 bg-primary-50 border border-primary-200 rounded-lg px-2.5 py-1">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" /></svg>
                       {appliedCoupon}
-                      <button onClick={removeCoupon} className="ml-1 text-primary-400 hover:text-primary-600 transition-colors">
+                      <button aria-label="Kuponu kaldir" onClick={removeCoupon} className="ml-1 text-primary-400 hover:text-primary-600 transition-colors">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                       </button>
                     </span>

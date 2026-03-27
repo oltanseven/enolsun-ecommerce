@@ -252,7 +252,7 @@ export default function StorePage() {
                     <div className="flex items-center gap-2">
                       <span className="text-lg font-bold text-primary-600">&#8378;{displayPrice.toLocaleString("tr-TR")}</span>
                       {p.discount_price && p.discount_price < p.price && (
-                        <span className="text-sm text-neutral-300 line-through">&#8378;{p.price.toLocaleString("tr-TR")}</span>
+                        <span className="text-sm text-neutral-500 line-through">&#8378;{p.price.toLocaleString("tr-TR")}</span>
                       )}
                     </div>
                   </div>

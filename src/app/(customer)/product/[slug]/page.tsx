@@ -373,7 +373,7 @@ export default function ProductDetailPage() {
                 <span className="text-3xl md:text-4xl font-bold text-primary-600">&#8378;{displayPrice.toLocaleString('tr-TR')}</span>
                 {hasDiscount && (
                   <>
-                    <span className="text-lg text-neutral-300 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>
+                    <span className="text-lg text-neutral-500 line-through">&#8378;{product.price.toLocaleString('tr-TR')}</span>
                     <span className="px-2 py-0.5 bg-error-light text-error-dark text-xs font-semibold rounded-lg">%{discountPercent} Indirim</span>
                   </>
                 )}

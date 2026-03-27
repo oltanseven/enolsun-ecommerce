@@ -341,7 +341,7 @@ export default function BestsellersPage() {
                           {formatPrice(displayPrice)} TL
                         </span>
                         {hasDiscount && (
-                          <span className="text-sm text-neutral-300 line-through">
+                          <span className="text-sm text-neutral-500 line-through">
                             {formatPrice(item.price)} TL
                           </span>
                         )}
@@ -429,7 +429,7 @@ export default function BestsellersPage() {
                               {formatPrice(displayPrice)} TL
                             </span>
                             {hasDiscount && (
-                              <span className="text-xs text-neutral-300 line-through">
+                              <span className="text-xs text-neutral-500 line-through">
                                 {formatPrice(p.price)} TL
                               </span>
                             )}

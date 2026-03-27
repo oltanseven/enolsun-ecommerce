@@ -8,6 +8,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://enolsun-nextjs.vercel.app'),
   title: {
     template: '%s | enolsun.com',
     default: 'enolsun.com — Doganin Ilhamiyla Tasarlanan Yasam',
@@ -15,13 +16,15 @@ export const metadata: Metadata = {
   description: 'enolsun.com ile dogadan ilham alan urunleri kesfedin. Organik, surdurulebilir ve sik tasarimlarla yasam alaninizi donusturun. Hizli teslimat, guvenli odeme.',
   keywords: ['enolsun', 'online alisveris', 'organik urunler', 'surdurulebilir yasam', 'dogal urunler', 'ev dekorasyon', 'hizli teslimat'],
   authors: [{ name: 'enolsun.com' }],
+  alternates: { canonical: './' },
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
-    url: 'https://enolsun.com/',
+    url: 'https://enolsun-nextjs.vercel.app/',
     siteName: 'enolsun.com',
     title: 'enolsun.com — Doganin Ilhamiyla Tasarlanan Yasam',
     description: 'enolsun.com ile dogadan ilham alan urunleri kesfedin. Organik, surdurulebilir ve sik tasarimlarla yasam alaninizi donusturun.',
+    images: [{ url: 'https://picsum.photos/seed/enolsun-og/1200/630', width: 1200, height: 630, alt: 'enolsun.com — EN\'lerin Dunyasina Hos Geldiniz!' }],
   },
   twitter: {
     card: 'summary_large_image',
