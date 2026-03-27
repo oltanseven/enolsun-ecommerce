@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://enolsun-nextjs.vercel.app'
+  const baseUrl = 'https://enolsun.com'
 
   // Static pages
   const staticPages = [

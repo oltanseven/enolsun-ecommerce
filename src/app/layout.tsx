@@ -8,7 +8,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://enolsun-nextjs.vercel.app'),
+  metadataBase: new URL('https://enolsun.com'),
   title: {
     template: '%s | enolsun.com',
     default: 'enolsun.com — Doganin Ilhamiyla Tasarlanan Yasam',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
-    url: 'https://enolsun-nextjs.vercel.app/',
+    url: 'https://enolsun.com/',
     siteName: 'enolsun.com',
     title: 'enolsun.com — Doganin Ilhamiyla Tasarlanan Yasam',
     description: 'enolsun.com ile dogadan ilham alan urunleri kesfedin. Organik, surdurulebilir ve sik tasarimlarla yasam alaninizi donusturun.',

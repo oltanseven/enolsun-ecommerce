@@ -1,6 +1,6 @@
 export const SITE_NAME = 'enolsun.com'
 export const SITE_DESCRIPTION = 'Doğanın İlhamıyla Tasarlanan Yaşam'
-export const SITE_URL = 'https://enolsun-nextjs.vercel.app'
+export const SITE_URL = 'https://enolsun.com'
 
 export const NAV_ITEMS = [
   { label: 'Ana Sayfa', href: '/', hasMegaMenu: false },

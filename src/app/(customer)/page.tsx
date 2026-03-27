@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'enolsun.com | EN\'lerin Dünyasına Hoş Geldiniz!',
     description: 'EN iyi doğal ürünler, EN güvenilir e-ticaret deneyimi.',
-    url: 'https://enolsun-nextjs.vercel.app',
+    url: 'https://enolsun.com',
     siteName: 'enolsun.com',
     locale: 'tr_TR',
     type: 'website',
@@ -55,8 +55,8 @@ export default async function HomePage() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "enolsun.com",
-        "url": "https://enolsun-nextjs.vercel.app",
-        "logo": "https://enolsun-nextjs.vercel.app/og-image.png",
+        "url": "https://enolsun.com",
+        "logo": "https://enolsun.com/og-image.png",
         "description": "EN iyi dogal urunler, EN guvenilir e-ticaret deneyimi.",
         "sameAs": ["https://instagram.com/enolsun", "https://twitter.com/enolsun"]
       }) }} />
