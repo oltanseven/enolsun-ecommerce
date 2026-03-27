@@ -6,9 +6,10 @@ import ScrollToTop from '@/components/layout/ScrollToTop'
 import ChatWidget from '@/components/layout/ChatWidget'
 import ToastProvider from '@/components/ui/Toast'
 import CookieConsent from '@/components/ui/CookieConsent'
+import { MAINTENANCE_MODE } from '@/lib/config'
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
-  if (process.env.MAINTENANCE_MODE === 'true') {
+  if (MAINTENANCE_MODE) {
     redirect('/maintenance')
   }
   return (
